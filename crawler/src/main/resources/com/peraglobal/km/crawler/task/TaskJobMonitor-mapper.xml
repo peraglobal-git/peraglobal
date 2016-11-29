@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peraglobal.km.crawler.task.dao.TaskJobMonitorDao">
+	<!-- 创建id -->
+	<select id="createId" resultType="map">
+		SELECT
+		TO_CHAR(SEQ_TASK.NEXTVAL) SEQ FROM DUAL
+	</select>
+
+	<!--添加JobMonitor -->
+	<insert id="addJobMonitor">
+		insert into TASKJOBMONITOR
+		(
+		<trim suffixOverrides="," suffix=" ">
+			<if test="id!=null and id!=''">
+				id,
+			</if>
+			<if test="jobId!=null and jobId!=''">
+				jobId,
+			</if>
+			<if test="jobName!=null and jobName!=''">
+				jobName,
+			</if>
+			<if test="jobState!=null and jobState!=''">
+				jobState,
+			</if>
+			<if test="triggerNumber!=null and triggerNumber!=''">
+				triggerNumber,
+			</if>
+			<if test="exceptionNumber!=null and exceptionNumber!=''">
+				exceptionNumber,
+			</if>
+			<if test="failedNumber!=null and failedNumber!=''">
+				failedNumber,
+			</if>
+			<if test="fullNumber!=null and fullNumber!=''">
+				fullNumber,
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				startTime
+			</if>
+		</trim>
+		)
+		values
+		(
+		<trim suffixOverrides="," suffix=" ">
+			<if test="id!=null and id!=''">
+				#{id},
+			</if>
+			<if test="jobId!=null and jobId!=''">
+				#{jobId},
+			</if>
+			<if test="jobName!=null and jobName!=''">
+				#{jobName},
+			</if>
+			<if test="jobState!=null and jobState!=''">
+				#{jobState},
+			</if>
+			<if test="triggerNumber!=null and triggerNumber!=''">
+				#{triggerNumber},
+			</if>
+			<if test="exceptionNumber!=null and exceptionNumber!=''">
+				#{exceptionNumber},
+			</if>
+			<if test="failedNumber!=null and failedNumber!=''">
+				#{failedNumber},
+			</if>
+			<if test="fullNumber!=null and fullNumber!=''">
+				#{fullNumber},
+			</if>
+			 <if test="startTime!=null and startTime!=''">
+				#{startTime}
+			</if>
+		</trim>
+		)
+	</insert>
+	<!--按任务id查询监控信息 -->
+	<select id="queryJobMonitorAll" resultType="map"
+		parameterType="map">
+		select
+		m.id,m.jobid,m.jobname,m.jobstate,m.triggernumber,m.exceptionnumber,m.failednumber,m.fullnumber,m.starttime,m.pausetime,m.stoptime,m.description,m.createby,m.createbyname,m.createdate,m.updatedate
+		from taskjobmonitor m join taskjob j on m.jobid=j.id where m.jobid=
+		<if test="jobid!=null and jobid!=''">#{jobid}</if>
+	</select>
+	<!-- 查询Id和触发工作监控工作 -->
+	<select id="queryJobMonitorByJobIdAndTrigger" parameterType="map"
+		resultType="com.peraglobal.km.crawler.task.model.TaskJobMonitor">
+		select * from TASKJOBMONITOR where 1=1
+		<if test="jobId!=null and jobId!=''">
+			 and jobId=#{jobId}
+		</if>
+		 order by createDate desc 
+	</select>
+	<!-- 查询工作监控通过工作Id列表 -->
+	<select id="queryJobMonitorListByJobId" parameterType="map"
+		resultType="map">
+		select * from TASKJOBMONITOR t where t.jobId =
+		<if test="jobId!=null and jobId!=''">#{jobId}</if>
+		order by t.id desc
+	</select>
+	<!-- 更新异常 -->
+	<update id="updateException" parameterType="map">
+		update TASKJOBMONITOR t set t.exceptionNumber=
+		<if test="exceptionNumber!=null and exceptionNumber!=''">#{exceptionNumber},</if>
+		t.description=
+		<if test="description!=null and description!=''">#{description}</if>
+		where t.id =
+		<if test="id!=null and id!=''">#{id}</if>
+	</update>
+	<!-- 修改Full -->
+	<update id="updateFull" parameterType="map">
+		update TASKJOBMONITOR t set t.fullNumber=
+		<if test="fullNumber!=null and fullNumber!=''">#{fullNumber}</if>
+		where t.id =
+		<if test="id!=null and id!=''">#{id}</if>
+	</update>
+	<!--修改失败的 -->
+	<update id="updateFailed" parameterType="map">
+		update TASKJOBMONITOR t set t.failedNumber=
+		<if test="failedNumber!=null and failedNumber!=''">#{failedNumber}</if>
+		where t.id =
+		<if test="id!=null and id!=''">#{id}</if>
+	</update>
+
+
+	<!--修改成功的和失败的 -->
+	<update id="updateFullAndFailed" parameterType="map">
+		update TASKJOBMONITOR t set t.fullNumber=
+		<if test="fullNumber!=null and fullNumber!=''">#{fullNumber}</if>
+		where t.id =
+		<if test="id!=null and id!=''">#{id}</if>
+	</update>
+	<!--查询最大的TriggerNumer(Oracle) -->
+	<!-- 
+	<select id="queryMaxTriggerNumber" parameterType="map" resultType="map">
+	select nvl(triggerNumber,0) triggerNumber from( 
+	SELECT max(t.triggerNumber) triggerNumber FROM TASKJOBMONITOR t WHERE t.jobId =  
+		<if test="jobId!=null and jobId!=''">#{jobId}</if>)
+	</select>
+	 -->
+	<!--查询最大的TriggerNumer(MySQL) -->
+	<select id="queryMaxTriggerNumber" parameterType="map" resultType="map">
+		select IFNULL(max(t.triggerNumber),0) triggerNumber FROM TASKJOBMONITOR t WHERE t.jobId =
+		<if test="jobId!=null and jobId!=''">#{jobId}</if>
+	</select>
+	<!--删除全部task_job_monitor -->
+	<delete id="delAll">
+		delete TASKJOBMONITOR
+	</delete>
+	<!--删除JobMonitor -->
+	<delete id="delJobMonitor" parameterType="map">
+		delete TASKJOBMONITOR where id =
+		<if test="id!=null and id!=''">#{id}</if>
+	</delete>
+
+
+
+	<!--通过任务Id删除工作监控 -->
+	<delete id="delJobMonitorByJobId" parameterType="map">
+		delete TASKJOBMONITOR where jobId =
+		<if test="jobId!=null and jobId!=''">#{jobId}</if>
+	</delete>
+
+	<!-- 修改JobName -->
+	<update id="updateJobName" parameterType="map">
+		update TASKJOBMONITOR t set t.jobName =
+		<if test="jobName!=null and jobName!=''">#{jobName}</if>
+		where t.jobId =
+		<if test="jobId!=null and jobId!=''">#{jobId}</if>
+	</update>
+	<!--修改工作状态 -->
+	<update id="updateJobState" parameterType="map">
+		update TASKJOBMONITOR t
+		<set>
+			<if test="jobState!=null and jobState!=''">t.jobState=#{jobState}</if>
+		</set>
+		<where>
+			<if test="id!=null and id!=''">t.id=#{id}</if>
+		</where>
+	</update>
+	
+	<!--删除任务监控 -->
+	<delete id="delTASKJOBMONITORByIds" parameterType="list">
+		delete from TASKJOBMONITOR 
+		<where>
+			jobId in
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+	</delete>
+	<select id="countTransferNumber" parameterType="map" resultType="map">
+	select sum(t.fullnumber) transferNumber from TASKJOBMONITOR t where t.jobId =  
+		<if test="jobId!=null and jobId!=''">#{jobId}</if>
+	</select>
+</mapper>

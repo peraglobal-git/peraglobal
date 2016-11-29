@@ -1,0 +1,131 @@
+#override("point")
+<h1 style="text-align: center;">新建采集</h1>
+ #end
+#override("form")
+ <form method="POST" name="uploadFile" id="uploadFile" enctype="multipart/form-data" action="../taskJob/uploadExcel.html">
+ <input type="hidden" name="registerType" id="registerType" value="$!{registerType}">
+<input type="hidden" name="groupId" id="groupId" value="$!{sourceId}">
+<input type="hidden" name="resultType" id="resultType" value="$!{resultType}">
+<input type="hidden" name="sourceId" id="sourceId" value="$!{sourceId}" />
+<input type="hidden" name="sourceName" id="sourceName" value="$!{sourceName}" />
+<input type="hidden" name="excelProperties" id="excelProperties" value="knowledge">
+<input type="hidden" name="knowledgeTypeName" id="knowledgeTypeName" value=""/>
+<input type="hidden" name="knowledgeModelName" id="knowledgeModelName" value=""/>
+<input type="hidden" name="systemName" id="systemName" value="KM知识管理系统"/>
+<div>
+<div class="pad10" id="details_edit" data-options="region:'center'">
+<table class="forms" boder="1">
+<tbody>
+<tr>
+	<td colspan="2">
+	<hr/>
+	</td>
+</tr>
+<tr>
+	<td class="right" width="120px">
+	知识源：<i class="require">*</i>
+	</td>
+	<td style="width:100%;">
+	<select id="knowledgeSource" name="knowledgeSource" style="width:100%;">
+		<option value="0">请选择</option>
+		#foreach($source in $sourceList)
+			<option value="$!{source.id}" type="$!{source.linkType}" linkState="$!{source.linkState}" #if($!{source.id}==$!{sourceId}) selected="selected" #end >$!{source.name}</option>
+		#end
+	</select>
+	</td>
+</tr>
+<!-- 增加任务名称输入框  by yangxc -->
+<tr>
+	<td class="right" width="120px">
+		任务名称：<i class="require">*</i>
+	</td>
+	<td style="width:100%;">
+		<input id="name" name="name" type="text" class="txt" value="$!{taskName}" style="width:100%;"/>
+	</td>
+</tr>
+<tr>
+	<td class="right" width="120px">
+		知识形态：<i class="require">*</i>
+	</td>
+	<td style="width:100%;">
+		<select id="knowledgeType" name="knowledgeType" style="width:100%;">
+		<option value="0">请选择</option>
+		#foreach($type in $typeList)
+			<option value="$!{type.CLASSIFY_ID}">$!{type.CLASSIFY_NAME}</option>
+		#end
+		</select>
+	</td>
+</tr>
+<tr>
+	<td class="right" width="120px">
+		知识模板：<i class="require">*</i>
+	</td>
+	<td style="width:100%;">
+		<select id="knowledgeModel" name="knowledgeModel" style="width:100%;">
+		<option value="0">请选择</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<td class="right" width="120px">
+		存储系统：<i class="require">*</i>
+	</td>
+	<td style="width:100%;">
+		<select id="system" name="system" style="width:100%;">
+		<option value="KM">KM知识管理系统</option>
+		<option value="CMS">CMS门户系统</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<td class="right" width="120px">
+		选择路径：<i class="require">*</i>
+	</td>
+	<td style="width:100%;">
+		<input type="file" name="file" style="width:100%;"/>
+	</td>
+</tr>
+<!--
+<tr>
+	<td>
+	文件属性：
+		<select name="excelProperties" id="excelProperties">
+	  	<option value="knowledge">知识</option>
+	  	<option value="ontology">本体</option>
+	  	<option value="expert">专家</option>
+	  </select><br/><br />
+	</td>
+</tr>
+<tr>
+	<td>
+		<input type="checkbox" name="merge" />多页合并设置：字段<input type="text" name="metaKey" />作为唯一属性合并多sheet页元数据。<br /><br />
+	</td>
+</tr>
+-->
+</tbody>
+</table>
+</div>
+</div>
+</form>
+#end
+#override("buttons")
+<ul class="lists rf">
+	<!-- 增加功能按钮 by yangxc -->
+	<li><button type="submit" class="button" id="saveBtn">立即采集</button></li>
+    <li><button type="button" class="button" onclick="window.close();">取消</button></li>
+</ul>
+#end
+#override("inHeader")
+<script src="../static/framework/js/validate_plugin_m.js" type="text/javascript"></script>
+<script type="text/javascript">
+	seajs.use(['modules/km/js/taskGroup/taskGroupBatchUpload'], function(main) {
+		$(function(){
+			main.init({
+						groupId:'$!{sourceId}',
+						oldname:'$!{taskName}'
+				});
+		});
+	});
+</script>
+#end
+#extends("/km/crawler/template/localEditDialog.vm")

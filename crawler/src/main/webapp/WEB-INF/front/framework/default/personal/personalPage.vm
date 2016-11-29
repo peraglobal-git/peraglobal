@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>个人中心</title>
+     #parse("../../common/common.vm") 
+   <link rel="stylesheet" href="$skinsPath/public/easyui/css/portal.css" type="text/css"/>
+    <link rel="stylesheet" href="$staticPath/framework/css/personalPage.css" type="text/css"/>
+    <link rel="stylesheet" href="$staticPath/public/css/bar.css" type="text/css"/>
+     <link rel="stylesheet" href="$staticPath/public/css/jquery.loadmask.css" type="text/css"/>
+    <script src="$staticPath/public/shapeshift/jquery.shapeshift.js"></script>
+    <script src="$staticPath/public/shapeshift/jquery-ui.min.js"></script>
+    <script src="$skinsPath/public/easyui/jquery.portal.js" type="text/javascript"></script>
+    <script src="$staticPath/public/jquery.loadmask.js"></script>
+	<!--[if IE 8]>
+    <script src="$staticPath/public/IE/IE9.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript">
+        var SERVER_CONTEXT = "$SERVER_CONTEXT";
+        var barSwap;
+        var expanded = true;
+        $(document).ready(function ()
+        {
+
+            seajs.use(['framework/admin/personal', 'framework/utils/jquery.org.js', 'framework/admin/personalMain'], function (personalCenter, org, personalMain)
+            {
+                $(function ()
+                {
+                    var scroll = new ScrollPic();
+                    scroll.scrollContId = "scrollbox"; //内容容器ID
+                    scroll.arrLeftId = "arrLeft";//左箭头ID
+                    scroll.arrRightId = "arrRight"; //右箭头ID
+                    scroll.frameWidth = 500;//显示框宽度
+                    scroll.pageWidth = 60; //翻页宽度
+                    scroll.autoPlay = false; //自动播放
+                    scroll.initialize(); //初始化
+                    //先设置fit属性.后设置会报错
+                    $("#js_layout").layout({fit: true});
+                    personalCenter.init();
+                    personalMain.init({
+                        columns: '$!{usedModule}'
+                    });
+                });
+            });
+
+            barSwap = function ()
+            {
+                if (expanded)
+                {
+                	$("#overDiv").show();
+                	refleshData();
+                    result =  getShowDivIndex();
+                    $('.main_m').animate({right: '20'}, 500);
+                    $('.bar').css('background-position', '-0px 0px');
+                    $("#pp").animate({scrollTop: "0px"}, "fast");//返回顶部
+                    $("#toolbar").mask();
+                } else
+                {
+                	$("#overDiv").hide();
+                    var temp =  getShowDivIndex();
+                    $('.main_m').animate({right: '-420px'}, 500);
+                    $('.bar').css('background-position', '-25px 0px');
+                    $("#toolbar").unmask();
+                    getShowDivIndex();
+                    if(temp != result){
+                        saveParam(temp);
+                    }
+                }
+                expanded = !expanded;
+            };
+
+
+            $('.main_m').css('right', '-420px');
+
+            var result ="";
+            $('.bar').click(barSwap);
+            $(".tttt").shapeshift();
+            $("#card1 .del_me").remove();
+            showCard1();
+        })
+
+        var getShowDivIndex = function ()
+        {
+            var arr = [];
+            var param ="";
+            $("#showDiv").find(".tttt div").each(function (i, obj)
+            {
+                arr.push(obj.id);
+            });
+             var str = arr.join();
+            if(str){
+            	param= str.toString();
+            }
+            return param;
+        };
+        var saveParam=function(param){
+        	
+              Util.ajax.loadData("../personalCenter/saveModuleAndCardInfo.html",
+                      function (data)
+                      {
+                          if (data.success == "true")
+                          {
+                              location.href = "../personalCenter/toPersonalPage.html";
+                          }
+                      }, {paramstr: param}
+              );
+            
+        }
+        function refleshData(){
+        	Util.ajax.loadData("../personalCenter/refleshData.html",
+                      function (data)
+                      {
+                          if (data.success == "true")
+                          {
+                        	 
+                        	  var mi ="";
+                        	  var uc ="";
+                        	  var nm= "";
+                        	  var nc ="";
+                        	 
+                        	  if(data.moduleItem !=null && data.moduleItem.length>0){
+                              	for(var i=0;i<data.moduleItem.length;i++){
+                              		mi+='<div id="'+data.moduleItem[i].attrId+'_Module">'+data.moduleItem[i].name+'</div>';
+                              	}
+                              }else{
+                            	  mi+=' <div class="del_me"></div>';
+                              }
+                             $("#a1").html(mi);$("#a1").shapeshift();
+                             
+                             if(data.noModule !=null && data.noModule.length>0){
+                            	for(var i=0;i<data.noModule.length;i++){
+                             		nm+='<div id="'+data.noModule[i].attrId+'_Module">'+data.noModule[i].name+'</div>';
+                             	}
+                              }else{
+                            	  nm+=' <div class="del_me"></div>';
+                              }
+                            $("#b1").html(nm);$("#b1").shapeshift();
+                            
+                            $("#card1 .del_me").remove();
+                            showCard1();
+                          }
+                      }, {}
+              );
+        }
+    </script>
+</head>
+
+<body>
+<div class="wrapper" id="js_layout">
+    <div region="north" id="toolbar" class="datagrid-toolbar">
+        <div class="arrleft" style="width:30px; float:left;">
+            <button id="arrLeft">&lt;&lt;</button>
+        </div>
+        <DIV id="scrollbox" style="float:left;">
+            #foreach($vo in $usedCard)
+                <a href="#" class="easyui-linkbutton" iconCls=$vo.iconCls plain="true" id=$vo.attrId>$vo.name</a>
+            #end
+        </DIV>
+        <div class="arrright" style="width:30px; float:left;">
+            <button id="arrRight">&gt;&gt;</button>
+        </DIV>
+        <div id="noFindBtn"><a href="#" class="easyui-linkbutton" id="labelBtn"
+                               data-options="iconCls:'icon-add',plain:true"></a></div>
+    </div>
+    <div region="center" border="false">
+        <div id="pp" style="position:relative">
+            #foreach( $column in $columns )
+                <div style="width:$!{column}%;">
+                </div>
+            #end
+        </div>
+    </div>
+</div>
+<script>
+    function swapDiv()
+    {
+        if ($('#card1').is(":visible"))
+        {
+            $("#card1").hide();
+            $("#card2").show();
+        } else
+        {
+            $("#card2").hide();
+            $("#card1").show();
+        }
+    }
+    function showCard1()
+    {
+        $("#a2").hide();
+        $("#b2").hide();
+
+        $("#a1").show();
+        $("#b1").show();
+
+    }
+    function showCard2()
+    {
+        $("#a1").hide();
+        $("#b1").hide();
+
+        $("#a2").show();
+        $("#b2").show();
+    }
+</script>
+<!-- 遮罩层 -->
+<div id="overDiv" style="display:none;width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; overflow: hidden;">
+	<div style="height: 100%; background-color: rgb(0, 0, 0); opacity: 0.7;filter:Alpha(opacity=70); background-position: initial initial; background-repeat: initial initial;"></div>
+</div>
+<div class="main_m" id="mainDiv">
+    <a href="javascript:" class="bar"></a>
+    <div title="回到顶部" style="position: absolute; top:-27px; left: -35px; cursor: pointer; display: block;" id="topcontrol">
+        <img src="$skinsPath/default/images/gotop.gif" style="width:25px; height:25px;" onclick="gotop()">
+    </div>
+    <div style="height: 30px;">
+        <ul class="tabul">
+            <li><a href="#" onclick="showCard1()">模块卡片</a></li>
+            <li><a href="#" onclick="showCard2()">标签卡片</a></li>
+        </ul>
+       <!--  <img style="right:10px;float: right;width: 20px"
+             src="$skinsPath/default/images/icons/cross.png" hspace="6" border=0/> -->
+    </div>
+    <div id="card1">
+        <div>
+            <div class="main1l">主页显示：</div>
+            <div class="main1r" id="showDiv">
+                <div class="tttt" id="a1">
+                #if( $moduleItem.size()>0)
+                    #foreach( $used in $moduleItem )
+                        <div id=$!{used.attrId}_Module>$!{used.name}</div>
+                    #end
+                #else
+                    <div class="del_me"></div>
+                #end
+                </div>
+                <div class="tttt" id="a2">
+                   #if( $usedCard.size()>0)
+	                    #foreach( $uc in $usedCard )
+	                        <div id=$!{uc.attrId}_Card>$!{uc.name}</div>
+	                    #end
+	                 #else
+	                     <div class="del_me"></div>
+	                 #end   
+                </div>
+            </div>
+
+        </div>
+        <div>
+            <div class="main1l">
+                默认隐藏
+            </div>
+            <div class="main1r" id="hiddenDiv">
+                <div class="tttt" id="b1">
+                #if($noModule.size()>0)
+                    #foreach( $nm in $noModule )
+                        <div id=$!{nm.attrId}_Module>$!{nm.name}</div>
+                    #end
+                #else
+                    <div class="del_me"></div>
+                #end
+                </div>
+                <div  class="tttt" id="b2" >
+                #if( $noCard.size()>0)
+                    #foreach( $nc in $noCard )
+                        <div id=$!{nc.attrId}_Card>$!{nc.name}</div>
+                    #end
+                #else
+                  <div class="del_me"></div>
+                #end
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="card2" style="display: none">
+        <div>
+            <div class="main1l">主页显示：</div>
+            <div class="main1r" id="showDiv2">
+                <div class="yyyy" id="a22">
+                #if($usedCard.size()>0)
+                    #foreach( $uc in $usedCard )
+                        <div id=$!{uc.attrId}_Card>$!{uc.name}</div>
+                    #end
+                 #else
+                    <div class="del_me"></div>
+                 #end
+                </div>
+            </div>
+
+        </div>
+        <div>
+            <div class="main1l">
+                默认隐藏
+            </div>
+            <div class="main1r" id="hiddenDiv2">
+                <div  class="yyyy" id="b22" >
+                 #if($noCard.size() >0)
+                    #foreach( $nc in $noCard )
+                        <div id=$!{nc.attrId}_Card>$!{nc.name}</div>
+                    #end
+                 #else
+                    <div class="del_me"></div>
+                 #end
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+     function gotop() {
+         $("#pp").animate({scrollTop: "0px"}, "fast");//返回顶部
+        return false
+    }
+</script>
+</body>
+</html>
+
+
+
+

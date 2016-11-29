@@ -1,0 +1,44 @@
+#override("inHeader")
+<link rel="stylesheet" href="$skinsPath/blue-km/css/system_css/subFrame.css" type="text/css" />
+<script type="text/javascript">
+seajs.use(['modules/km/js/source/source'], function(dic) {
+	$(function(){
+		dic.init();
+		var grid = dic.gridLoad("$!{resultState}");
+		//dic.initButtonEvent();
+	});
+});
+
+</script>
+#end
+#set($model='Dic')
+#override("toolbarButton")
+	<a href="javascript:;" class="easyui-linkbutton" id="add$!{model}" data-options="iconCls:'icon-new',plain:true">新建</a>
+	<a href="javascript:;" class="easyui-linkbutton" id="delete$!{model}" data-options="iconCls:'icon-del',plain:true">删除</a>
+#end
+<!-- 
+#override("rightmenus")
+
+<div id="treeRootMenu" class="easyui-menu" style="width:100px;">  
+    	<div id="add_treeNode" data-options="iconCls:'icon-add'">添加</div>
+    	<div id="edit_treeNode" data-options="iconCls:'icon-edit'">修改</div>
+    	<div id="del_treeNode" data-options="iconCls:'icon-del'">删除</div>
+</div>
+
+<div id="treeNodeMenu" class="easyui-menu" style="width:100px;">  
+    	<div id="edit_treeNode1" data-options="iconCls:'icon-edit'">修改</div>
+    	<div id="del_treeNode1" data-options="iconCls:'icon-del'">删除</div>
+</div>
+#end -->
+
+<!-- #override("toolbarButton")
+<a href="javascript:void(0);" class="easyui-linkbutton" id="add$!{model}" data-options="iconCls:'icon-new',plain:true">#PDPMessage('add.button.text')</a>
+<a href="javascript:void(0);" class="easyui-linkbutton" id="update$!{model}" data-options="iconCls:'icon-edit',plain:true">#PDPMessage('update.button.text')</a>
+<a href="javascript:void(0);" class="easyui-linkbutton" id="delete$!{model}" data-options="iconCls:'icon-del',plain:true">#PDPMessage('delete.button.text')</a>
+#end
+ -->
+	#override("conditions")
+	<input id="search" type="text" class="txt" name="conditions['name'].value" value="输入知识源名称进行筛选">
+	<input type="hidden" id="parentId" name="conditions['parentId_eq'].value">
+	#end
+#extends("/template/blue-km/listDataGrid.vm")

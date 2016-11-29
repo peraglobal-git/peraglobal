@@ -1,0 +1,23 @@
+#override("inHeader")
+		<script>
+			seajs.use(['framework/admin/module'], function(module) {
+				$(function(){
+					//先设置fit属性.后设置会报错
+					module.init($APP_CONFIG_UTIL.get("module.find.deep"));
+					var grid = module.gridLoad();
+					module.treeLoad();
+					grid.datagrid("toolbarPermission",{toolbarDel:true});
+				});
+			});
+		</script>
+#end
+#set($model='Nav')
+#override("customeButton")	
+<!-- 	<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-userLeadin" plain="true" id="navUp">#PDPMessage("up.button.text")</a> -->
+<!-- 	<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-userLeadin" plain="true" id="navDown">#PDPMessage("down.button.text")</a> -->
+#end
+	#override("conditions")
+		<input id="search" type="text" class="txt" name="conditions['moduleName-moduleCode'].value" value="输入导航名称">
+		<input type="hidden" id="parentId" name="conditions['parentId_eq'].value">
+	#end
+#extends("/template/leftTreeCenterGrid.vm")

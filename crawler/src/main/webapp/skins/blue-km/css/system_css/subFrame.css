@@ -1,0 +1,463 @@
+﻿body{
+    background-color: #fff !important;
+}
+.layout-panel-center,
+.panel-header,
+.panel-title,
+.panel-body,
+.accordion-body,
+.accordion,
+.tabs{
+    border: none ;
+}
+.layout-split-btn-v{
+	display: none;
+}
+/*树结构*/
+.tree-node,
+.tree-title{
+    height: 30px !important;
+    line-height: 30px !important;
+    color: #333;
+}
+.tree-node-selected {
+    color: #333333;
+    background: #edf0f2;
+}
+.tree-node-hover {
+    background: #edf0f2;
+}
+.tree-node-hover .tree-title {
+    color: #0066cc;
+}
+.tree-expanded, 
+.tree-collapsed, 
+.tree-folder, 
+.tree-file, 
+.tree-checkbox, 
+.tree-indent {
+	margin-top: 5px !important;
+}
+.tree-collapsed {
+    background: url("../easyui/tree_icons.png") no-repeat scroll -96px 1px;
+}
+.tree-expanded {
+    background: url("../easyui/tree_icons.png") no-repeat scroll -112px 1px;
+}
+.tree-file {
+    background: url("../easyui/tree_icons.png") no-repeat scroll -240px 0;
+}
+.tree-folder {
+    background: url("../easyui/tree_icons.png") no-repeat scroll -208px 0;
+}
+.tree-folder-open {
+    background: url("../easyui/tree_icons.png") no-repeat scroll -224px 0;
+}
+/* 导航管理一级树图标 */
+.treeproj-icon {
+    background: url("../easyui/ico2.png") no-repeat;
+}
+.icon-suo {
+    background-position: -1000px -1200px;
+}
+/* 角色管理一级树图标 */
+.treerole-icon {
+    background: url("../easyui/tree_icons2.png") no-repeat scroll 0 0;
+}
+.tree-role-sys {
+   background: url("../easyui/tree_icons2.png") no-repeat scroll -288px -18px;
+}
+/* 表格增删改查 */
+#toolbar td,
+.toolbar td{
+	height: 32px !important; 
+}
+.l-btn{
+	margin: 0;
+	padding: 0;
+	border-radius: 0px;
+}
+.l-btn:hover{
+	background: none;
+	border: none;
+}
+.l-btn span .l-btn-icon-left{
+    padding: 0px;
+}
+.l-btn-plain:hover{
+	border-radius: 0px !important;
+}
+.l-btn-icon-left{
+    border-radius: 1px;
+    font-family: "微软雅黑";
+    height: 26px;
+    line-height: 25px;
+    margin-left: 10px;
+    text-align: center;
+    margin: 0px;
+    width: 80px;
+    padding: 0px;
+	text-indent: 25px;
+	background: url("../easyui/icon.png") no-repeat;
+}
+.datagrid-toolbar .lf,
+.datagrid-toolbar .rf{
+	margin-top: 0px !important;
+	margin-left: 5px !important;
+	margin-right: 0px !important;
+}
+/* 表格内带图标a标签 */
+.tb-btn {
+	display: inline-block;
+	padding: 5px 0 5px 28px;
+	background: url(../easyui/icon.png);
+}
+.tb-btn-edit {
+	background-position: 10px 5px !important;
+}
+.icon-new{
+	background-position: -390px -396px !important;
+}
+.icon-add{
+	background-position: -390px -296px !important;
+}
+.icon-del,
+.tb-btn-del {
+	background-position: -190px -94px !important
+}
+.icon-showStart{
+	background-position: -290px 5px !important
+}
+.icon-showStop{
+	background-position: 10px -195px !important;
+}
+.icon-moreBtn{
+	width: 100px;
+	text-indent: 25px !important;
+	background-position: -992px 5px !important;
+}
+.icon-refresh{
+	background-position: 8px -196px !important;
+}
+.icon-xiaXian {
+	width: 100px;
+	text-indent: 25px !important;
+    background-position: -192px -196px !important;
+}
+.icon-edit{
+	text-indent: 19px !important;
+	background-position: 8px -96px !important;
+}
+.icon-lotauthor{
+	text-indent: 19px !important;
+	background-position: -797px -94px !important;
+}
+.icon-back{
+	background-position: -592px -296px !important;
+}
+.icon-userLeadin{
+	background-position: -792px -94px !important;
+}
+.icon-unlock{
+	background-position: -392px -144px !important;
+}
+.icon-addType {
+    background-position: -792px -344px !important;
+}
+.icon-removeType{
+	background-position: -392px -994px !important;
+}
+.icon-roval{
+	background-position: 8px -496px !important;
+}
+.icon-ptt{
+	background-position: -392px 6px !important;
+}
+.icon-publish{
+	background-position: -992px -1394px !important;
+}
+.icon-save{
+	background-position: -792px -394px !important;
+}
+.icon-cancel{
+	background-position: -992px -1146px !important;
+}
+.icon-access{
+	background-position: -392px -746px !important;
+}
+/* 撤销 */
+.icon-revoke{
+	background-position: -592px -746px !important;
+}
+/* 拒绝 */
+.icon-refuse{
+	background-position: -290px -395px !important;
+}
+.icon-submit{
+	background-position: -392px -196px !important;
+}
+.icon-reSubmit{
+	background-position: -592px -196px !important;
+}
+
+div.moreBtn .l-btn-icon-left{
+	width: 100px !important;
+}
+
+.datagrid-toolbar,
+.datagrid-pager{
+	background: none;
+	border: none;
+}
+.datagrid-toolbar {
+	min-height: 33px;
+	line-height: 28px;
+	padding: 3px;
+}
+.datagrid-toolbar div.moreBtn{
+	position: absolute;
+	top: 2px;
+	left: 269px;
+	height: auto;
+	width: 100px;
+	display: none;
+	z-index: 100;
+}
+
+.datagrid-htable .datagrid-cell, 
+.datagrid-htable .datagrid-cell-group, 
+.datagrid-htable .datagrid-header-rownumber, 
+.datagrid-htable .datagrid-cell-rownumber{
+    height: 31px;
+    line-height:31px;
+    color: #0B079C;
+    
+}
+.datagrid-htable a {
+	color: #0B079C;
+}
+.datagrid-cell a:hover {
+    text-decoration: underline;
+}
+.datagrid-header td, 
+.datagrid-body td, 
+.datagrid-footer td {
+    border-width: 0 0 1px 0;
+}
+/*.datagrid-row-over {
+	background-color: #fbe0e0;
+}*/
+.editKnowledge {
+	color: #005196;
+}
+/* 右键刷新图标 */
+.menu-icon{
+	background: url(../easyui/ico.png) no-repeat;
+}
+.menu-item .icon-edit{
+	background-position: 0px -100px !important;
+}
+.menu-item .icon-add{
+	background-position: -598px -148px !important;
+}
+.menu-item .icon-del{
+	background-position: -198px 2px !important;
+}
+.menu-item .icon-ptt{
+	background-position: -400px 0 !important;
+}
+.menu-item .icon-showStop {
+    background-position: -400px -99px !important;
+}
+.menu-item .icon-showStart{
+	background-position: -600px -99px !important;
+}
+.menu-item .icon-addType{
+	background-position: -800px -349px !important;
+}
+.menu-item .icon-new {
+    background-position: 1px 0px !important;
+}
+#userCreateDateLt{
+	margin-right: 42px;
+}
+
+
+/* 分页样式 */
+.pagination > table > tbody > tr > td {
+	display: none;
+}
+.pagination > table > tbody > tr > td + td {
+	display: inline-block;
+}
+.pagination > table > tbody > tr > td + td + td,
+.pagination > table > tbody > tr > td + td + td + td,
+.pagination > table > tbody > tr > td + td + td + td + td,
+.pagination > table > tbody > tr > td + td + td + td + td + td,
+.pagination > table > tbody > tr > td + td + td + td + td + td + td, 
+.pagination > table > tbody > tr > td + td + td + td + td + td + td + td,
+.pagination-load ,
+.pagination-btn-separator,
+.pagination td table > tbody > tr > td + td + td + td 
+ {
+	display: none;
+}
+.pagination > table > tbody > tr > td + td + td + td + td + td + td + td + td {
+	width: auto !important;
+	display: inline-block;
+}
+span.l-btn-left {
+	border: 1px solid #dcdcdc;
+}
+.datagrid-pager div.nums b,
+.datagrid-pager div.nums a{
+	display: inline-block;
+	min-width: 16px;
+	height: 22px;
+	line-height: 22px;
+	text-align: center;
+    margin: 1px 2px 0;
+    padding: 1px 8px;
+}
+.datagrid-pager div.nums a {
+	background-color: #f2f2f2;
+	color: #333;
+	border: 1px solid #dcdcdc;
+}
+.datagrid-pager div.nums b {
+	background-color: #fff;
+	color: #333;
+}
+.datagrid .datagrid-pager {
+	height: 30px;
+	padding: 5px 0;
+	position: relative;
+	border-top: none;
+}
+.pagination-page-list {
+	height: 27px;
+    width: 55px;
+}
+.pagination > table {
+	margin: 0 auto;
+	float: none;
+}
+a.l-btn span span span.l-btn-empty {
+	display: inline-block;
+    margin: 0;
+    width: 23px;
+	height: 24px;
+    font-size: 15px;
+}
+.l-btn-disabled, .l-btn-disabled:hover {
+	background: #fff;
+	opacity: 1;
+}
+.pagination-prev {
+    background-position: -13px 5px;
+}
+.pagination-next {
+    background-position: -28px 5px;
+}
+
+
+
+
+
+/* 分页 */
+/*.datagrid-pager{
+	width: 100%;
+	margin-top: 0px ;
+	border: none !important;
+}
+.datagrid-pager table{
+	margin: 0px;
+	width: 100%;
+}
+.datagrid-pager td{
+	font-family: "微软雅黑";
+}
+.datagrid-pager td table{
+	width: 100px;
+	float: right;
+}
+.pagination-info{
+	height: auto;
+	width: auto;
+}
+.pagination td {
+    border: 0 none;
+    white-space: nowrap;
+}*/
+
+/* 上下页 */
+/*.l-btn,
+.l-btn-disabled, 
+.l-btn-disabled:hover,
+.datagrid-pager .l-btn,
+.datagrid-pager .l-btn-left,
+.datagrid-pager .l-btn-icon-left{
+	background: none ;
+}
+.l-btn-plain:hover{
+	border-radius: 0px ;
+}
+.datagrid-pager .l-btn-icon-left{
+    border: 1px solid #dcdcdc;
+    border-radius: 1px;
+    font-family: "微软雅黑";
+    height: 26px;
+    line-height: 25px;
+    text-align: center;
+    margin: 0px;
+    width: 26px;
+}
+.datagrid-pager .l-btn-empty {
+	background-color: #f5f5f5;
+	border-radius: 2px;
+    display: inline-block;
+    font-size: 13px;
+    height: 22px !important;
+    line-height: 22px;
+    width: 22px !important;
+    border: 1px solid #cccccc;
+}
+.datagrid-pager .l-btn-text{
+	line-height: 25px;
+	margin: 0;
+}
+.pagination-prev {
+    background-position: -14px center !important;
+    margin: 0 2px;
+}
+.pagination-next {
+    background-position: -28px center !important;
+    margin: 0 2px;
+}
+.pagination-load {
+    background: url("../easyui/pagination_icons.png") no-repeat scroll -61px center;
+}
+.datagrid-pager div.nums b,
+.datagrid-pager div.nums a{
+	display: inline-block;
+	min-width: 16px;
+	height: 22px;
+	line-height: 22px;
+	border-radius: 2px;
+	text-align: center;
+    margin: 1px 2px 0;
+    padding: 1px 4px 0;
+	
+}
+
+.pagination .nums a {
+    line-height: 14px;
+}
+.datagrid-pager div.nums b{
+	background-color: #0066cc;
+	color: #fff;
+}
+.pagination-num {
+	height: 21px !important;
+    line-height: 21px !important;
+}*/

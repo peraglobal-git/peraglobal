@@ -1,0 +1,110 @@
+#override("form")
+<form id="form" name="#" action="#" method="post">
+<input type="hidden" name="id" id="id" value="$!{obj.id}"/>
+	<table class="table-form" id="saveTestTable">
+		<tbody>
+		<tr>
+			<th><em class="must-star">*</em>名称：</th>
+			<td>
+				<input id="username" name="username" value="$!{obj.username}" type="text" class="text-input" >
+			</td>
+			<th>年龄：</th>
+			<td>
+				<input id="age" name="age" value="$!{obj.age}" type="text" class="text-input" >
+			</td>
+		</tr>
+		#trText("地址","obj.address","true",'','30')
+		</tbody>
+	</table>
+
+#end
+	#override("buttons")
+		<div class="formbtn-box">
+			<input type="submit" value="保存" class="big-btn btn-blue" id="saveBtn">
+			<input type="button" value="保存并添加" class="big-btn btn-blue" id="saveAddBtn" onclick="submitHandler('open');">
+		</div></form>	
+	#end
+
+#override("inHeader")
+<script type="text/javascript">
+	
+	var username ="$!{obj.username}"; 
+	$(document).ready(function() {
+		 var msgForm = $("#form");
+		 msgForm.validate({
+			   rules:{
+				   username:{required:true},
+				   age:{required:true}
+			   },
+			   messages:{
+				   username:{
+			    	required:"不能为空"
+			     },
+			   age:{
+			    	//required:"不能为空",
+			    	digits:"只能输入数字"
+			     }
+			   },
+			   submitHandler:function(){
+				   submitHandler("close");
+			   }
+			});
+		//回选
+		//selectChecked("usedPlatform","$!{obj.usedPlatform}");
+		//selectChecked("usedPlatform","$!{obj.usedPlatform}");
+	});
+	
+	var submitHandler=function(flag){
+		var v = $("#form").valid();
+		if(v)
+				   //使用ajax进行操作
+				   $("#saveBtn").attr("disabled","disabled");
+			 		$.post("../test/saveTest.html",$('#form').serialize(),function(data){
+			 			$("#saveBtn").removeAttr("disabled");
+			 			 //刷新页面
+			 			if(data.code=="ok"){
+				 			showSuccessTip(data.msg);
+			 			}else{
+			 				showErrorTip(data.msg);
+			 			}
+			 			if(flag=="close"){
+			 				$.dialog.data('method')();
+			 			} 
+			 		},"json");
+			 /*  if(userNameValidate()){
+			   }   */
+	};
+	
+	/**
+	 *验证漏洞名称是否重复
+	 **/
+	function userNameValidate(){
+		var usernameTemp = $('#username').val();
+		var result = false;
+		if(username==usernameTemp){
+			usernameTemp = "";
+		}
+		//如果三个属性值都没有改变直接返回
+		if(usernameTemp=="")
+			return true;
+		//检查名称是否重复
+		$.ajax({
+			url:'../test/validateNameByAjax.html',
+			type:"POST",
+			data:{username:usernameTemp},
+			async:false,
+			dataType:'json',
+			success:function(data){
+				if(data.code){
+					showWarningTip(data.msg);
+				}else{
+					result= true;
+				}
+			}
+		});
+		return result;
+	}
+	
+</script>
+#end
+#extends("/template/editDialog.vm")

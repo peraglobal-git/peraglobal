@@ -1,0 +1,138 @@
+#override("inHeader")
+<input type="hidden" name="jobType" id="jobType" value="$!{jobType}"/>
+<input type="hidden" name="id" id="id" value="$!{id}"/>
+
+<script type="text/javascript">
+seajs.use(['modules/km/js/taskTransfer/transmissionTaskMonitoring'], function(dic) {
+	$(function(){
+		//dic.info();
+		var grid = dic.gridLoad("$!{id}");
+		//grid.datagrid("toolbarPermission",{toolbarDel:true});
+	});
+});
+</script>
+<style>
+	#fullbg {
+		background-color:gray;
+		left:0;
+		opacity:0.5;
+		position:absolute;
+		top:0;
+		z-index:3;
+		filter:alpha(opacity=50);
+		-moz-opacity:0.5;
+		-khtml-opacity:0.5;
+	}
+	#dialog {
+		background-color:#fff;
+		border:5px solid rgba(0,0,0, 0.4);
+		height:400px;
+		left:50%;
+		margin:-200px 0 0 -200px;
+		padding:1px;
+		position:fixed !important; /* 浮动对话框 */
+		position:absolute;
+		top:50%;
+		width:500px;
+		z-index:5;
+		border-radius:5px;
+		display:none;
+		overflow:auto;
+	}
+	#dialog p {
+		margin:0 0 12px;
+		height:24px;
+		line-height:24px;
+		background:#CCCCCC;
+	}
+	#dialog p.close {
+		text-align:right;
+		padding-right:10px;
+	}
+	#dialog p.close a {
+		color:#fff;
+		text-decoration:none;
+	} 
+</style>
+#end
+#override("taskMonitoring")
+
+
+<tr>
+<td class="right">
+<strong>任务名称：</strong>
+</td>
+<td>
+$!{name}
+<br/>
+<br/>
+</td>
+</tr>
+<tr>
+<td class="right">
+<strong>知识模板：</strong>
+</td>
+<td>
+$!{knowledgeModelName}
+<br/>
+<br/>
+</td>
+</tr>
+<tr>
+<td class="right">
+<strong>传输系统：</strong>
+</td>
+<td>
+$!{systemName}
+</td>
+</tr>
+<br/>
+<br/>
+<tr>
+<td class="right">
+<strong>任务状态：</strong>
+</td>
+<td>
+#if($!{state}=='0')
+就绪
+#elseif($!{state}=='1')
+进行中
+#elseif($!{state}=='2')
+暂停
+#elseif($!{state}=='3')
+停止
+#else
+#end
+</td>
+</tr>
+<br/>
+<br/>
+<tr>
+<td class="right">
+<strong>数据量：</strong>
+</td>
+<td>
+$!{triggerNumber}
+</td>
+</tr>
+<br/>
+<br/>
+<tr>
+<td class="right">
+<strong>定时任务：</strong>
+</td>
+<td>
+#if($!{automatic}=='0')
+自动
+#elseif($!{automatic}=='1')
+手动
+#end
+</td>
+</tr>
+#end
+<div id="fullbg"></div>
+<div id="dialog" style="height:150px;width:560px;">
+	<p class="close"><a href="#" id="closeBg">关闭</a></p>
+	<div id="testContent"></div>
+</div>
+#extends("/km/crawler/transfer/TransferListDataGrid.vm")

@@ -1,0 +1,20 @@
+#override("inHeader")
+
+<script type="text/javascript" src="../static/framework/js/utils/map.js"></script>
+<script type="text/javascript">
+seajs.use(['framework/admin/messageList'], function(main) {
+	$(function(){
+		main.gridLoad();
+		main.init();
+	});
+});
+</script>
+#end
+
+#override("toolbarButton")
+<a href="javascript:void(0)" class="easyui-linkbutton" id="save" data-options="iconCls:'icon-new',plain:true">#PDPMessage('save.button.text')</a>
+#end
+#override("conditions")
+<input id="key" type="text" class="txt" name="key" value="输入要查询的key">
+#end
+#extends("/template/listDataGrid.vm")

@@ -1,0 +1,20 @@
+<!-- blue -->
+<link rel="stylesheet" href="../skins/blue/css/easyui.css" type="text/css"/>
+<link rel="stylesheet" href="../skins/km/css/common_new.css" type="text/css" />
+<link rel="stylesheet" href="../skins/blue/css/common.css" type="text/css" />
+<link rel="stylesheet" href="../skins/blue/css/comm.css" type="text/css" />
+<!-- <link rel="stylesheet" href="../skins/blue/css/dialog.css" type="text/css" /> -->
+
+
+<!-- blue -->
+<!--<script src="../skins/blue/js/common.js" type="text/javascript" charset="utf-8"></script>-->
+
+
+<script src="../skins/public/easyui/easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../skins/public//easyui/easyui-lang-zh_CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="../skins/public//easyui/easyui.datagrid.js" type="text/javascript" charset="utf-8"></script>
+<script src="../skins/public//easyui/easyui.tree.js" type="text/javascript" charset="utf-8"></script>
+<script src="../skins/public//easyui/easyui.treegrid.js" type="text/javascript" charset="utf-8"></script>
+<script src="../skins/public//easyui/easyui.groupview.js" type="text/javascript" charset="utf-8"></script>
+<script src="../skins/public//easyui/linkbuttonfix.js" type="text/javascript" charset="utf-8"></script>
+<script src="../skins/public//easyui/menushowfix.js" type="text/javascript" charset="utf-8"></script>

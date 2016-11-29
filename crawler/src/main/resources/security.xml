@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd    
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+    http://www.springframework.org/schema/tx  
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+    <!-- 会话DAO -->
+    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.MemorySessionDAO">
+    </bean>
+    <!-- 会话管理器 -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="sessionDAO" ref="sessionDAO"/>
+<!--          <property name="cacheManager" ref="shiroCacheManager"/> -->
+    </bean>
+    
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+    	 <!-- ref对应我们写的realm  MyShiro -->  
+    	<property name="realm" ref="pdpShiroRealm"/>
+        <property name="sessionManager" ref="sessionManager"/>
+         <!-- 缓存管理器 -->  
+        <property name="cacheManager" ref="shiroCacheManager"/>
+    </bean>
+    
+    
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">   
+        <!-- 调用我们配置的权限管理器 -->   
+	    <property name="securityManager" ref="securityManager"/>
+	    <property name="loginUrl" value="/login/login.html"/>
+	    <property name="successUrl" value="/main/main.html"/>
+	    <property name="unauthorizedUrl" value="/error/403.jsp"/> 
+	    <property name="filterChainDefinitions">
+	        <value>             
+	       	   <!-- anon表示此地址不需要任何权限即可访问 -->  
+	            /=anon  
+	            /*.docx=anon  
+	            /*.doc=anon  
+	            /static/**=anon  
+	            /js/**=anon  
+	            /skins/**=anon  
+	            /css/**=anon  
+	            /img/**=anon  
+	            /images/**=anon  
+	            /services/**=anon  
+	            /login/logout.html=logout  
+	            /index.jsp=anon
+	            /attachment/download.html*=anon   
+	            /login/tologin.html*=anon
+	            /login/login.html*=anon  
+	            /login/casLogin.html*=anon  
+	            /login/toSuperLogin.html*=anon
+	            /login/superLogin.html*=anon  
+	            /error/403.jsp=anon  
+	            <!-- perms[user:query]表示访问此连接需要权限为user:query的用户 -->  
+	            /user=perms[user:query]  
+	            <!--所有的请求(除去配置的静态资源请求或请求地址为anon的请求)都要通过登录验证,如果未登录则跳到/login-->    
+	            /** = authShiroURL,user  
+	         </value>    
+	    </property>
+	    <property name="filters">
+	    	<map>
+	    		<entry key="authShiroURL" value-ref="authShiroURL"></entry>
+	    	</map>
+	    </property>
+	</bean>
+	<bean id="authShiroURL" class="com.peraglobal.pdp.admin.shiro.AuthShiroURLFilter"></bean>
+	<bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"/>
+	
+	<bean id="pdpShiroRealm" class="com.peraglobal.pdp.admin.shiro.PDPShiroRealm">
+		 <property name="credentialsMatcher" ref="limitCredentialsMatcher"></property> 
+	</bean>
+
+	<bean id="limitCredentialsMatcher" class="com.peraglobal.pdp.admin.shiro.LimitCredentialsMatcher">
+		<!-- 指定散列算法为md5 -->
+		<property name="hashAlgorithmName" value="md5"/>
+		<!-- MD5散列迭代次数 -->
+		<property name="hashIterations" value="1"></property> 
+		<!-- 表示是否存储散列后的密码为16进制 -->
+		<property name="storedCredentialsHexEncoded" value="true"/>
+	</bean>
+	
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+	
+	
+</beans>    

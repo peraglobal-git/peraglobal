@@ -1,0 +1,59 @@
+#override("inHeader")
+<script src="$skinsPath/public/easyui/easyui.datebox.js"></script>
+<script type="text/javascript">
+seajs.use(['modules/km/js/taskGroup/taskGroup'], function(dic) {
+		//taskMaxNumber
+		dic.init("$!{CODE_UTIL.getGlobalConfigValue('dic_value_is_show')}","$!{taskMaxNumber}");
+		var grid = dic.gridLoad();
+		
+		//dic.treeLoad(null,'../taskGroup/getTaskGroupTree.html?typeId=1',0);
+		//grid.datagrid("toolbarPermission",{toolbarDel:true});
+	
+});
+</script>
+#end
+#set($model='Dic')
+
+
+#override("toolbarButton")
+<a href="javascript:void(0);" class="easyui-linkbutton" name="addDic" id="showMoreBtn" data-options="iconCls:'icon-new',plain:true">新建</a>
+<a href="javascript:void(0);" class="easyui-linkbutton" name="deleteDic" id="showMoreBtn" data-options="iconCls:'icon-del',plain:true">删除</a>
+ <a href="javascript:void(0);" class="easyui-linkbutton" id="showMoreBtn" name="startTask" data-options="iconCls:'icon-showStart',plain:true">开始</a>
+<a href="javascript:void(0);" class="easyui-linkbutton"  id="showMoreBtn" name="pauseTask" data-options="iconCls:'icon-refuse',plain:true">暂停</a>
+<a href="javascript:void(0);" class="easyui-linkbutton"  id="showMoreBtn" name="stopTask" data-options="iconCls:'icon-showStop',plain:true">停止</a> 
+#end
+#*
+#override("moreConditions")
+ <tr><td>
+		<strong>状态:</strong>
+	<select id="collectState" style="width:66px;">
+		<option value="-1">全部</option>
+		<option value="0">就绪</option>
+		<option value="1">进行中</option>
+		<option value="2">暂停</option>
+		<option value="3">停止</option>
+		##<option value="4">已完成</option>
+		##<option value="5">等待中</option>
+	</select>
+
+	<strong>优先级:</strong>
+	<select id="PriorityToCollect" style="width:66px;">
+		<option value="-1">全部</option>
+		<option value="0">否</option>
+		<option value="1">是</option>
+	</select>
+	
+	<strong>采集方式:</strong>
+	<select id="collectWay"style="width:56px;">
+		<option value="-1">全部</option>
+		<option value="0">自动</option>
+		<option value="1">手动</option>
+	</select>
+</td></tr> 
+#end 
+*#
+#override("conditions")
+	<input id="search" type="text" class="txt" name="conditions['dictionaryName'].value" value="请输入知识源名称……">
+	<input type="hidden" id="parentId" name="conditions['parentId_eq'].value">
+#end
+#extends("/km/crawler/template/leftTreeCenterGrid_crawler.vm")

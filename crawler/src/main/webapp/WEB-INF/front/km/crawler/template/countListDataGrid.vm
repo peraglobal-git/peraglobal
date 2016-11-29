@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>#block("title")#end</title>
+#parse("../../common/common.vm")
+<script type="text/javascript">
+	var SERVER_CONTEXT = "$SERVER_CONTEXT";
+	$(document).ready(function(){
+		//先设置fit属性.后设置会报错
+		$("#js_layout").layout({fit:true});
+	});
+</script>
+#block("inHeader")
+#end
+
+<link rel="stylesheet" href="$skinsPath/blue-km/css/system_css/subFrame.css" type="text/css" />
+</head>
+
+<body>
+
+
+#block("conMenu")
+#end	
+
+<div class="wrapper" id="js_layout">
+	<div  data-options="region:'north',border:false" style="height: 400px;padding-bottom: 70px;" id="js_north">
+	
+#block("list")
+	#block("toolbar")
+		<div id="toolbar" class="datagrid-toolbar" style="height:30px;">
+			<form  id="listForm" method="post" action="$!{formAction}" onsubmit="return false;">
+   				<table style="width: 100%;">
+					<tr>
+						<td>
+						#block("toolbarButton")
+							<a href="javascript:;" class="easyui-linkbutton" id="add$!{model}" data-options="iconCls:'icon-new',plain:true">#PDPMessage('add.button.text')</a>
+<!-- 		<a href="#" class="easyui-linkbutton" id="update$!{model}" data-options="iconCls:'icon-edit',plain:true">#PDPMessage('update.button.text')</a> -->
+							<a href="javascript:;" class="easyui-linkbutton" id="delete$!{model}" data-options="iconCls:'icon-del',plain:true">#PDPMessage('delete.button.text')</a>
+						#end
+						#block("customeButton")
+							
+						#end
+						</td>
+						<td style="text-align: right;vertical-align: middle;">
+							<div class="combo_search">
+								#block("conditions")
+				  					
+				         		#end
+								#block("conditionsbuttons")
+									<button id="search_button" class="sbutton" type="button"></button>
+					        	 #end
+					         </div>
+				         </td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	#end
+	<table id="grid" ></table>
+ #end
+ </div>
+ <div data-options="region:'south',split:true,collapsible:false,border:false" style="height:350px;padding-bottom: 70px;" id="js_south">
+	
+#block("list2")
+	#block("toolbar2")
+		<div id="toolbar" class="datagrid-toolbar">
+			<form  id="listForm" method="post" action="$!{formAction}" onsubmit="return false;">
+   				<table style="width: 100%;">
+					<tr>
+						<td>
+						#block("toolbarButton2")
+							<a href="javascript:;" class="easyui-linkbutton" id="add$!{model}" data-options="iconCls:'icon-new',plain:true">#PDPMessage('add.button.text')</a>
+<!-- 		<a href="#" class="easyui-linkbutton" id="update$!{model}" data-options="iconCls:'icon-edit',plain:true">#PDPMessage('update.button.text')</a> -->
+							<a href="javascript:;" class="easyui-linkbutton" id="delete$!{model}" data-options="iconCls:'icon-del',plain:true">#PDPMessage('delete.button.text')</a>
+						#end
+						#block("customeButton2")
+							
+						#end
+						</td>
+						<td style="text-align: right;vertical-align: middle;">
+							<div class="combo_search">
+								#block("conditions2")
+				  					
+				         		#end
+								#block("conditionsbuttons2")
+									<button id="search_button" class="sbutton" type="button"></button>
+					        	#end
+					         </div>
+				         </td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	#end
+	<table id="grid2" ></table>
+ #end
+ </div>
+</div>
+</body>
+</html>
+
+
+

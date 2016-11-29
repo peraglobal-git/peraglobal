@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>velocity</title>
+<link rel="stylesheet" href="$SERVER_CONTEXT/css/common.css" type="text/css" />
+<link rel="stylesheet" href="$SERVER_CONTEXT/css/main.css" type="text/css" />
+<style type="text/css">
+</style>
+</head>
+<body class="mainbody">
+<div class="header" id="header">
+	<h1 class="logo"><img src="$SERVER_CONTEXT/img/logo.jpg" title="精益研发平台"></h1>
+	<ul class="nav" id="navs">
+		<li>
+			<a href="javascript:void(0);" url="" otarget="frame_P">panel&tabs</a>
+
+		</li>
+		<li>
+			<a href="javascript:void(0);" url="" otarget="frame_L">layout</a>
+
+		</li>
+		<li>
+			<a href="javascript:void(0);" url="" otarget="frame_M">menu and button</a>
+
+		</li>
+		<li>
+			<a href="javascript:void(0);" url="" otarget="frame_F">form</a>
+
+		</li>
+		<li>
+			<a href="javascript:void(0);" url="" otarget="frame_W">window</a>
+
+		</li>
+		<li>
+			<a href="javascript:void(0);" url="" otarget="frame_D">datagrid</a>
+
+		</li>
+		<li>
+			<a href="javascript:void(0);" url="" otarget="frame_TR">tree</a>
+
+		</li>
+		<li>
+			<a href="javascript:void(0);" url="" otarget="frame_G">treegrid</a>
+
+		</li>
+	</ul>
+</div>
+<div class="loginfo">
+	<ul>
+		<li>$!{name}</li>
+		<li>$!{date}</li>
+	</ul>
+</div>
+
+<div class="main mainbg" id="main">
+	<iframe name="frame_main" id="frame_main" src="$SERVER_CONTEXT/test/findTestList.html" height="100%" width="100%" frameborder="0" scrolling="auto" allowtransparency="true"></iframe>
+</div>
+<div class="footer" id="footer"></div>
+<script type="text/javascript" src="$SERVER_CONTEXT/js/jquery.min.js"></script>
+<script type="text/javascript" src="$SERVER_CONTEXT/js/common.js"></script> 
+<script type="text/javascript">
+jQuery(function($){
+    //导航
+    $("#navs").find("li>a").each(function(index) {
+    	var target = $(this).attr("otarget");
+    	if($("#"+target).size()==0){
+			$("#main").append('<iframe name="'+target+'" id="'+target+'" src="" height="100%" width="100%" frameborder="0" scrolling="'+(target!='xxxxx'?'auto':'no')+'" allowtransparency="true"></iframe>');	
+		}
+    });
+    $("#navs").navs({click:function(i){
+		var nav = $("#navs>li>a").eq(i);
+		var frm = $("#"+nav.attr("otarget"));
+		$("iframe").hide().filter(frm).show();
+		if(frm.attr("src")=="") frm.attr("src",nav.attr("url"));
+		if(i==0){$("#footer").show()}else{$("#footer").hide()};
+	}});
+	$("#navs li").hover(function(){$("dl",this).toggle()});
+    gotoPage=function(url,target){
+        $("#navs>li").removeClass("current").find('a[otarget="'+target+'"]').parent().addClass("current");
+        if($("#"+target).size()==0){
+            $("#main").append('<iframe name="'+target+'" id="'+target+'" src="" height="100%" width="100%" frameborder="0" scrolling="no" allowtransparency="true"></iframe>');   
+        }
+        $("iframe").hide();
+        $("#"+target).attr("src",url).show();
+    }
+    //自适应窗口大小
+    winResize=function(){
+        var W = $(window);  
+        var h = W.height();  
+        $("#main").css("height",h-95);
+		$("div.shade").css("height",h);
+		$("iframe").css("height","101%").css("height","100%");
+        if ($.support.boxModel && !$.support.leadingWhitespace){
+			var iframes = window.frames;
+			for(var l = iframes.length,i=0;i<l;i++){
+				var f = iframes[i].winResize;if(f)f();
+			}
+        }
+   }
+    $(window).wresize(winResize);
+    winResize(); 
+	
+});
+</script>
+</body>
+</html>

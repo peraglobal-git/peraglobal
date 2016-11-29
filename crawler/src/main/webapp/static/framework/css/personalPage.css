@@ -1,0 +1,98 @@
+.title {
+	font-size: 16px;
+	font-weight: bold;
+	padding: 20px 10px;
+	background: #eee;
+	overflow: hidden;
+	border-bottom: 1px solid #ccc;
+}
+
+.t-list {
+	padding: 5px;
+}
+
+.pop-box {
+	z-index: 9999;
+	margin-bottom: 3px;
+	display: none;
+	position: absolute;
+	background: #FFF;
+	border: solid 1px #000;
+}
+
+.mask {
+	color: #000;
+	background-color: #000;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	filter: Alpha(Opacity = 60);
+}
+
+/*Shapeshift 样式*/
+.tttt {
+	border: 1px dashed #CCC;
+	position: relative;
+}
+
+.tttt>div {
+	background: #AAA;
+	position: absolute;
+	text-align: center;
+	height: 20px;
+	width: 70px;
+	cursor: pointer;
+}
+
+.tttt>.ss-placeholder-child {
+	background: transparent;
+	border: 1px dashed blue;
+}
+
+/*Shapeshift 样式*/
+.yyyy {
+	border: 1px dashed #CCC;
+	position: relative;
+}
+
+.yyyy>div {
+	background: #AAA;
+	position: absolute;
+	text-align: center;
+	height: 20px;
+	width: 70px;
+	cursor: pointer;
+}
+
+.yyyy>.ss-placeholder-child {
+	background: transparent;
+	border: 1px dashed blue;
+}
+
+.tabul {
+	list-style: none;
+}
+
+.tabul li {
+	width: 40%;
+	height: 22px;
+	line-height: 22px;
+	text-align: left;
+	float: left;
+}
+
+.tabul li a {
+	font-size: large;
+	color: #444;
+	text-decoration: none;
+}
+
+.tabul li a:hover {
+	text-decoration: underline;
+	color: red;
+	background-color: #b4b4b4;
+}
+
+.del_me {
+	background: none;
+}

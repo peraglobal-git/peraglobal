@@ -1,0 +1,25 @@
+#override("point")
+<h1 style="text-align: center;">$!{pointDic}</h1>
+ #end
+#override("formItem")
+	<table border="0" >
+		<tr >
+			<th width='120px'>序号</th>
+			<th width='150px'>属性名</th>
+		</tr>
+		 #foreach($pr in $properties)
+		 	<tr>
+		 		<td align='center'>$velocityCount</td>
+		 		<td align='center'>$pr.PROP_NAME</td>
+		 	</tr>
+		 #end
+	</table>
+#end
+#override("buttons")
+<ul class="lists rf">
+    <li><button type="button" class="button" onclick="$.dialog.close();">关闭</button></li>
+</ul>
+#end
+#override("inHeader")
+#end
+#extends("/template/blue-km/editDialog.vm")

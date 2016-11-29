@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peraglobal.km.crawler.source.dao.KnowledgeSourceDao">
+
+	<!--模糊查询知识源列表信息  (Oracle)-->
+	<!-- 
+	<select id="fuzzyQueryInformationList" parameterType="map" resultType="com.peraglobal.km.crawler.source.model.KnowledgeSource">
+		SELECT * FROM KNOWLEDGESOURCE <if test="name!=null and name!=''">where name like '%'||#{name}||'%'</if>
+	</select>
+	 -->
+	<!--模糊查询知识源列表信息 (Mysql)-->
+	<select id="fuzzyQueryInformationList" parameterType="map" resultType="com.peraglobal.km.crawler.source.model.KnowledgeSource">
+		SELECT * FROM KNOWLEDGESOURCE <if test="name!=null and name!=''">where name like CONCAT('%',#{name},'%')</if>
+	</select>
+	
+	<!--模糊查询知识源列表信息行数 -->
+	<select id="fuzzyQueryInformationListCount" parameterType="map" resultType="int">
+		SELECT count(*) FROM KNOWLEDGESOURCE <if test="name!=null and name!=''">where name like CONCAT('%',#{name},'%')</if>
+	</select>
+	
+	<!--查询知识源列表 -->
+	<select id="queryKnowledgeSourceList" resultType="com.peraglobal.km.crawler.source.model.KnowledgeSource">
+		select * from KNOWLEDGESOURCE order by createdate desc
+	</select>
+	<!--查询知识源详细信息 -->
+	<select id="queryKnowledgeSourceDetailInfo" parameterType="map" resultType="com.peraglobal.km.crawler.source.model.KnowledgeSource">
+		select * from knowledgemetadata where id=<if test="id!=null and id!=''">#{id}</if>
+	</select>
+	<!--查询知识源是否有关联 -->
+	<select id="queryTaskJobBySourceId" parameterType="map" resultType="map">
+		<if test="id!=null and id!=''">
+			select sourceid,(select name from knowledgesource where id=#{id}) name from (select count(sourceid) sourceid from taskjob where sourceid in(select id from knowledgesource k where k.id=#{id})) a
+		</if>
+	</select>
+	<!--倒序查询知识源列表 -->
+	<select id="findKnowledgeListOrderType"  resultType="com.peraglobal.km.crawler.source.model.KnowledgeSource">
+			select * from knowledgesource ORDER by linktype desc 
+	</select>
+	<!--正序查询知识源列表 -->
+	<select id="findKnowledgeListOrderTypeAsc" resultType="com.peraglobal.km.crawler.source.model.KnowledgeSource">
+		select * from knowledgesource ORDER by linktype 
+	</select>
+	
+	<!-- <select id="searchCourses" parameterType="hashmap" resultMap="CourseResult"> 
+	SELECT * FROM COURSES 
+	<choose> 
+	<when test="searchBy == 'Tutor'"> WHERE TUTOR_ID= #{tutorId} </when> 
+	<when test="searchBy == 'CourseName'"> WHERE name like #{courseName} </when> 
+	<otherwise> WHERE TUTOR start_date >= now() </otherwise> 
+	</choose> 
+</select>
+	 -->
+	
+	
+	
+</mapper>

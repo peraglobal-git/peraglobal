@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<link rel="stylesheet" href="../js/easyui/css/easyui.css" type="text/css" charset="utf-8"/>
+<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/easyui/easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/easyui/easyui-lang-zh_CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/easyui/easyui.datagrid.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/easyui/easyui.tree.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/easyui/easyui.treegrid.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/easyui/easyui.groupview.js" type="text/javascript"></script>
+<script src="../js/easyui/easyui.datebox.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/easyui/linkbuttonfix.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/easyui/menushowfix.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="$SERVER_CONTEXT/js/seaJS/sea.js"></script>
+<link href="$SERVER_CONTEXT/css/jquery.loadmask.css" rel="stylesheet"/>
+<script type="text/javascript" src="$SERVER_CONTEXT/js/jquery.loadmask.js"></script>
+<script type="text/javascript" charset="utf-8">
+jQuery(function($){	
+    $("#js_layout").layout({fit:true});
+    
+    treeload();
+});
+</script>
+</head>
+<body>
+	<div class="wrapper" id="js_layout">  
+	    <div data-options="region:'west',split:true,width:220">
+		    #extends("/template/treeList.vm")
+	    </div>      
+	    <div data-options="region:'center',split:true" class="noborder border-w" id="js_center">
+			#extends("/template/dataGridList.vm")
+	   </div>
+	</div>
+</body>
+</html>

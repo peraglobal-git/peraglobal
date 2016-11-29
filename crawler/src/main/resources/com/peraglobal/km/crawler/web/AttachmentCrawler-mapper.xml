@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peraglobal.km.crawler.web.dao.AttachmentCrawlerDao">
+	
+	<!-- 通过path获取数据  by井晓丹 2016-3-22-->
+	<select id="getAttachmentByFilePath" parameterType="map" resultType="com.peraglobal.km.crawler.web.model.AttachmentCrawler">
+		select * from AttachmentCrawler  where 1=1 
+		<if test="path!=null and path!=''">
+			and path=#{path}
+		</if>
+		<if test="taskId!=null and taskId!=''">
+			 and taskId=#{taskId}
+		</if>
+	</select>
+	<!-- 通过元数据id获取附件列表  by井晓丹 2016-4-9-->
+	<select id="findAllByDatumId" parameterType="map" resultType="com.peraglobal.km.crawler.web.model.AttachmentCrawler">
+		select * from AttachmentCrawler  where 1=1
+		<if test="datumId!=null and datumId!=''">
+			 and datumId=#{datumId}
+		</if>
+	</select>
+	<!--删除采集附件 -->
+	<delete id="deleteATTACHMENTCRAWLERByList" parameterType="map">
+		delete from ATTACHMENTCRAWLER where taskId in 
+		<foreach collection="list" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+</mapper>

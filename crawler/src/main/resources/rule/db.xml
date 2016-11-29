@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<WebTaskConfig>
+	<row>
+		<label>规则名称</label>
+		<text size="100" name="name" value="gecko"/>
+	</row>
+	<row>
+		<label>连接类型</label>
+		<text size="100" name="type" value="JdbcDataSource"/>
+	</row>
+	<row>
+		<label>驱动类型</label>
+		<text size="100" name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+	</row>
+	<row>
+		<label>连接地址</label>
+		<text size="100" name="url" value="jdbc:oracle:thin:@192.168.50.96:1521:gecko"/>
+	</row>
+	<row>
+		<label>用户名</label>
+		<text size="100" name="user" value="gecko"/>
+	</row>
+	<row>
+		<label>密码</label>
+		<text size="110" name="password" value="gecko"/>
+	</row>
+</WebTaskConfig>

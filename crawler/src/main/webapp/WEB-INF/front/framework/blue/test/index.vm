@@ -1,0 +1,35 @@
+#override("formItem") 
+#trText('基础包名称','config.basePackage',true,'')
+#trText('目标项目路径','config.projectPath',true,'')
+#trText('web项目路径','config.webProjectPath',true,'')
+#trText('js和页面存放模块名称','config.pageModuleName',true,'')
+#trText('作者','config.author',false,'')
+<tr>
+	<td class="right"><i class="require">*</i>是否生成页面：</td>
+	<td>
+		<select name="generatePage" style="width: 240px;">
+			<option value="true">是</option>
+			<option value="false">否</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<td class="right"><i class="require">*</i>建表SQL：</td>
+	<td>
+		<textarea id="sql" name="sql" class="required " style="margin: 0px; width: 721px; height: 250px;"></textarea>
+	</td>
+</tr>
+#end 
+#override("buttons")
+<ul class="lists rf">
+	<li><button type="submit" class="button" id="saveBtn">生成</button></li>
+</ul>
+#end #override("title") 自动生成 #end #override("inHeader")
+<script type="text/javascript">
+	seajs.use([ '../js/test/save' ], function(test) {
+		$(function() {
+			test.init();
+		});
+	});
+</script>
+#end #extends("/template/editDialog.vm")

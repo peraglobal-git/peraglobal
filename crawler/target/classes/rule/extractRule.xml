@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleExtract>
+
+<rulesCollect>//说明规则类型的 ruleType用于表示规则的类别
+<rule ruleType="11" begWords="" endWords="" CName="开始结束标识符号识别" isNullExe="0"  MaxLine="30"></rule>//isNullExe="0" 0表示直接执行，1表示前续为空执行 MaxLine="30" 表示从第一行开始的最大行数
+<rule ruleType="12" begWords="" endWords="" CName="开始字符段落结束符结束"></rule>
+<rule ruleType="20"  CName="标题下一行"></rule>// 取标题下一行	
+<rule ruleType="40" keyWords="" Cname="删除字符"></rule>// *表示N个字符 分隔符问题
+<rule ruleType="41"  Cname="删除字符"></rule>// 以“ ”分割，再以“.”、”·“分割，连续汉字字符串超过10个的删除；
+<ruleTask  CName="作者规则抽取" exeOrder="1"></ruleTask>//exeOrder="1"暂时没用
+//?表示0-N个空格 *表示N个字符
+</rulesCollect>
+
+<ruleTask  CName="作者规则抽取" exeOrder="1">
+<outParam CName="作者">
+</outParam>
+<rule ruleType="11" isNullExe="0" MaxLine="30" begWords="口?文/,○,●,口,■,◎,文/" endWords="○,●,口,■,◎,文/,'\n'" CName="开始结束表示符号识别"></rule>
+<rule ruleType="20" isNullExe="1" CName="标题下一行为作者"></rule>// //如果前面的规则取值为空则继续执行该规则。标题为字号最大的字符串，标题可能为多行。
+<rule ruleType="40" keyWords="（*）,(*),0,1,2,3,4,5,6,7,8,9" Cname="删除字符"></rule>
+<rule ruleType="41"  Cname="删除字符"></rule>
+</ruleTask>
+<ruleTask  CName="关键字规则抽取" exeOrder="1">
+<outParam CName="关键字">
+</outParam>
+<rule ruleType="11" isNullExe="0" MaxLine="30" begWords="'关?键?字?：','关?键?字 ','【?关?键?字?】','关?键?词?：','关?键?词 ','【?关?键?词?】','主?题?词?：','主?题?词 ','【?主?题?词?】','叙?词?：','叙?词 ','【?叙?词?】'" endWords="\n" CName="开始结束表示符号识别"></rule>
+</ruleTask>
+<ruleTask  CName="摘要规则抽取" exeOrder="1">
+<outParam CName="摘要">
+</outParam>
+<rule ruleType="11" isNullExe="0"  MaxLine="30" begWords="'摘?要?：','摘?要 ','【?摘?要?】','摘?录?：','摘?录 ','【?摘?录?】','前?言?：','前?言 ','【?前?言?】','提?要?：','提?要 ','【?提?要?】'" endWords="\n" CName="开始结束表示符号识别"></rule>
+</ruleTask>
+
+</ruleExtract>

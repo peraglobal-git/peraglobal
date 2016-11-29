@@ -1,0 +1,15 @@
+#override("formItem")
+		#trText('名称','role.roleName',true,'')
+		#trTextArea('描述','role.des',false,'')
+#end
+#override("inHeader")
+<script type="text/javascript">
+	seajs.use(['framework/admin/saveRole'], function(role) {
+		$(function(){
+			role.init({id:'$!{id}',pid:'$!{parentId}'});
+		});
+	});
+
+</script>
+#end
+#extends("/template/editDialog.vm")

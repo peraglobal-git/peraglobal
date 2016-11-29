@@ -1,0 +1,25 @@
+#override("form")
+		<div class="pad10" id="details_edit" data-options="region:'center'">
+			<form id="form" name="#" action="#" method="post">
+				<table class="forms">
+					<tbody>
+						#trText('属性名称','properties.name',true,'')
+						#trText('属性编码','properties.code',true,'')
+						#if($!{type} == "add")
+							#trTextArea('备注','properties.remark',true,'')
+						#end
+					</tbody>
+				</table>
+				<input type="hidden" id="id" name="id" value="$!{properties.id}" />
+			</form>
+		</div>
+#end
+#override("inHeader")
+<script type="text/javascript">
+	seajs.use(['framework/admin/saveGlobalProperties.js'], function(saveGProperties) {
+		//保存全局属性
+		saveGProperties.init();
+	});
+</script>
+#end
+#extends("/template/editDialog.vm")

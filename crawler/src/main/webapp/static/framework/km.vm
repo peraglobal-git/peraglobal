@@ -1,0 +1,15 @@
+<!-- public css -->
+<link rel="stylesheet" href="../static/public/css/validate.css" type="text/css" />
+<link rel="stylesheet" href="../static/public/css/jquery.qtip.min.css" type="text/css" />
+<link rel="stylesheet" href="../static/public/css/jquery.loadmask.css" type="text/css" />
+<!-- public js -->
+<script src="../static/public/jquery.qtip.js" type="text/javascript" charset="utf-8"></script>
+<script src="../static/public/jquery.validate.js" type="text/javascript"></script>
+<script src="../static/public/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+<script src="../static/public/jquery.artDialog.js?skin=default" type="text/javascript" charset="utf-8"></script>
+<script src="../static/public/iframeTools.js" type="text/javascript" charset="utf-8"></script>
+<script src="../static/public/sea.js" type="text/javascript"></script>
+<!-- framework -->
+<script src="../static/framework/js/pdp-common.js" type="text/javascript"></script>
+<script src="../static/framework/js/pdp-plugins.js" type="text/javascript"></script>
+<script src="../static/framework/js/seajs-config.js" type="text/javascript"></script>

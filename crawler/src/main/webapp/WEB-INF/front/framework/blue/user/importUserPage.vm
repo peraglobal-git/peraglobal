@@ -1,0 +1,76 @@
+#override("inHeader")
+<script type="text/javascript">
+	seajs.use(['framework/admin/importUser'], function(user) {
+		user.init();
+	});
+	function downLoadUserTemplate(){
+		window.location.target="_self";
+    	window.location.href = "../user/downLoadTemplateSystemUser.html";
+	}
+	function cancleButton(){
+			   art.dialog.close();
+	   }
+	 function impUserButton(){
+    	 /*导入用户*/
+		 $('#impForm').form({
+	    	    url:"../user/importSystemUser.html",
+	    	    onSubmit: function(){
+	    	    	return $(this).form("validate");
+	    	    },
+	    	    success:function(data){
+	    	    	var data=$.parseJSON(data);
+	    	    	if(data.success == "false"){
+	    	    		if(data.errmsg!=null&&data.errmsg!=''){
+	    	    			showWarningTip(data.errmsg);
+	    	    		}else{
+	    	    			showErrorTip("导入失败,请重新检查导入文件!");
+	    	    		}
+	    	    	}
+	    	    	if(data.success == "true"){
+	    	    		art.dialog.close();
+	    	    		$.dialog.data('method')();
+	    	    	} 
+	    	    }
+	    	});
+	    	var file = $('#importExcel').val();
+			if(file == ''){
+				showSuccessTip('请选择你要上传的文件');
+				return;
+		    }
+			var fileArr = file.split("\\"); 
+			var fileTArr = fileArr[fileArr.length-1].toLowerCase().split("."); 
+			var filetype = fileTArr[fileTArr.length-1]; 
+			if(filetype != "xls"){
+				showSuccessTip('请选择Excel格式的文件');
+				return;
+			}else{
+		    	//提交表单
+		    	$('#impForm').submit();
+			}
+     }
+</script>
+#end
+#override("body")
+<div class="wrapper details" id="js_layout" >
+    <div data-options="region:'center'" class="" id="js_center">
+        <div class="datagrid-toolbar">
+			<span class="lf">选择需要导入的文件</span>
+    	</div>
+	    	<form id="impForm" action="importExcel" method="post" enctype="multipart/form-data">  
+	           <input type="file" style="width: 300px" name="importExcel" id="importExcel">  
+	     </form>
+    </div>
+    <div data-options="region:'south',collapsible:false,height:50" class="noborder hidden">
+        <div class="ftbutton border-n">
+	       <ul class="lists rf">
+	              <li><button id="downloadTemplate" onclick="downLoadUserTemplate();" type="button" class="button">下载模板</button></li>
+		         <li><button id="impUser"  onclick="impUserButton();" class="button" type="button">导入</button></li>
+		         <li><button id="cancel" onclick="cancleButton();" class="button" type="button">取消</button></li>
+	       </ul>
+        </div>
+    </div>
+</div>    
+ #end
+#extends("/template/editDialog.vm")
+
+

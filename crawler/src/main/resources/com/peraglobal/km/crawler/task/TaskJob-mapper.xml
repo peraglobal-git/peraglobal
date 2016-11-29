@@ -1,0 +1,682 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peraglobal.km.crawler.task.dao.TaskJobDao">
+	
+	<!--根据jobName查询Job列表 -->
+	<select id="queryJobByJobName" parameterType="map" resultType="map">
+		<if test="name!=null and name!=''">
+			select name from TASKJOB t where t.name like #{name}||'%'
+		</if>
+	</select>
+	
+	<!--添加Job -->
+	<insert id="addJob">
+		insert into TASKJOB 
+		(
+		<trim suffixOverrides="," suffix=" ">
+			<if test="id!=null and id!=''">
+				id,
+			</if>
+			<if test="name!=null and name!=''">
+				name,
+			</if>
+			<if test="groupId!=null and groupId!=''">  
+				groupId,
+			</if>
+			<if test="groupName!=null and groupName!=''">
+				groupName,
+			</if>
+			<if test="jobState!=null and jobState!=''">
+				jobState,
+			</if>
+			<if test="registerModel!=null and registerModel!=''">
+				registerModel,
+			</if>
+			<if test="registerType!=null and registerType!=''">
+				registerType,
+			</if>
+			<if test="createDate!=null and createDate!=''">
+				createDate,
+			</if>
+			<if test="updateDate!=null and updateDate!=''">
+				updateDate,
+			</if>
+			<if test="connectId!=null and connectId!=''">
+				connectId,
+			</if>
+			<if test="sourceId!=null and sourceId!=''">
+				sourceId,
+			</if>
+				priority,
+			<if test="automatic!=null and automatic!=''">
+				automatic,
+			</if>
+			<if test="knowledgeType!=null and knowledgeType!=''">
+				knowledgeType,
+			</if>
+			<if test="knowledgeTypeName!=null and knowledgeTypeName!=''">
+				knowledgeTypeName,
+			</if>
+			<if test="knowledgeModel!=null and knowledgeModel!=''">
+				knowledgeModel,
+			</if>
+			<if test="knowledgeModelName!=null and knowledgeModelName!=''">
+				knowledgeModelName,
+			</if>
+			<if test="systemId!=null and systemId!=''">
+				systemId,
+			</if>
+			<if test="systemName!=null and systemName!=''">
+				systemName
+			</if>
+		</trim>
+		)
+		values
+		(
+		<trim suffixOverrides="," suffix=" ">
+			<if test="id!=null and id!=''">
+				#{id},
+			</if>
+			<if test="name!=null and name!=''">
+				#{name},
+			</if>
+			<if test="groupId!=null and groupId!=''">  
+				#{groupId},
+			</if>
+			<if test="groupName!=null and groupName!=''">
+				#{groupName},
+			</if>
+			<if test="jobState!=null and jobState!=''">
+				#{jobState},
+			</if>
+			<if test="registerModel!=null and registerModel!=''">
+				#{registerModel},
+			</if>
+			<if test="registerType!=null and registerType!=''">
+				#{registerType},
+			</if>
+			<if test="createDate!=null and createDate!=''">
+				#{createDate},
+			</if>
+			<if test="updateDate!=null and updateDate!=''">
+				#{updateDate},
+			</if>
+			<if test="connectId!=null and connectId!=''">
+				#{connectId},
+			</if>
+			<if test="sourceId!=null and sourceId!=''">
+				#{sourceId},
+			</if>
+				#{priority},
+			<if test="automatic!=null and automatic!=''">
+				#{automatic},
+			</if>
+			<if test="knowledgeType!=null and knowledgeType!=''">
+				#{knowledgeType},
+			</if>
+			<if test="knowledgeTypeName!=null and knowledgeTypeName!=''">
+				#{knowledgeTypeName},
+			</if>
+			<if test="knowledgeModel!=null and knowledgeModel!=''">
+				#{knowledgeModel},
+			</if>
+			<if test="knowledgeModelName!=null and knowledgeModelName!=''">
+				#{knowledgeModelName},
+			</if>
+			<if test="systemId!=null and systemId!=''">
+				#{systemId},
+			</if>
+			<if test="systemName!=null and systemName!=''">
+				#{systemName}
+			</if>
+		</trim>
+		)
+	</insert>
+	<!--编辑Job -->
+	<update id="editJob">
+		update TASKJOB 
+		<set>
+			<trim suffixOverrides="," suffix=" ">
+			<if test="name!=null and name!=''">
+				name=#{name},
+			</if>
+			<if test="groupId!=null and groupId!=''">  
+				groupId=#{groupId},
+			</if>
+			<if test="groupName!=null and groupName!=''">
+				groupName=#{groupName},
+			</if>
+			<if test="jobState!=null and jobState!=''">
+				jobState=#{jobState},
+			</if>
+			<if test="registerModel!=null and registerModel!=''">
+				registerModel=#{registerModel},
+			</if>
+			<if test="registerType!=null and registerType!=''">
+			registerType=#{registerType},
+			</if>
+			<if test="createDate!=null and createDate!=''">
+				createDate=#{createDate},
+			</if>
+			<if test="updateDate!=null and updateDate!=''">
+				updateDate=#{updateDate},
+			</if>
+			<if test="connectId!=null and connectId!=''">
+				connectId=#{connectId},
+			</if>
+			<if test="sourceId!=null and sourceId!=''">
+				sourceId=#{sourceId},
+			</if>
+				priority=#{priority},
+			<if test="automatic!=null and automatic!=''">
+				automatic=#{automatic},
+			</if>
+			<if test="knowledgeType!=null and knowledgeType!=''">
+				knowledgeType=#{knowledgeType},
+			</if>
+			<if test="knowledgeTypeName!=null and knowledgeTypeName!=''">
+				knowledgeTypeName=#{knowledgeTypeName},
+			</if>
+			<if test="knowledgeModel!=null and knowledgeModel!=''">
+				knowledgeModel=#{knowledgeModel},
+			</if>
+			<if test="knowledgeModelName!=null and knowledgeModelName!=''">
+				knowledgeModelName=#{knowledgeModelName},
+			</if>
+			<if test="systemId!=null and systemId!=''">
+				systemId=#{systemId},
+			</if>
+			<if test="systemName!=null and systemName!=''">
+				systemName=#{systemName}
+			</if>
+		</trim>
+		</set>
+		<where>
+			<if test="id!=null and id!=''">
+				id=#{id}
+			</if>
+		</where>
+	</update>
+	<!--删除Job -->
+	<delete id="delJob" parameterType="map">
+		delete TASKJOB where id = <if test="id!=null and id!=''">#{id}</if>
+	</delete>
+	
+	<!--修改Job状态 -->
+	<update id="updateJobState" parameterType="map">
+		update TASKJOB set 
+			<if test="jobState!=null and jobState!=''">
+				jobState=#{jobState}
+			</if>
+			<if test="hasNewData!=null and hasNewData!=''">
+				,hasNewData=#{hasNewData}
+			</if>
+		where id=
+		<if test="id!=null and id!=''">
+				#{id}
+		</if>
+	</update>
+	
+	<!--修改定时状态 -->
+	<!-- <update id="updateJobAutomatic" parameterType="map">
+		update TASKJOB 
+		<set>
+			<if test="automatic!=null and automatic!=''">
+				automatic=#{automatic}
+			</if>
+		</set>
+		<where>
+			<if test="id!=null and id!=''">
+				id=#{id}
+			</if>
+		</where>
+	</update> -->
+	<update id="updateJobAutomatic" parameterType="map">
+		update TASKJOB
+		<set>
+			<if test="automatic!=null and automatic!=''">
+				automatic=#{automatic}
+			</if>
+		</set>
+		<where>
+			<if test="id!=null and id!=''">
+				id=#{id}
+			</if>
+		</where>
+	</update>
+	<!--查询Job列表 -->
+	<select id="queryJobList" parameterType="map">
+		select id, name, groupId, groupName, jobState, registerModel, registerType, connectId from TASKJOB 
+	</select>
+	<!--根据groupId查询Job列表 -->
+	<select id="queryJobListByGroupId" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskJob">
+		select id, name, groupId, groupName, jobState, registerModel, registerType, connectId from TASKJOB where 
+		groupId =
+		<if test="groupId!=null and groupId!=''">
+			#{groupId}
+		</if>
+		 order by id
+	</select>
+	<!--根据Id查询Job -->
+	<select id="queryJobById" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskJob">
+		select * from TASKJOB where 1=1
+		<if test="id!=null and id!=''">and id=#{id}</if>
+		<if test="name!=null and name!=''">
+			and name=#{name}
+		</if>
+		<if test="registermodel!=null and registermodel!=''">
+			and registermodel=#{registermodel}
+		</if>
+	</select>
+	
+	<!--根据条件查询Job集合 -->
+	<select id="accordingToTheConditionsQueryJobCollection" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskJob">
+		select * from TASKJOB where 1=1
+		<if test="registerModel!=null and registerModel!=''">and registerModel=#{registerModel}</if>
+		<if test="connectid!=null and connectid!=''">and connectid=#{connectid}</if>
+	</select>
+	
+	<!--根据组id查询Job -->
+	<select id="queryJobListByInGroupId" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskJob">
+        SELECT id, name, groupId, groupName, jobState, registerModel, registerType, connectId, jobPriority FROM "TASKJOB" t WHERE t.groupId IN (
+        SELECT id FROM TASKGROUP tg 
+        <!--typeId是查询树用的 -->
+        <if test="typeId!=null and typeId!='' and typeId>0">
+        	START WITH tg.type = #{typeId}
+        </if>
+        <!--id是查询树的子节点用的 -->
+        <if test="id!=null and id!='' and id>0">
+        	START WITH tg.id = #{id}
+        </if>
+         CONNECT BY PRIOR tg.id = tg.pid
+        )
+	</select>
+	<!--获取任务列表行数 -->
+	<select id="getTaskListCount" parameterType="map" resultType="int">
+	select count(*) from TASKJOB t  where t.groupId in (select id from TASKGROUP tg start with tg.id = 
+		<if test="id!=null and id!=''">#{id}</if>
+	 connect by prior tg.id = tg.pid)
+	</select>
+	<!-- 根据名称找到行数 -->
+	<select id="findCountByName" parameterType="map" resultType="int">
+		select count(*) from TASKJOB t where t.id = 
+		<if test="id!=null and id!=''">#{id}</if> and t.name = 
+		<if test="name!=null and name!=''">#{name}</if>
+	</select>
+	<!-- 根据名称和id获取行数-->
+	<select id="findCountByNameAndId" parameterType="map" resultType="int">
+		select count(*) from TASKJOB t where 1=1
+		<if test="name!=null and name!=''">
+			 t.name =#{name }
+		</if>
+		<if test="id!=null and id!=''">
+			 t.id =#{id }
+		</if>
+		<if test="groupId!=null and groupId!=''">
+			 t.groupId =#{groupId }
+		</if>
+	</select>
+	<!-- 添加Rule-->
+	<insert id="addRule">
+		insert into TASKRULE 
+		(
+		<trim suffixOverrides="," suffix=" ">
+			<if test="id!=null and id!=''">
+				id,
+			</if>
+			<if test="jobId!=null and jobId!=''">
+				jobId,
+			</if>
+			<if test="ruleContent!=null and ruleContent!=''">
+				ruleContent,
+			</if>
+			<if test="ruleType!=null and ruleType!=''">
+				ruleType,
+			</if>
+			<if test="createDate!=null and createDate!=''">
+				createDate,
+			</if>
+			<if test="updateDate!=null and updateDate!=''">
+				updateDate
+			</if>
+		</trim>
+		)
+		values 
+		(
+			<trim suffixOverrides="," suffix=" ">
+			<if test="id!=null and id!=''">
+				#{id},
+			</if>
+			<if test="jobId!=null and jobId!=''">
+				#{jobId},
+			</if>
+			<if test="ruleContent!=null and ruleContent!=''">
+				#{ruleContent},
+			</if>
+			<if test="ruleType!=null and ruleType!=''">
+				#{ruleType},
+			</if>
+			<if test="createDate!=null and createDate!=''">
+				#{createDate},
+			</if>
+			<if test="updateDate!=null and updateDate!=''">
+				#{updateDate}
+			</if>
+		</trim>
+		)
+	</insert>
+	<!--根据rule_id修rule_content
+	 -->
+	 <update id="addRule_1_Update" parameterType="map">
+		update TASKRULE set ruleContent = <if test="ruleContent!=null and ruleContent!=''">#{ruleContent}</if> 
+		where jobId =<if test="jobId!=null and jobId!=''">#{jobId}</if>
+	</update> 
+	<!--根据Jobid获取task -->
+	<select id="getTaskRuleByJobId" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskRule">
+		select * from TASKRULE where jobId = <if test="jobId!=null and jobId!=''">#{jobId}</if>
+	</select>
+	<!--根据JobId删除rule -->
+	<delete id="delRuleByJobId" parameterType="map">
+		delete TASKRULE where jobId = <if test="jobId!=null and jobId!=''">#{jobId}</if>
+	</delete>
+	<!--根据GroupId获取taskRule -->
+	<select id="getTaskRulesByGroupId" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskJob">
+		select * from TASKRULE t  where t.jobId in (
+                select id from TASKGROUP tg start with tg.id = 
+                	<if test="id!=null and id!=''">#{id}</if>
+                 connect by prior tg.id = tg.pid)
+			    order by id
+	</select>
+	
+	<!--查询状态是开始的Job -->
+	<select id="queryJobIsStart" parameterType="map" resultType="int">
+		<!-- 
+			StringBuffer sqls = new StringBuffer();
+		sqls.append("select count(*) from task_job t where t.job_state = '"+ Job.STATE_STRAT +"' and t.job_id in (");
+		String[] job_id = job_ids.split(",");
+		for (int i = 0; i < job_id.length; i++) {
+			if(job_id[i] != null){
+				if(i == 0){
+					sqls.append("'" + job_id[i] + "'");
+				}else{
+					sqls.append(",'" + job_id[i] + "'");
+				}
+				
+			}
+		}
+		String sql = sqls.toString() + ")";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
+		 -->
+	</select>
+	<!--查询任务工作ConnecId -->
+	<select id="queryTaskJobForConnectId" parameterType="map" resultType="int">
+		<!-- 
+		StringBuffer sqls = new StringBuffer();
+		sqls.append("select count(*) from task_job t where t.connectid in (");
+		String[] job_id = job_ids.split(",");
+		for (int i = 0; i < job_id.length; i++) {
+			if(job_id[i] != null){
+				if(i == 0){
+					sqls.append("'" + job_id[i] + "'");
+				}else{
+					sqls.append(",'" + job_id[i] + "'");
+				}
+				
+			}
+		}
+		String sql = sqls.toString() + ")";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
+		 -->
+	</select>
+	<!--查询工作状态 数量-->
+	<select id="queryJobStateCount" parameterType="map" resultType="int">
+		select count(*) from TASKJOB t where t.jobState= <if test="jobState!=null and jobState!=''">#{jobState}</if>
+	</select>  
+	<!--根据sourceId查询任务数量-->
+	<select id="querytaskcountBysourceId" parameterType="map" resultType="int">
+		select count(*) from TASKJOB t where t.sourceId= <if test="sourceId!=null and sourceId!=''">#{sourceId}</if>and t.registerModel='1'
+	</select> 
+	<!--根据知识模板查询任务数量-->
+	<select id="querytaskcountByKnowledge" parameterType="map" resultType="int">
+		select count(*) from TASKJOB t where t.knowledgeModel= <if test="knowledgeModel!=null and knowledgeModel!=''">#{knowledgeModel}</if>and t.registerModel='2'
+	</select> 
+	<!--查询该知识模板下的知识源数量-->
+	<select id="querySourceCountByKnowledge" parameterType="map" resultType="int">
+		select count(distinct t.sourceid) from TASKJOB t where t.knowledgeModel= <if test="knowledgeModel!=null and knowledgeModel!=''">#{knowledgeModel}</if>and t.registerModel='2'
+	</select> 
+	<!-- 查询工作状态和优先级-->
+	<select id="queryJobByStateAndPriority" parameterType="map" resultType="map">
+		select id, name, groupId, groupName, jobState, registerModel, registerType, connectId, jobPriority from TASKJOB where 
+		jobState = <if test="jobState!=null and jobState!=''">#{jobState}</if>
+		 and jobPriority = <if test="jobPriority!=null and jobPriority!=''">#{jobPriority}</if>order by updateDate
+	</select>
+	
+	<!--用job的状态查询 -->
+	<select id="queryJobByState" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskJob">
+		select * from TASKJOB  
+		<where>
+			jobstate=#{jobState}
+		</where>
+		 order by priority desc
+	</select>
+	
+	<!--查询工作最大优先级状态 -->
+	<select id="queryJobMaxPriorityByState" parameterType="map" resultType="int">
+		select max(jobPriority) from TASKJOB t where t.jobState= <if test="jobState!=null and jobState!=''">#{jobState}</if>
+	</select>
+	
+	<!-- 更新工作优先级 -->
+	<update id="updateJobPriority" parameterType="map">
+		update TASKJOB 
+		<set>
+			<if test="jobPriority!=null and jobPriority!=''">#{jobPriority},</if>
+			<if test="updateDate!=null and updateDate!=''">#{updateDate}</if>
+		</set>
+		<where>
+			<if test="id!=null and id!=''">
+				#{id}
+			</if>
+		</where>
+	</update>
+	<!--查询工作状态Id -->
+	<select id="getStateByJobId" parameterType="map" resultType="string">
+		select jobState from TASKJOB t where t.id = <if test="id!=null and id!=''">#{id}</if>
+	</select>
+	
+	
+	<!--切换任务的正序或倒序 -->
+	<select id="positiveSequenceOrReverseSwitchTasks" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskJob">
+			<if test="param.type=='asc'">
+				<if test="param.id==null or param.id==''">
+				select * from taskJob where registermodel=#{param.registermodel} order by registerType asc
+				</if>
+				<if test=" param.id!='' and param.id!=null">
+				select * from taskJob where sourceId=#{param.id} and registermodel=#{param.registermodel} order by registerType asc
+				</if>
+			</if>
+			<if test="param.type=='desc'">
+				<if test="param.id==null or param.id==''">
+				select * from taskJob where registermodel=#{param.registermodel} order by registerType desc
+				</if>
+				<if test="param.id!='' and param.id!=null">
+				select * from taskJob where sourceId=#{param.id} and registermodel=#{param.registermodel} order by registerType desc
+				</if>
+			</if>
+			
+			<if test="param.type=='dateAsc'">
+				<if test="param.id==null or param.id==''">
+				select * from taskJob where registermodel=#{param.registermodel} order by createDate asc
+				</if>
+				<if test=" param.id!='' and param.id!=null">
+				select * from taskJob where sourceId=#{param.id} and registermodel=#{param.registermodel} order by createDate asc
+				</if>
+			</if>
+			<if test="param.type=='dateDesc'">
+				<if test="param.id==null or param.id==''">
+				select * from taskJob where registermodel=#{param.registermodel} order by createDate desc
+				</if>
+				<if test="param.id!='' and param.id!=null">
+				select * from taskJob where sourceId=#{param.id} and registermodel=#{param.registermodel} order by createDate desc
+				</if>
+			</if>
+			
+	</select>
+	
+	<!--根据id和类型查询任务 -->
+	<select id="dependingOnTheTypeOfIdAndQueryTasks" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskJob">
+		select * from taskjob where sourceId=
+		<if test="param.sourceId!=null and param.sourceId!=''">
+			#{param.sourceId}
+		</if>
+		<if test="param.registermodel!=null and param.registermodel!=''">
+			and registermodel=#{param.registermodel}
+		</if>
+		<if test="param.id!=null and param.id!=''">
+			id=#{param.id}
+		</if>
+		order by createDate desc
+	</select>
+	<!--模糊查询任务列表 -->
+	<select id="fuzzyQueryTaskList" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskJob">
+		select * from taskjob where 1=1 
+		<if test="param.sourceId!=null and param.sourceId!=''">and sourceId=#{param.sourceId}</if>
+		and registermodel=<if test="param.registermodel!=null and param.registermodel!=''">#{param.registermodel}</if>
+		<if test="param.name!=null and param.name!='crawler...' and param.name!=''">
+			<!-- Oracle  -->
+			<!-- and name like '%'||#{param.name}||'%' -->
+			<!-- MySql  -->
+			and name like CONCAT('%',#{param.name},'%')
+		</if>
+	</select>
+	<!--根据id修改优先级 -->
+	<update id="updateTaskJobPriorityById" parameterType="map">
+		update taskjob set priority=
+		<if test="priority!=null and priority!=''">
+			#{priority}
+		</if> 
+		where id=<if test="id!=null and id!=''">#{id}</if>
+	</update>
+	<!--验证转换任务名称 -->
+	<select id="verifyTheConversionTaskName" parameterType="map" resultType="int">
+		select count(*) from taskjob where 1=1 
+		<if test="sourceId!=null and sourceId!=''">
+			 and sourceId=#{sourceId}
+		</if>
+		<if test="knowledgeModel!=null and knowledgeModel!=''">
+			 and knowledgeModel=#{knowledgeModel}
+		</if>
+		<if test="name!=null and name!=''">
+			 and name=#{name}
+		</if>
+		<if test="registerModel!=null and registerModel!=''">
+			 and registerModel=#{registerModel}
+		</if>
+	</select>
+	<!--递归查询任务列表（Oracle） -->
+	<!-- 
+	<select id="findAllTaskByCrawlerJobId" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskJob">
+		select * from taskjob t start with id = <if test="taskId!=null and taskId!=''">#{taskId}</if> connect by prior t.id = t.connectid ;
+	</select>
+	 -->
+	<!--递归查询任务列表（MySql） -->
+	<select id="findAllTaskByCrawlerJobId" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskJob">
+		select * from taskjob t where t.id = <if test="taskId!=null and taskId!=''">#{taskId}</if>;
+	</select>
+	<!--任务列表条件查询（Oracle） -->
+	<!-- 
+	<select id="specialFilterTransformationAndTransportTask" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskJob">
+		select * from taskJob where 1=1
+		<if test="param.sourceId!=null and param.sourceId!=''">
+			and sourceId=#{param.sourceId}
+		</if>
+		<if test="param.sourcename!=null and param.sourcename!=''">
+			and sourcename like'%'||#{param.sourcename}||'%'
+		</if>
+		<if test="param.name!=null and param.name!=''">
+			and name like '%'||#{param.name}||'%' 
+		</if>
+		<if test="param.registermodel!=null and param.registermodel!=''">
+			and registermodel=#{param.registermodel}
+		</if>
+		<if test="param.registertype!=null and param.registertype!=''">
+			and registertype=#{param.registertype}
+		</if>
+		<if test="param.priority!=null and param.priority!=''">
+			and priority=#{param.priority}
+		</if>
+		<if test="param.jobState!=null and param.jobState!=''">
+			and jobState=#{param.jobState}
+		</if>
+		<if test="param.registerType!=null and param.registerType!=''">
+			and registerType=#{param.registerType}
+		</if>
+		<if test="param.AUTOMATIC!=null and param.AUTOMATIC!=''">
+			and AUTOMATIC=#{param.AUTOMATIC}
+		</if>
+		
+		order by (case when jobState ='1'then '0'else '5' end),jobState asc,createDate desc
+	</select>
+	 -->
+	 <!--任务列表条件查询（MySql） -->
+	<select id="specialFilterTransformationAndTransportTask" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskJob">
+		select * from taskJob where 1=1
+		<if test="param.sourceId!=null and param.sourceId!=''">
+			and sourceId=#{param.sourceId}
+		</if>
+		<if test="param.sourcename!=null and param.sourcename!=''">
+			and sourcename like CONCAT('%',#{param.sourcename},'%')
+		</if>
+		<if test="param.name!=null and param.name!=''">
+			and name like CONCAT('%',#{param.name},'%') 
+		</if>
+		<if test="param.registermodel!=null and param.registermodel!=''">
+			and registermodel=#{param.registermodel}
+		</if>
+		<if test="param.registertype!=null and param.registertype!=''">
+			and registertype=#{param.registertype}
+		</if>
+		<if test="param.priority!=null and param.priority!=''">
+			and priority=#{param.priority}
+		</if>
+		<if test="param.jobState!=null and param.jobState!=''">
+			and jobState=#{param.jobState}
+		</if>
+		<if test="param.registerType!=null and param.registerType!=''">
+			and registerType=#{param.registerType}
+		</if>
+		<if test="param.AUTOMATIC!=null and param.AUTOMATIC!=''">
+			and AUTOMATIC=#{param.AUTOMATIC}
+		</if>
+		
+		order by (case when jobState ='1'then '0'else '5' end),jobState asc,createDate desc
+	</select>
+	
+	<!--根据connectId查询数据 -->
+	<select id="queryTaskJobDataByConnecId" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskJob">
+		select * from taskJob where id=<if test="connectId!=null and connectId!=''">#{connectId}</if>
+	</select>
+	
+	<!--修改关联任务(状态为停止)的新数据发现状态 -->
+	<update id="updateJobHaveNewData" parameterType="map">
+		update TASKJOB set hasNewData=1 where 1=1
+		<if test="connectId!=null and connectId!=''">
+			and connectId=#{connectId} 
+		</if>
+		<if test="jobState!=null and jobState!=''">
+			and jobState=#{jobState}
+		</if>
+	</update>
+	<!-- 根据创建时间筛选任务 -->
+	<select id="queryTaskjobByCreatedate" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskJob">
+		select * from taskJob where
+		registermodel=
+		<if test="param.registermodel!=null and param.registermodel!=''">
+			#{param.registermodel}
+		</if>
+		and createdate&gt;=to_date(
+		<if test="param.startTime!=null and param.startTime!=''">#{param.startTime}</if>,'yyyy/mm/dd')
+		and  createdate&lt;=to_date(<if test="param.stopTime!=null and param.stopTime!=''">#{param.stopTime}</if>,'yyyy/mm/dd hh24:mi:ss')
+		order by (case  when jobState ='1'then '0'else '5' end),jobState asc,createDate desc
+	</select>
+</mapper>

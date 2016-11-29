@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head> 
+   <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8"/>
+   <title>软件工程管理系统</title>
+   #parse("../../common/common.vm")
+   
+  	<link rel="stylesheet" href="../skins/km/css/home.css" type="text/css" />
+ 	<link rel="stylesheet" href="../skins/km/css/main.css" type="text/css" />
+	<link rel="stylesheet" href="../skins/km/css/kmstatistic.css" type="text/css" />
+</head>
+<body>
+<div class="wrap" id="body_id" style="overflow:auto;height:100%;">
+	<div class="head-panel">
+		<div class="toppanel">
+		</div>
+	</div>
+	<div class="wrapperHome">
+	    <div class="head">
+	        <div class="logo">        
+	            中国石化知识工程系统
+	        </div>
+	        <ul class="lists sch" style="display: none;">
+	            <li class="bg"><input type="text" class="txt" id="keyInput" /></li>
+	            <li class="bg2"><a href="search/index.html" class="aBgBlue" target="_blank">搜索</a></li>
+	            <li><a id="advanceSch" href="javascript:;" class="ad-sch">高级搜索</a></li>
+	            <!-- <li><a href="search/index_pic.html" class="ad-sch">图片搜索</a></li> -->
+	        </ul>
+	        <div class="rel-word-list hide">
+	            <ul>
+	            </ul>
+	        </div>
+	    </div>
+	    <div class="navBox">
+	         <ul class="lists info rf">
+	            <li>当前在线人数：113</li>
+	            <li><span class="pad5">樊利杰</span></li>
+	            <li><a href="javascript:;" class="ublack"><!-- <i class="ico help"></i> -->帮助</a></li>
+	            <li><a href="javascript:;" class="ublack"><!-- <i class="ico cancelled"></i> -->注销</a></li>
+	        </ul>
+	        <ul class="lists navs lf" id="navs">
+	         #if(${SUBJECT_UTIL.checkRoles("user")})
+					#set($list = ${SUBJECT_UTIL.getPrincipal().moduleList})
+					#if($list)
+						#foreach($v in $list) 
+						<li><a href="javascript:navsSelect('$!{v.path}','$!{v.id}');" id="m_$!{velocityCount}" name="$!{v.path}" class="$!{v.id}">$!{v.moduleName}</a></li>
+						#end
+					#end
+				#end
+	        </ul>
+	    
+	    </div>
+  </div>
+
+	<div class="mainContent">
+     <iframe name="frame_main" id="frame_main" src="" height="100%" width="100%" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+   </div>
+   
+   <div class="wrapper_new wrapper_m6 aside-bg hide" id="wrapper2"></div>
+   
+   
+  <div class="footer-panel" id="footer-panel"><div class="footer">
+<p>&copy; 中国石油化工集团公司版权所有2002-2014　　　　　　　　RSS订阅 | 法律声明 | 问题解答 | 联系我们<br/>
+地址：中国北京市朝阳区朝阳门北大街22号　　邮政编码：100728　　电话：8610-59960114 </p>
+</div>
+
+</div>
+</div>
+
+
+<script type="text/javascript">
+   jQuery(function(){
+	    //登陆跳转到第一个导航
+		navsSelect($("#m_1")[0].name,$("#m_1")[0].className);
+	    
+    	//注销
+		$("#logoutpage").on('click',function(){
+			logout();
+		});
+    	
+      });
+   
+  var navsSelect = function(href,moduleId) {
+	   var url = href;
+		var patt1 = /^[a-m|A-M]:[/|\\].*$/;
+      
+		//如果是本地路径则调用函数打开
+		if(url && patt1.test(url)){
+			seajs.use(['$SERVER_CONTEXT/js/common/clientRun'], function(run) {
+				run.runCmd(url);
+			});
+			return ;
+		}
+		if(url && url.indexOf("http:")==-1){
+			url="${SERVER_CONTEXT}"+"/"+url;
+		}
+		if(url && url.lastIndexOf("?")!=-1){
+			url+="&moduleId="+moduleId;
+		}else{
+			url+="?moduleId="+moduleId;
+		}
+		
+		$("iframe").hide();
+        $("#frame_main").attr("src",url).show();
+
+	};
+   
+   /**
+	*	注销
+	*/
+	function logout() {
+		window.location.href = '${SERVER_CONTEXT}/login/logout.html';
+   }
+</script>
+</body>
+</html>

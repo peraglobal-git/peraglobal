@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"  
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd    
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+    http://www.springframework.org/schema/tx  
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://cxf.apache.org/jaxws 
+ 	http://cxf.apache.org/schemas/jaxws.xsd
+ 	http://www.springframework.org/schema/data/mongo
+	http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
+  
+    <!-- 注入任务调度器 -->
+	<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"/>
+	
+	<!-- SpringMvc 启动时为任务调度器添加所有任务 -->
+	<bean class="com.peraglobal.km.crawler.util.QuartzTaskJobProcessor"/>
+	
+ 	<!--服务端发布的webservice-->
+    <jaxws:endpoint id="attachmentCrawlerWS" implementor="com.peraglobal.km.crawler.webservice.AttachmentCrawlerWSImpl" address="/AttachmentCrawlerWS" />
+    
+	<!-- 注入mongo 配置文件 -->
+	<!-- <context:property-placeholder location="classpath:mongo.properties" /> -->
+	
+	<context:component-scan base-package="com.peraglobal.km.mongo" />
+	
+	<!-- mongo数据库链接配置 -->
+	<mongo:mongo-client id="mongo" host="127.0.0.1" port="27017" credentials="admin:admin@crawler" />
+
+	<!-- mongo的工厂，通过它来取得mongo实例,dbname为mongodb的数据库名，没有的话会自动创建 -->  
+	<mongo:db-factory  id="mongoDbFactory"  dbname="KmData" mongo-ref="mongo" />
+	  
+    <!-- 默认Mongodb类型映射 -->  
+	<bean id="defaultMongoTypeMapper" class="org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper">  
+   		<constructor-arg name="typeKey">  
+     		 <null /><!-- 去掉多余的_class字段 -->  
+   		</constructor-arg>  
+	</bean>
+	 	 
+	<bean id="mappingContext" class="org.springframework.data.mongodb.core.mapping.MongoMappingContext" /> 
+  	
+  	<!-- 配置mongodb映射类型 -->  
+    <bean id="mappingMongoConverter" class="org.springframework.data.mongodb.core.convert.MappingMongoConverter">  
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />  
+        <constructor-arg name="mappingContext" ref="mappingContext" />  
+        <property name="typeMapper" ref="defaultMongoTypeMapper" />  
+    </bean>
+      
+	<!-- mongodb的主要操作对象，所有对mongodb的增删改查的操作都是通过它完成 -->  
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">  
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" /> 
+		<constructor-arg name="mongoConverter" ref="mappingMongoConverter" />  
+	</bean>  
+   	
+   	<!-- MongoDB GridFS Template 支持，操作mongodb存放的文件 -->
+   	<mongo:mapping-converter id="converter" db-factory-ref="mongoDbFactory"/>
+	<bean id="gridFsTemplate" class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
+		<constructor-arg ref="mongoDbFactory"/>
+		<constructor-arg ref="converter"/>
+   	</bean>
+	<!-- 映射转换器，扫描back-package目录下的文件，根据注释，把它们作为mongodb的一个collection的映射 -->  
+	<mongo:mapping-converter base-package="com.peraglobal.km.mongo.model" />  
+    
+	<!-- mongodb bean的仓库目录，会自动扫描扩展了MongoRepository接口的接口进行注入 -->  
+	<mongo:repositories base-package="com.peraglobal.km.mongo.dao.impl" />
+	
+	<context:annotation-config />
+    
+</beans>    

@@ -1,0 +1,22 @@
+#override("hiddenInput")
+	<input type="hidden" id="id" name="id" value="$!{config.id}" />
+#end
+#override("formItem")
+	#trText('属性名称','config.name',true,'')
+	#trText('属性编码','config.code',true,'')
+	#trText('属性值','config.value',true,'')
+#end
+#override("inHeader")
+<script type="text/javascript">
+$(function(){
+	seajs.use(['framework/admin/saveGlobalConfig.js'], function(saveGlobal) {
+		//保存全局属性
+		 $(function(){
+	        //保存
+	        	saveGlobal.init();
+		 });
+	});
+});	
+</script>
+#end
+#extends("/template/editDialog.vm")

@@ -1,0 +1,23 @@
+#override("toolbarButton")
+    <a href="#" class="easyui-linkbutton" id="addCustomConfig" data-options="iconCls:'icon-new',plain:true">添加</a>
+    <a href="#" class="easyui-linkbutton" id="deleteCustomConfig" data-options="iconCls:'icon-del',plain:true">删除</a>
+#end
+#override("conditions")
+	<input id="search" type="text" class="txt" name="conditions['code-name'].value" value="输入配置名称或编码"/>
+#end
+
+#override("inHeader")
+<script type="text/javascript">
+    seajs.use(['framework/admin/globalList'], function(global) {
+        //先设置fit属性.后设置会报错
+        $(function(){
+        	global.init();
+        	var grid = global.gridLoad();
+         	grid.datagrid("toolbarPermission",{toolbarDel:true});
+        });
+        
+    });
+</script>
+#end
+
+#extends("/template/listDataGrid.vm")

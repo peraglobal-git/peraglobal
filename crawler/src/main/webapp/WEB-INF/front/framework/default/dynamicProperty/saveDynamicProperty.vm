@@ -1,0 +1,46 @@
+#override("form")
+		<div class="pad10" id="details_edit" data-options="region:'center'">
+			<form id="form" name="#" action="#" method="post">
+				<table class="forms">
+					<tbody>
+							<tr>
+					        <td class="right"><i class="require">*</i>实体类：</td>
+					        <td>
+					        <select id="modelClassName" name="modelClassName" >
+							#foreach($item in ${modelClassList})
+								<option value="$item.value" #if($newKey == $obj.moduleClassName) selected="selected" #end>$item.text</option>
+							#end
+							</select>目标实体
+							</td>
+					    </tr>
+						#trText('属性名称','obj.propertyName',true,'')
+						#trText('属性编码','obj.propertyCode',true,'请输入标准小驼峰式名称如‘columnName’最终会当做列名称')
+						#trSelectEnum('属性类型','obj.javaType','JavaTypeEnum',true,'属性值类型')
+						#trText('数据长度','obj.dataLength',true,'')
+						#trSelectEnum('编辑页显示','obj.isSaveShow','YesNoEnum',true,'该属性是否在实体编辑页面显示')
+						#trSelectEnum('列表页显示','obj.isListShow','YesNoEnum',true,'该属性是否在列表页面显示')
+						#trText('默认值','obj.defaultValue',false,'')
+						#trTextArea('备注','obj.remark',false,'')
+					</tbody>
+				</table>
+				<input type="hidden" id="id" name="id" value="$!{obj.id}" />
+			</form>
+		</div>
+#end
+#override("inHeader")
+<script type="text/javascript">
+	seajs.use(['framework/admin/saveDynamicProperty.js'], function(saveProperty) {
+		$(function(){
+			saveProperty.init();
+			var id = $("#id").val();
+			if(id){
+				$("#modelClassName").attr("disabled",true);
+				$("#propertyCode").attr("disabled",true);
+				$("#javaType").attr("disabled",true);
+				$("#defaultValue").attr("disabled",true);
+			}
+		});
+	});
+</script>
+#end
+#extends("/template/editDialog.vm")

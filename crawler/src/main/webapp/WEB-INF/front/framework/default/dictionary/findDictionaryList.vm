@@ -1,0 +1,35 @@
+#override("inHeader")
+<script type="text/javascript">
+seajs.use(['framework/admin/dictionary'], function(dic) {
+	$(function(){
+		dic.init("$!{CODE_UTIL.getGlobalConfigValue('dic_value_is_show')}");
+		var grid = dic.gridLoad();
+		dic.treeLoad(null,'../dictionary/findDictionaryJosnList.html',0);
+		grid.datagrid("toolbarPermission",{toolbarDel:true});
+	});
+});
+</script>
+#end
+#set($model='Dic')
+
+#override("rightmenus")
+
+<div id="treeRootMenu" class="easyui-menu" style="width:100px;">  
+    	<div id="add_treeNode" data-options="iconCls:'icon-add'">添加</div>
+    	<div id="edit_treeNode" data-options="iconCls:'icon-edit'">修改</div>
+    	<div id="del_treeNode" data-options="iconCls:'icon-del'">删除</div>
+</div>
+
+<div id="treeNodeMenu" class="easyui-menu" style="width:100px;">  
+    	<div id="edit_treeNode1" data-options="iconCls:'icon-edit'">修改</div>
+    	<div id="del_treeNode1" data-options="iconCls:'icon-del'">删除</div>
+</div>
+#end
+
+
+
+#override("conditions")
+	<input id="search" type="text" class="txt" name="conditions['dictionaryName'].value" value="输入字典名称">
+	<input type="hidden" id="parentId" name="conditions['parentId_eq'].value">
+#end
+#extends("/template/leftTreeCenterGrid.vm")

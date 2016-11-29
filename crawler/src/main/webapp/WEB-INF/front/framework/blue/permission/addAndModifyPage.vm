@@ -1,0 +1,19 @@
+#override("inHeader")
+<script type="text/javascript" src="$!{skinsPath}/public/easyui/easyui.combotree.js"></script>
+<script type="text/javascript">
+	seajs.use(['framework/admin/savePermission','../js/common/tree'], function(permission,tree2) {
+		permission.init();
+		//先设置fit属性.后设置会报错
+		//$("#js_layout").layout({fit:true});
+	});
+</script>
+#end
+#override("hiddenInput")
+<input type="hidden" name="id" id="id" value="$!{permission.id}"/>
+<input type="hidden" name="moduleId" id="moduleId" value="$!{permission.moduleId}"/>
+#end
+#override("formItem")
+	#trText('权限名称','permission.permissionName',true,'')
+	#trText('权限CODE','permission.permissionCode',true,'')
+#end
+#extends("/template/editDialog.vm")

@@ -1,0 +1,26 @@
+#override("point")
+<h1 style="text-align: center;">知识源详情</h1>
+ #end
+#override("hiddenInput")
+<input type="hidden" name="id" id="id" value="$!{id}"/>
+#end
+#override("formItem")
+		<tr class="left">
+			<td><span>知识源名称：</span></td>
+			<td><span >$!{name}</span></td>
+		</tr>
+		<tr class="left">
+			<td ><span>知识源类型：</span></td>
+			<td ><span >本地文件</span></td>
+		</tr>
+		<!-- <span>知识源名称：</span>
+		<span >$!{name}</span><br>
+		<span>知识源类型：</span>
+		<span>本地文件</span> -->
+#end
+#override("buttons")
+	       <ul class="lists rf">
+	              <li><button type="button" class="button" onclick="window.close();">关闭</button></li>
+	       </ul>
+#end
+#extends("/template/blue-km/editDialog.vm")

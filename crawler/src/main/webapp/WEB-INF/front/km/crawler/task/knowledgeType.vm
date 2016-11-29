@@ -1,0 +1,44 @@
+<script type="text/javascript"> 
+	seajs.use(['modules/km/js/taskGroup/knowledgeType'], function(main) {
+		$(function(){
+		});
+	});
+</script>
+<input type="hidden" name="knowledgeTypeName" id="knowledgeTypeName" value=""/>
+<input type="hidden" name="knowledgeModelName" id="knowledgeModelName" value=""/>
+<input type="hidden" name="systemName" id="systemName" value=""/>
+<tr>
+<td class="right">
+<i class="require">*</i>知识形态
+</td>
+<td>
+<select id="knowledgeType" name="knowledgeType" >
+<option value="0">请选择</option>
+#foreach($type in $typeList)
+	<option value="$!{type.id}">$!{type.name}</option>
+#end
+</select>
+</td>
+</tr>
+<tr>
+<td class="right">
+<i class="require">*</i>知识模板
+</td>
+<td>
+<select id="knowledgeModel" name="knowledgeModel" >
+<option value="0">请选择</option>
+</select>
+</td>
+</tr>
+<tr>
+<td class="right">
+<i class="require">*</i>存储系统
+</td>
+<td>
+<select id="system" name="system">
+<option value="0">请选择</option>
+<option value="KM">KM知识管理系统</option>
+<option value="CMS">CMS门户系统</option>
+</select>
+</td>
+</tr>

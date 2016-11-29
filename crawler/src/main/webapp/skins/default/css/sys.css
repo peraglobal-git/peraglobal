@@ -1,0 +1,86 @@
+ul.listsMenu li{float:none;display:block;text-indent:0em;border:1px solid #ffffff;border-bottom:none;height:24px;line-height:24px;color:#c65e02;}
+ul.listsMenu li.cur,ul.listsMenu li.hover{background:#fbebbf;}
+
+.accordion-header{border-width:1px 0;border-color:#fff #fff #aaa #fff;}
+.accordion{border-width:0;}
+.accordion .panel-header,.accordion .panel-body{border-width:1px 0px 0;}
+.accordion .panel{border-bottom:1px solid #aaa;}
+
+.datagrid .panel-header,.datagrid .panel-body{border-width:0px 0 1px 0;}
+.layout-expand_diy .panel-header,.layout-expand_diy .panel-body{border-width:0px;}
+/*.layout-split-south .panel-header,.layout-split-south  .panel-body{border-width:1px 0 0;}*/
+.datagridnob .datagrid  .panel-header,.datagridnob .datagrid .panel-body{border:none;}
+.platinfo{bottom:31px;*+bottom:33px;right:18px;height:26px;line-height:26px;_height:31px;_line-height:31px;left:0px;text-indent:1em;background:#fff;width:100%;border-top:1px solid #aaa;*+border-top-width:0;_border-bottom:1px solid #aaa;}
+ul.status li.last a:hover{padding-right:0px;}
+.rolelist .absolute,.funlist .absolute{right:0px;top:-3px;} 
+table.forms2 td{border-bottom:1px solid #e1e1e1;}
+.h22{height:22px;}
+.forms .yymmdd select{width:5em;}
+/*licence*/
+div.licence{padding:4px 0 0 20px;height:22px;}
+div.licence div.select{ width:420px; vertical-align: top;}
+div.licence div.select .txt{ width:390px;}
+
+.progress{width:80%;height:4px;border:1px solid #ccc;background:#fff;margin:0 auto;overflow:hidden;}
+.progress p{width:0;height:4px;background:#0088CC;overflow:hidden;}
+/*project manage*/
+.promng .datagrid-header{border:0;}
+.promng .datagrid td{border:0; text-indent:20px;}
+/*empower*/
+.empower .btns{text-align:center;}
+.empower .btns button{margin:0 10px;}
+.empower .datagrid-row-selected{background:none;}
+.empower .datagrid-row-over{background:#faf3e1;}
+/*guide*/
+ul.guide{width:311px;margin:10px auto;overflow:hidden;background:url(../images/css_img/guide_ul_bg.png) repeat-x;}
+ul.guide li{float:left;display:inline;background:url(../images/css_img/guide_li_bg.gif) no-repeat right center;}
+ul.guide li a{display:inline-block;padding:0 20px 0 10px;height:30px;line-height:30px;color:#333;font-size:14px; font-weight:bold; font-family:"微软雅黑", "宋体", "黑体";}
+ul.guide li.last{background:none;}
+ul.guide li.cur{background:url(../images/css_img/guide_cur_bg.png) repeat-x;}
+ul.guide li.cur a{color:#fff;background:url(../images/css_img/guide_arrow.gif) no-repeat right center;}
+ul.guide li.last a{background:none;}
+ul.guide li.prev a{ background:url(../images/css_img/guide_prev_bg.gif) no-repeat right top;}
+/*tbl*/
+table.tbl td a.l-btn-plain:hover{background:none;border:none;}
+/*workflow*/
+.workflow .box-n{height:50%;border-bottom:6px solid #e3e3e3;}
+.workflow .box-s{height:50%;}
+.workflow .box-n .side{height:100%;border-bottom:1px solid #bbb;background:#fff;}
+.workflow .box-s .side{height:100%;border-top:1px solid #bbb;background:#fff;}
+/*radio parent*/
+.radio{height:26px;padding:4px 0;line-height:26px;}
+/*tree*/
+.treemenu{padding:10px 0;}
+.treemenu li{height:24px;line-height:24px;}
+.tree-ico{url("easyui/tree_icons.png") no-repeat;}
+.tree-flow{background-position:0px 0px;}
+.tree-folderopen{background:url(../images/css_img/tree_icons.png) no-repeat -224px 0;}
+/*thumbnail*/
+.thumbnail{float:left;height:26px;}
+.thumbnail img{height:100%;}
+/*ul.lists100*/
+ul.listsrf li.rf{float:right;}
+ul.lists100 li{width:100px;}
+/*projm tree*/
+.selProf .tree-file{background:none;}
+.operate .datagrid-toolbar,.sys .datagrid-toolbar,.visit .datagrid-toolbar{line-height:20px;}
+/*datagrid tree  ico*/
+.roles .rolelist .tree-folder-open{background:url(../images/css_img/tree_icons.png) -288px -18px; }
+.roles .rolelist .tree-folder{background:url(../images/css_img/tree_icons.png) -288px -18px; }
+.roles .rolelist .tree-file{background:url(../images/css_img/tree_icons.png) -272px -18px; }
+.roles #datagrid-row-r1-2-2 .tree-folder-open{background:url(../images/css_img/tree_icons.png) -304px -18px; }
+.roles #datagrid-row-r1-2-2 .tree-folder{background:url(../images/css_img/tree_icons.png) -304px -18px; }
+.roles #datagrid-row-r1-2-3 .tree-folder-open{background:url(../images/css_img/tree_icons.png) -272px -18px; }
+.roles #datagrid-row-r1-2-3 .tree-folder{background:url(../images/css_img/tree_icons.png) -272px -38px; }
+.roles #datagrid-row-r2-2-2 .tree-folder-open{background:url(../images/css_img/tree_icons.png) -304px -18px; }
+.roles #datagrid-row-r2-2-2 .tree-folder{background:url(../images/css_img/tree_icons.png) -304px -18px; }
+.roles #datagrid-row-r2-2-3 .tree-folder-open{background:url(../images/css_img/tree_icons.png) -272px -18px; }
+.roles #datagrid-row-r2-2-3 .tree-folder{background:url(../images/css_img/tree_icons.png) -272px -38px; }
+.wrapperStep .tree-folder-open{background:url("../images/css_img/ico2.png") no-repeat 0 -298px;width:0;}
+.wrapperStep .tree-folder{background:url("../images/css_img/ico2.png") no-repeat 0 -298px;width:0;}
+.wrapperStep .tree-file{background:url("../images/css_img/ico2.png") no-repeat 0 -298px;width:0;}
+.wrapperProf .tree-folder-open{background:url("../images/css_img/ico2.png") no-repeat -200px -298px;width:0;}
+.wrapperProf .tree-folder{background:url("../images/css_img/ico2.png") no-repeat -200px -298px;width:0;}
+.wrapperProf .tree-file{background:url("../images/css_img/ico2.png") no-repeat -200px -298px;width:0;}
+
+

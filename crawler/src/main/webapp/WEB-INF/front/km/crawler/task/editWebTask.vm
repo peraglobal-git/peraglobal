@@ -1,0 +1,416 @@
+#override("point")
+<h1 style="text-align: center;"><!-- $!{pointDic} -->编辑采集</h1>
+#end
+#override("hiddenInput")
+<input type="hidden" name="id" id="id" value="$!{id}"/>
+<input type="hidden" name="oldname" id="oldname" value="$!{name}"/>
+<input type="hidden" name="sourceId" id="sourceId" value="$!{sourceId}">
+<div id="fullbg"></div>
+<div id="dialog">
+<p class="close"><a href="#" onclick="closeBg();">关闭</a></p>
+<div id="testContent"></div>
+</div>
+#end
+
+#override("formItem")
+
+<tr>
+	<td colspan="3"><hr/></td>
+</tr>
+<tr style="width:100%;">
+	<td class="right" width="120px" style="padding:0;margin:0;">
+		知识源：<i class="require">*</i>
+	</td>
+	<td style="width:100%" colspan="2">
+		<input type="text" class="txt" id="knowledgeSource" name="knowledgeSource" style="width:100%;" value="$!{sourceName}" class="readonly" readonly="readonly" style="width:100%"/>
+	</td>
+</tr>
+<tr>
+<td class="right">
+任务名称：<i class="require">*</i>
+</td>
+<td style="width:100%" colspan="2">
+<input id="name" name="name" type="text" class="txt" value="$!{name}"  #if($!jobstate==2 || $!jobstate==3) readonly="readonly" class="readonly" #end style="width:100%"/>
+</td>
+</tr>
+<!-- 
+<tr>
+<td class="right" >
+知识形态：<i class="require">*</i>
+</td>
+<td style="width:100%" colspan="2">
+<input type="text" style="width:100%;" class="txt" readonly="readonly" class="readonly" value="$!{knowledgeTypeName}" style="width:100%"/>
+</td>
+</tr>
+<tr>
+<td class="right">
+知识模板：<i class="require">*</i>
+</td>
+<td style="width:100%" colspan="2">
+<input type="text" style="width:100%;" class="txt" readonly="readonly" class="readonly" value="$!{knowledgeModelName}" style="width:100%"/>
+</td>
+</tr>
+<tr>
+<td class="right">
+存储系统：<i class="require">*</i>
+</td>
+<td style="width:100%" colspan="2">
+<input type="text" style="width:100%;" class="txt" readonly="readonly" class="readonly" value="$!{systemName}" style="width:100%"/>
+</td>
+</tr>
+ -->
+<tr>
+	<td colspan="3"><hr/></td>
+</tr>
+<tr style="padding:0px;">
+	<td colspan="2"><h3>网址规则</h3></td>
+	<td class="right"><a style= "cursor:pointer;" id="urlRule_a"><span id="urlRule_triangle" style="color:blue;">&#9660</span>展开收起</a><td>
+</tr>
+<tbody id="urlRule_div">
+	<tr>
+	<td class="right">
+	起始网址：<i class="require">*</i>
+	</td>
+	<td colspan="2">
+				<span style="color:#ccc;">以逗号分隔</span>
+				<textarea id="seed_url" name="seed_url" style="width:100%" #if($!jobstate==2) readonly="readonly" class="readonly" #end >$!{seedUrl}</textarea>
+			</td>
+	<td></td>
+	</tr>
+	<tr>
+		<td class="right">
+			列表网址规则：<i class="require">*</i>
+		</td>
+		<td style="width:100%;">
+			<input id="list_url" name="list_url" class="txt" type="text" value="$!{listUrl}" #if($!jobstate==2) readonly="readonly" class="readonly" #end  style="width:100%;"/>
+		</td>
+		<td class="right">
+			类型：<select name="list_rule_type" style="width:100px;"  #if($!jobstate==2)  disabled="disabled" #end>
+				<option value="regex">正则表达式</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="right">
+			列表页区域：&nbsp;&nbsp;&nbsp;&nbsp;
+		</td>
+		<td style="width:100%;">
+			<input id="list_content" name="list_content" type="hidden" value="listContent" />
+			<input id="list_content_Val" class="txt" name="list_content_Val" type="text" value="$!{list_content_Val}"  #if($!jobstate==2) readonly="readonly" class="readonly" #end  style="width:100%;"/>
+		</td>
+		<td class="right">
+			类型：<select id="list_content_type" name="list_content_type" #if($!jobstate==2)  disabled="disabled" #end  style="width:100px;">
+				<option value="xpath">XPATH</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="right">
+			详情网址规则：<i class="require">*</i>
+		</td>
+		<td style="width:100%;">
+			<input id="detail_url" class="txt" name="detail_url" type="text" value="$!{detailUrl}" #if($!jobstate==2) readonly="readonly" class="readonly" #end style="width:100%;"/>
+		</td>
+		<td class="right">
+			类型：<select id="detail_rule_type" name="detail_rule_type" style="width:100px;" #if($!jobstate==2)  disabled="disabled" #end >
+				<option value="regex">正则表达式</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="right">
+			分页规则：&nbsp;&nbsp;&nbsp;&nbsp;
+		</td>
+		<td style="width:100%;">
+			<input id="detail_more_url" class="txt" name="detail_more_url" type="text" value="$!{detailMoreUrl}"  #if($!jobstate==2) readonly="readonly" class="readonly" #end style="width:100%;"/>
+		</td>
+		<td class="right">类型：
+			<select id="detail_more_rule_type" name="detail_more_rule_type" style="width:100px;" #if($!jobstate==2) disabled="disabled" #end style="width:100%;">
+				<option value="regex">正则表达式</option>
+			</select>
+		</td>
+	</tr>
+</tbody>
+<tr>
+	<td colspan="3">
+		<hr/>
+	</td>
+</tr>
+<tr style="padding:0px;" class="contentTr">
+	<td colspan="2"><h3>内容规则</h3></td>
+	<td class="right"><a style= "cursor:pointer;" id="contentRule_a"><span id="contentRule_triangle" style="color:blue;">&#9660</span>展开收起</a><td>
+</tr>
+<tbody id="contentRule_div">
+<tr>
+		<td colspan="3">
+			<button id="addContent" class="button" type="button" #if($!jobstate==2) disabled="disabled" #end>增加一行</button>
+			<span >已设置<span id="filedcount">$!{detailRuleList.size()}</span>个采集字段
+		</td>
+	</tr>
+<tr>
+	<td colspan="3">
+			<table border="0" id="fieldstable" style="width:100%">
+				<tr>
+					<td>对应网页字段规则</td>
+					<td>规则</td>
+					<td>字段</td>
+					<td>操作</td>
+				</tr>
+				#foreach($detailRule in $detailRuleList)
+				#set($vcount=$velocityCount)
+				<tr>	
+					<td>
+						<input id="$!{vcount}_detail_content_Val" name="detail_content_Val" type="text" class="txt"  value="$!{detailRule.rule}" #if($!jobstate==2) readonly="readonly" class="readonly" #end/>
+					</td>
+					<td>
+						<select id="$!{vcount}_detail_content_type" name="detail_content_type" style="width:100px;" #if($!jobstate==2)  disabled="disabled" #end>
+							<option value="xpath" #if($!{detailRule.type} == "xpath") selected="selected" #end>XPATH</option>
+							<option value="regex" #if($!{detailRule.type} == "regex") selected="selected" #end>正则表达式</option>
+							<option value="css" #if($!{detailRule.type} == "css") selected="selected" #end>CSS</option>
+						</select>
+					</td>
+					<td>
+					#set($str=$detailRule.name.length() - 8)
+					#set($stru=$detailRule.name.length())
+					#set($strname=$detailRule.name)
+					#set($strm=$detailRule.name)
+					#if($stru>8)
+						#set($strm=$strm.substring($str,$stru))
+					#end
+					#if($strm=='INHERENT')
+						#foreach($prop in $properties)
+							#if($!{prop.PROP_ID}==$strname)
+								#set($strp=$prop.PROP_NAME.length() - 10)
+								#set($pNameY=$prop.PROP_NAME)
+								#set($pName=$pNameY.substring(0,$strp))
+								<input type="hidden" name="detail_content" id="$!{vcount}_detail_content" value="$!{prop.PROP_ID}" />
+								<input id="$!{vcount}_propName" name="propName" value="$!{pName}" style="border:none;width: 100px;"/>
+							#end
+						#end
+					#end
+					<input type="text" name="detail_content" id="$!{vcount}_detail_content" value="$!{detailRule.name}" class="txt" #if($!jobstate==2) readonly="readonly" class="readonly" #end/>
+					</td>
+					<td>
+						<input type="checkbox" id="$!{velocityCount}_rc" name="contentRuleCheck"  checked="checked"   #if($!jobstate==2) disabled="true" #end value="$!{velocityCount}"/>
+					</td>
+				</tr>
+				#end
+				<tr id="contentRuleCopy" style="display:block;">
+				</tr>
+			</table>
+		<!-- 
+		<div class="tdDiv tdDivR" id="attribute_div" >
+			<h3>当前知识模板的属性字段列表：</h3>
+			<table class="attributetable" style="border:solid 1px #ccc;"  id="attributetable_prop">
+					<tr><td width="60px" class="attributetd">通用属性</td><td class="attributetd">属性名</td></tr>
+						#foreach($prop in $inherentProp)
+							<tr><td class="attributetd"></td><td class="attributetd">$!{prop.PROP_NAME}</td></tr>
+						#end
+			</table>
+			<table class="attributetable" style="border:solid 1px #ccc;border-top: 0px;"  id="attributetable">
+				<tr><td width="60px" class="attributetd">扩展属性</td><td class="attributetd">属性名</td></tr>
+				#foreach($prop in $properties_model)
+					<tr><td class="attributetd"></td><td class="attributetd">$!{prop.PROP_NAME}</td></tr>
+				#end
+			</table>
+		</div>
+		 -->
+	</td>
+</tr>
+<tr style="padding:0px;">
+	<td colspan="3"><input type="checkbox" id="downloadAttachment" name="downloadAttachment" #if($!jobstate==2) disabled="disabled" #end #if($!{attachmentUrl}!='') checked="checked" #end/>是否下载附件</td>
+</tr>
+<tr>
+<td class="right">
+附件地址区域：
+</td>
+<td colspan="2">
+<input id="attachment_content" name="attachment_content" type="hidden" value="attachmentContent">
+<input id="attachment_content_Val" name="attachment_content_Val" type="text" class="txt"  value="$!{attachmentUrl}"  #if($!jobstate==2) readonly="readonly" class="readonly" #end #if($!{attachmentUrl}=='') disabled="disabled" #end/>
+类型：
+<select id="attachment_content_type" name="attachment_content_type" style="width:120px;" #if($!jobstate==2) disabled="disabled" #end #if($!{attachmentUrl}=='') disabled="disabled" #end>
+	<option value="xpath">XPATH</option>
+	<option value="regex">正则表达式</option>
+	<option value="css">CSS</option>
+</select>
+<!--
+<input type="button" name="del" value="删除"  #if($!jobstate==2) readonly="readonly" class="readonly" #end/>
+-->
+</td>
+</tr>
+</tbody>
+<tr><td colspan="3"><hr/></td></tr>
+<tr style="padding:0px;">
+		<td colspan="2">
+			<h3>附件抽取规则：<i class="require"><span style="font-size: 12px;">*若设置了下载附件，才可以设置抽取规则</span></i></h3>
+		</td>
+		<td class="right">
+			<a style= "cursor:pointer;" id="attachmentRule_a"><span id="attachmentRule_triangle" style="color:blue;">&#9660</span>展开收起</a>
+		<td>
+	</tr>
+<tbody id="attachmentRule_div">
+	<tr>
+		<td colspan="3">
+			&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="extractList" value="1" #foreach($list in $extractList) #if($!list==1) checked="checked" #end #end>文件分割&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="checkbox" name="extractList" value="2" #foreach($list in $extractList) #if($!list==2) checked="checked" #end #end>图片抽取&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="checkbox" name="extractList" value="3" #foreach($list in $extractList) #if($!list==3) checked="checked" #end #end>作者抽取&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="checkbox" name="extractList" value="4" #foreach($list in $extractList) #if($!list==4) checked="checked" #end #end>关键词抽取&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="checkbox" name="extractList" value="5" #foreach($list in $extractList) #if($!list==5) checked="checked" #end #end>摘要抽取
+		</td>
+	</tr>
+</tbody>
+<tr><td colspan="3"><hr/></td></tr>
+<tr style="padding:0px;">
+	<td colspan="2"><h3>高级设置</h3></td>
+	<td class="right">
+		<a style= "cursor:pointer;" id="advancedSetting_a"><span id="advancedSetting_triangle" style="color:blue;">&#9650</span>高级设置</a>
+	<td>
+</tr>
+<tbody id="advancedSetting_div" style="display: none;">
+<tr style="width:100%;padding:0px;">
+<td class="right">
+线程数量：<i class="require">*</i>
+</td>
+<td colspan="2">
+<input id="threadNum" name="threadNum" type="text" class="txt"  value="$!{attachProperty.threadNum}"  #if($!jobstate==2) readonly="readonly" class="readonly" #end/>
+</td>
+</tr>
+<tr>
+<td class="right">
+网站编码：&nbsp;&nbsp;&nbsp;&nbsp;
+</td>
+<td colspan="2">
+<select id="chartset" name="chartset"  #if($!jobstate==2) disabled="true" #end>
+	<option value="utf-8" #if($!{attachProperty.charSet}=="utf-8") selected="selected" #end>utf-8</option>
+	<option value="gb2312" #if($!{attachProperty.charSet}=="gb2312") selected="selected" #end>gb2312</option>
+</select>
+</td>
+</tr>
+#if($ipAddressPortList == "null")
+<tr>
+<td class="right">代理服务器：&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td colspan="2">
+<input id="ipAddress" name="ipAddress" type="text" class="txt"  value=""   #if($!jobstate==2) readonly="readonly" class="readonly" #end/>&nbsp;
+<input id="ipPort" name="ipPort" type="text" class="txt"  value=""   #if($!jobstate==2) readonly="readonly" class="readonly" #end/>&nbsp;
+<input type="button" name="add" value="增加"  #if($!jobstate==2) disabled="true" #end/>
+<input type="button" name="del" value="删除"  #if($!jobstate==2) disabled="true" #end/>
+</td>
+</tr>
+#else
+#foreach($ipAddressPort in $ipAddressPortList)
+<tr>
+<td class="right">代理服务器：&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td colspan="2">
+<input id="ipAddress" name="ipAddress" type="text" class="txt" value="$!{ipAddressPort[0]}" />&nbsp;
+<input id="ipPort" name="ipPort" type="text" class="txt"  value="$!{ipAddressPort[1]}" />&nbsp;
+<input type="button" name="add" value="增加" #if($!jobstate==2) disabled="true" #end/>
+<input type="button" name="del" value="删除" #if($!jobstate==2) disabled="true" #end/>
+</td>
+</tr>
+#end
+#end
+<tr>
+<td colspan="3">
+		#if($!checkbox_trigger==1)
+			#parse("km/crawler/task/editTaskTiming.vm")
+		#else
+			#parse("km/crawler/task/taskTiming.vm")
+		#end
+</td>
+</tr>
+</tbody>
+<tr height="50px"></tr>
+#end
+
+#override("buttons")
+<ul class="lists rf">
+	#if($!jobstate!=2)<li><button type="button" class="button" id="spiderTest">采集测试</button></li>#end
+	<li><button type="button" class="button" id="saveAndStart">立即采集</button></li>
+	<li><button type="submit" class="button" id="saveBtn">保存</button></li>
+    <li><button type="button" class="button" onclick="window.close();">取消</button></li>
+</ul>
+#end
+
+#override("inHeader")
+<style type="text/css">
+.attributetable{  
+    border: 1px solid black;
+    width: 100%;  
+    border-collapse:collapse;  
+}  
+.attributetd{  
+    border: 1px solid black;  
+}  
+.readonly {
+	background-color:#fff;
+	color:#ccc;
+	border:1px solid #ccc;
+	padding:1px;
+}
+#fullbg {
+background-color:gray;
+left:0;
+opacity:0.5;
+position:absolute;
+top:0;
+z-index:3;
+filter:alpha(opacity=50);
+-moz-opacity:0.5;
+-khtml-opacity:0.5;
+}
+#dialog {
+background-color:#fff;
+border:5px solid rgba(0,0,0, 0.4);
+height:400px;
+left:50%;
+margin:-200px 0 0 -200px;
+padding:1px;
+position:fixed !important; /* 浮动对话框 */
+position:absolute;
+top:50%;
+width:500px;
+z-index:5;
+border-radius:5px;
+display:none;
+overflow:auto;
+}
+#dialog p {
+margin:0 0 12px;
+height:24px;
+line-height:24px;
+background:#CCCCCC;
+}
+#dialog p.close {
+text-align:right;
+padding-right:10px;
+}
+#dialog p.close a {
+color:#fff;
+text-decoration:none;
+} 
+</style>
+<script src="../static/framework/js/validate_plugin_m.js" type="text/javascript"></script>
+<script src="../static/public/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script type="text/javascript">
+	seajs.use(['modules/km/js/taskGroup/saveWebTask'], function(main) {
+		$(function(){
+			main.init({
+					groupId:'$!{sourceId}',
+					oldname:'$!{name}',
+					kmProperties:'$!{properties}',
+					ruleArrayLength:'$!{ruleArrayLength}'
+			});
+		});
+	});
+</script>
+
+
+
+<script type="text/javascript"> 
+	seajs.use(['modules/km/js/taskGroup/taskTiming'], function(main) {
+	});
+</script>
+
+ 
+#end
+#extends("/template/blue-km/editDialog.vm")

@@ -1,0 +1,187 @@
+#override("list")
+	
+	<div id="globalConfigTabs" class="easyui-tabs" data-options="fit:true" style="overflow:hidden;"> 
+	<div title="基本配置" data-options="closable:false" id="config" style="padding:20px;"> 
+   		   <form id="basicForm" name="#" action="#" method="post">
+				<table class="forms">
+						    	<tbody>
+					<tr>
+						<td style="width:100px;"  class="right">
+							登陆失败次数锁定设置：</td><td><input type="text" class="txtw" name="configList[5].value" value="$!{count.value}"/>
+							<input type="hidden" name="configList[5].name" value="登陆失败次数锁定设置" />
+							<input type="hidden" name="configList[5].code" value="fail_login_count" />
+						</td>
+					</tr>
+					<tr>
+						<td style="width:100px;"  class="right">
+							默认首页：</td><td><select id="configList[0].value" name="configList[0].value" style="width:240px;" value="$!{default.value}">
+								<option value=""></option>
+								#foreach($m in $moduleList)
+								<option value="$!{m.id}" #if($default.value==$m.id) selected="selected" #end>$m.moduleName</option>
+								#end
+								
+							</select> 
+							<input type="hidden" name="configList[0].name" value="默认首页" />
+							<input type="hidden" name="configList[0].code" value="default_index_page" />
+						</td>
+					</tr>
+					<tr>
+						<td style="width:100px;"  class="right">
+							背景图片：</td><td><input type="file" name="file" id="backFile" class="txtw"/> <b>最佳比例：565*257</b>
+						<input type="hidden" name="configList[6].value" id="backModuleFilePath"/>
+						<input type="hidden" name="configList[6].name" value="背景图片"/>
+						<input type="hidden" name="configList[6].code" value="login_background_img"/>
+						
+<!-- 						<input type="hidden" name="" id="iconAttachmentId" value="$!{module.iconAttachmentId}"/>
+ -->						</td>
+					</tr>
+					<tr>
+						<td style="width:100px;" class="right">
+							页面LOGO：</td><td><input type="file" name="file" id="logoFile" class="txtw"/> <b>最佳比例：240*40</b>
+		<input type="hidden" name="configList[7].value" id="logoModuleFilePath"/>
+						<input type="hidden" name="configList[7].name" value="LOGO图片"/>
+						<input type="hidden" name="configList[7].code" value="system_logo_img"/>
+						</td>
+					</tr>
+					<tr>
+						<td style="width:100px;"  class="right">
+							系统名称：</td><td><input type="text" class="txtw" name="configList[1].value" value="$!{system.value}"/>
+							<input type="hidden" name="configList[1].name" value="系统名称" />
+							<input type="hidden" name="configList[1].code" value="system_name" />
+						</td>
+					</tr>
+					<tr>
+						<td style="width:100px;"  class="right">
+							字典值列是否显示：</td><td><input type="radio" value="true"  name="configList[2].value" #if($dic.value=='true') checked="checked" #end  />是
+										<input type="radio" value="false"  name="configList[2].value" #if($dic.value=='false') checked="checked" #end/>否
+							<input type="hidden" name="configList[2].name" value="字典值列是否显示" />
+							<input type="hidden" name="configList[2].code" value="dic_value_is_show" />
+						</td>
+					</tr>
+					<tr>
+						<td style="width:100px;" class="right">
+							重置密码发送邮件：</td><td><input type="radio" value="true"  name="configList[3].value" #if($redis.value=='true') checked="checked" #end/>是
+										<input type="radio" value="false"  name="configList[3].value" #if($redis.value=='false') checked="checked" #end/>否
+							<input type="hidden" name="configList[3].name" value="重置密码发送邮件" />
+							<input type="hidden" name="configList[3].code" value="reset_pass_disabled_no_closed" />
+						</td>
+					</tr>
+					<tr>
+						<td style="width:100px;"  class="right">
+							重置密码设置方式：</td><td><select name="configList[4].value" value="$!{reset.value}">
+										<option value="" ></option>
+										<option value="1" #if($reset.value=="1") selected="selected" #end>随机字符串</option>
+										<option value="2" #if($reset.value=="2") selected="selected" #end>固定密码</option>
+										<option value="3" #if($reset.value=="3") selected="selected" #end>用户名</option>
+									  </select>
+							<input type="hidden" name="configList[4].name" value="重置密码设置方式" />
+							<input type="hidden" name="configList[4].code" value="reset_pass_set_type" />
+						</td>
+					</tr>
+				</tbody>
+				</table>
+				</form>
+						 <ul class="lists" style="text-align: center;">
+             	 <li><button type="button" class="button" id="basicButton">保存</button></li>
+      		 </ul>   		  
+			</div>
+			    <div title="邮件服务器配置" class="pad10"  id="mail" data-options="region:'center'" style="overflow: auto;">   
+		    	<form id="mail_form" name="#" action="#" method="post">
+		    	<table class="forms"> 
+		    	<tbody>
+		        	<tr id="$!{mail.code}_tr">
+			        	<td class="right"><label>$!{mail.name}：</label></td>
+			        	<td>
+			        	<input type="hidden" name="mailId" value="$!{mail.id}"/>
+			        	<input type="hidden" name="mailIsValueChangeEvent" value="$!{mail.isValueChangeEvent}"/>
+			        	<input type="hidden" name="mailCode" value="$!{mail.code}"/>
+			        	#if($mail.type=='text')
+			        		<input type="text" name="mailValue" value="$!{mail.value}"/>
+			        	#else
+			        		<input type="hidden" id="$!{mail.code}_hidden" name="mailValue" value="$!{mail.value}"/>
+			        		<input type="checkbox" id="$!{mail.code}" #if($mail.value=='true') checked="checked" #end />
+			        	#end
+			        	</td>
+		        	</tr>
+		        	#foreach($mc in $mailList)
+		        	#set($index = ${velocityCount} - 1)
+		        	<tr id="$!{mc.code}_tr">
+		        	<td style="width:100px;" class="right"><label>$mc.name：</label></td>
+		    			<td>
+		    				<input id="$!{mc.code}"  #if($mc.type=='text') type="text" class="txtw" 
+		    										 #else if($mc.type='password') type="password" class="txtw"
+		    										 #end
+		    				name="configList[$!{index}].value" value="$!{mc.value}" #if($mail.value=='false')  readonly="true" #end  />
+		    				<input type='hidden' name="configList[$!{index}].name" value="$!{mc.name}"/>
+		    				<input type='hidden' name="configList[$!{index}].code" value="$!{mc.code}"/>
+		        		</td>
+		        	</tr>
+		        	#end
+		       		 </tbody>
+		    	</table>
+		    	</form>
+		    	 <ul class="lists" style="text-align: center;">
+             	 <li><button type="button" class="button" id="saveBtnMail"  >保存</button></li>
+      		 </ul>
+		    </div>
+		    <div title="域服务器配置" data-options="closable:false" id="service" style="padding:20px;">   
+		    	<form id="service_form" name="#" action="#" method="post">
+		    	<table class="forms">
+		        	<tr id="$!{service.code}_tr">
+			        	<td style="width:100px;" class="right"><label>$!{service.name}：</label></td>
+			        	<td>
+			        	<input type="hidden" name="serviceId" value="$!{service.id}"/>
+			        	<input type="hidden" name="serviceIsValueChangeEvent" value="$!{service.isValueChangeEvent}"/>
+			        	<input type="hidden" name="serviceCode" value="$!{service.code}"/>
+			        	#if($service.type=='text')
+			        		<input type="text" name="serviceValue" value="$!{service.value}"/>
+			        	#else
+			        		<input type="hidden" id="$!{service.code}_hidden" name="serviceValue" value="$!{service.value}"/>
+			        		<input type="checkbox" id="$!{service.code}" #if($service.value=='true') checked="checked" #end  />
+			        	#end
+			        	</td>
+		        	</tr>
+		        	#foreach($sc in $serviceList)
+		        	#set($index = ${velocityCount} - 1)
+		        	<tr id="$!{sc.code}_tr">
+		        	<td style="width:100px;" class="right"><label>$sc.name：</label></td>
+		    			<td>
+		    				<input id="$!{sc.code}"  #if($sc.type=='text') type="text" class="txtw" 
+		    										 #else if($sc.type='password') type="password" class="txtw"
+		    										 #end
+		    				name="configList[$!{index}].value" value="$!{sc.value}" #if($service.value=='false')  readonly="true" #end  />
+		    				<input type='hidden' name="configList[$!{index}].name" value="$!{sc.name}"/>
+		    				<input type='hidden' name="configList[$!{index}].code" value="$!{sc.code}"/>
+		        		</td>
+		        	</tr>
+		        	#end
+		    	</table>
+		    	
+		    	</form>
+		    	 <ul class="lists" style="text-align: center;">
+             	 <li><button type="button" class="button" id="saveBtnAd"  >保存</button></li>
+      		 </ul>
+		    </div>  
+		    <div title="自定义参数配置" data-options="closable:false" id="configListTabs" style="overflow:hidden;"> 
+				<iframe name="frameright" id="frame_config" height="100%" width="100%" frameborder="0" scrolling="no" llowtransparency="true"></iframe>
+		    </div> 
+</div>
+
+#end
+
+#override("inHeader")
+
+<script src="../js/handlebars-v3.0.3.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="$SERVER_CONTEXT/js/jquery.form.js"></script>
+<script src="../js/Easyui_Extend/datagrid/editorAddAndRemovePlugin.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript">
+$(function(){
+	seajs.use(['framework/admin/globalConfig'], function(global) {
+		global.init() ;
+		global.selectTab("$!{moduleCode}");
+	});			
+});
+</script>
+#end
+#extends("/template/listDataGrid.vm")

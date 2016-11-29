@@ -1,0 +1,30 @@
+#override("formItem")
+	#trText('导航名称','module.moduleName',true,'')
+	#trText('页面地址','module.path',true,'')
+	#trSelectEnum('状态','module.status','Status',true)
+	#trSelectEnum('是否需要授权','module.isPermission','YesNoEnum',true)
+	#trSelectEnum('是否需要刷新','module.isCanRefresh','YesNoEnum',true)
+	#trSelectEnum('打开新窗口','module.isOpenWin','YesNoEnum',false)
+	<tr>
+	 	<td class="right">图标：</td>
+		<td><input type="file" name="file" style="border: none;"/>#if($!module.iconAttachmentId)<img src="$SERVER_CONTEXT/attachment/download.html?id=$!{module.iconAttachmentId}" style="width:50px;height:50px;"/> #end
+		<div><b>最佳比例：20*18</b></div> 
+		</td>
+	</tr>
+#end
+#override("hiddenInput")
+	<input type="hidden" name="filePath" id="moduleFilePath"/>
+	<input type="hidden" name="iconAttachmentId" value="$!{module.iconAttachmentId}"/>
+	<input type="hidden" name="isCanDelete" value="$!{module.isCanDelete}"/>
+#end
+#override("inHeader")
+<script type="text/javascript" src="../static/public/jquery.form.js"></script>
+<script type="text/javascript">
+		seajs.use(['framework/admin/saveModule'], function(module) {
+			$(function(){
+				module.init({id:'$!{module.id}',pid:'$!{module.parentId}'});
+			});
+		});
+</script>
+#end
+#extends("/template/editDialog.vm")

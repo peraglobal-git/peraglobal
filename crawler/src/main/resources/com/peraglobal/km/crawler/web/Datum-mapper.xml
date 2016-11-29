@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peraglobal.km.crawler.web.dao.DatumDao">
+	
+	<!-- 通过Url获取数据  by井晓丹 2016-1-8-->
+	<select id="getDatumByUrl" parameterType="map" resultType="com.peraglobal.km.crawler.web.model.Datum">
+		select * from Datum  where 1=1 
+		<!-- Oracle -->
+		<!-- 
+		<if test="url!=null and url!=''">
+			and url like '%'||#{url}||'%'
+		</if>
+		 -->
+		 <!-- Mysql -->
+		 <if test="url!=null and url!=''">
+			and url like CONCAT('%',#{url},'%')
+		</if>
+		<if test="taskId!=null and taskId!=''">
+			 and taskId=#{taskId}
+		</if>
+	</select>
+	<!-- 根据PK获取Datum by井晓丹 2016-1-8-->
+	<select id="getDatumByPK" parameterType="map" resultType="com.peraglobal.km.crawler.web.model.Datum">
+		select * from Datum  where 1=1
+		<if test="dbPk!=null and dbPk!=''">
+			and dbPk=#{dbPk}
+		</if>
+			<if test="taskId!=null and taskId!=''">
+			and taskId=#{taskId}
+		</if>
+	</select>
+	<!--查询采集数量 -->
+	<select id="numberOfQueriesToCollect" parameterType="map" resultType="int">
+		select count(*) from datum where taskId=<if test="id!=null and id!=''">#{id}</if>
+	</select>
+	<!--删除采集数据 -->
+	<delete id="delDatumByids" parameterType="list">
+		delete from datum 
+		<where>
+			taskId in 
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+	</delete>
+	<!--根据taskId查询数据总数-->
+	<select id="queryTaskDataCountBytaskId" parameterType="map" resultType="int">
+		select count(*) from DATUM t where t.taskId= <if test="taskId!=null and taskId!=''">#{taskId}</if>
+	</select>
+</mapper>

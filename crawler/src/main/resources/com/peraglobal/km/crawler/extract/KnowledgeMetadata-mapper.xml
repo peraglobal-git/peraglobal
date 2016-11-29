@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peraglobal.km.crawler.extract.dao.KnowledgeMetadataDao">
+	
+	<!-- 通过Md5获取数据  by井晓丹 2016-3-15-->
+	<select id="getKnowledgeMetadataByMd5" parameterType="map" resultType="com.peraglobal.km.crawler.extract.model.KnowledgeMetadata">
+		select * from KnowledgeMetadata  where 1=1 
+		<if test="md5!=null and md5!=''">
+			and md5=#{md5}
+		</if>
+		<if test="taskId!=null and taskId!=''">
+			 and taskId=#{taskId}
+		</if>
+	</select>
+	
+	<!--查询转换数量 -->
+	<select id="queryExtractNumberBytaskId" parameterType="map" resultType="int">
+		select count(*) from knowledgemetadata where taskId=
+		<if test="taskId!=null and taskId!=''">
+			#{taskId}
+		</if>
+	</select>
+	<!--删除转换数据-->
+	<delete id="deleteConvertDataByList" parameterType="map">
+		delete knowledgemetadata where taskId in
+		<foreach collection="list" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<!-- 通过DatumId获取数据  by井晓丹 2016-5-4-->
+	<select id="getKnowledgeMdByDatumId" parameterType="map" resultType="com.peraglobal.km.crawler.extract.model.KnowledgeMetadata">
+		select * from KnowledgeMetadata  where 1=1 
+		<if test="datumId!=null and datumId!=''">
+			 and datumId=#{datumId} 
+		</if>
+		<if test="taskId!=null and taskId!=''">
+			 and taskId=#{taskId}
+		</if>
+	</select>
+	<!--修改传输成功标识 -->
+	<update id="updateKnowledgeMdTransferSucess" parameterType="java.util.List">
+		 update KnowledgeMetadata 
+         <set>
+            transferFlag='1' 
+         </set>
+         <where>
+			id in
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+	</update>
+	<!--修改传输失败标识 -->
+	<update id="updateKnowledgeMdTransferFailed" parameterType="java.util.List">
+		 update KnowledgeMetadata 
+         <set>
+            transferFlag='2' 
+         </set>
+         <where>
+			id in
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+	</update>
+</mapper>

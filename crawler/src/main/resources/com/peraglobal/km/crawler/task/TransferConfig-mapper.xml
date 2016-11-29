@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peraglobal.km.crawler.task.dao.TransferConfigDao">
+	<!--根据taskId查询 -->
+	<select id="findByTaskId" parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TransferConfig">
+		select * from TransferConfig where taskId = 
+		<if test="taskId!=null and taskId!=''">#{taskId}</if>
+	</select>
+	<!--删除任务规则 -->
+	<delete id="delConfigByTaskIds" parameterType="list">
+		delete from TransferConfig 
+		<where>
+			taskId in 
+			<foreach collection="list" item="item" open="("  separator="," close=")" >
+				#{item}
+			</foreach>
+		</where>
+	</delete>
+</mapper>

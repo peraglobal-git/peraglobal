@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8"/>
+  		<title>软件工程管理系统</title>
+  		#parse("../../common/common.vm")
+  		<link href="$skinsPath/blue/css/login.css" rel="stylesheet">
+		<!-- <link href="$skinsPath/blue/css/common.css" rel="stylesheet">
+		<link href="$skinsPath/blue/css/login.css" rel="stylesheet">
+		<link rel="shortcut icon" href="$skinsPath/blue/img/favicon.png" type="image/x-icon" />
+   		<link rel="bookmark" href="$skinsPath/blue/img/favicon.png">
+   		<script type="text/javascript" src="../js/jquery.min.js" charset="utf-8"></script>
+		<script type="text/javascript" src="$skinsPath/blue/js/common.js" charset="utf-8"></script> -->
+		<script type="text/javascript">
+			jQuery(function($){
+ 				if(window.top!=window.self){
+					window.top.location.href="$SERVER_CONTEXT/";
+				}
+				$("#submitButton").bind("click",function (){
+					var username = $("#username").val();
+					if(username.length == 0){
+						$("#info").html("用户名不能为空。");
+						return false;
+					}
+					var userPwd = $("#password").val();
+					if(userPwd.length == 0){
+						$("#info").html("用户密码不能为空。");
+						return false;
+					}
+					$("#submitButton").submit();
+				});
+				var mes = "$!{message}";
+		 		if(mes != "null" && mes != "") {
+		 			$("#info").html(mes);
+		 		}
+		 		 //登录页js拿出来了！
+				$('#username').on('keydown', function(){
+				   var $this = $(this);
+				   $this.siblings('span').show();
+				});
+				$('li.li_user span').on('click',function(){
+				   $('#username').val('');
+				});
+				$('#password').on('focus', function(){
+				   var $this = $(this);
+				   $this.val('');
+				   $this.siblings('li span').hide();
+				});
+		 		$("#m_li div").on('click',function(){
+		 		      var $this = $(this);
+		 		      $this.addClass('active').siblings().removeClass('active');
+		 		});
+			});
+		</script>	
+	</head>
+	<body>
+		<div class="wrap">
+		   <img class="login_bg" src="$skinsPath/blue/img/login_bg.jpg" alt="">
+		   <div class="login">
+			<form method="post" action="$SERVER_CONTEXT/login/login.html" name="form1" class="m_form">
+		      <ul>
+		         <li class="logo"><img src="$skinsPath/blue/img/login_logo.png" alt="">软件工程管理系统</li>
+		         <li class="li_user"><input type="text" name="username" id="username"><img src="$skinsPath/blue/img/login-user.png" alt=""><span></span></li>
+		         <li class="li_psw"><input type="password" value="" name="password" id="password"><img src="$skinsPath/blue/img/login-psw.png" alt=""></li>
+		         <li id="m_li">
+		            <div class="index_login active">首页</div>
+		            <div class="self_login">个人工作台</div>
+		         </li>
+		         <li>
+		            <button type="submit" id="submitButton">登 录</button>
+		         </li>
+		         <li>
+		         	<div id="info"></div>
+		         </li>
+		      </ul>
+		      
+			</form>
+		      <div class="copy">版本所有&copy安世亚太科技股份有限公司</div>
+		   </div>
+		</div>
+	</body>
+</html>

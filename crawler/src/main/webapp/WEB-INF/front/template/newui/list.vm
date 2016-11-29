@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>#block("title")#end</title>
+#include("../../common/newcommon.vm")
+<script type="text/javascript">
+var SERVER_CONTEXT = "$SERVER_CONTEXT";
+</script>
+#block("inHeader")
+#end
+</head>
+
+<body>
+#block("body")
+
+#end
+<script type="text/javascript" src="$SERVER_CONTEXT/newui/js/common.js"></script>
+#block("afterScript")
+#end
+</body>
+</html>

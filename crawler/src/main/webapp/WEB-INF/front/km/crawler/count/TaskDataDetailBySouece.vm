@@ -1,0 +1,15 @@
+#override("inHeader")
+<script type="text/javascript">
+seajs.use(['modules/km/js/count/dataDetail'], function(dic) {
+	$(function(){
+		dic.init();
+		var grid = dic.gridLoad("$!{sourceId}");
+		//grid.datagrid("toolbarPermission",{toolbarDel:true});
+		//dic.initButtonEvent();
+	});
+});
+
+</script>
+#end
+
+#extends("/template/blue-km/listDataGrid.vm")

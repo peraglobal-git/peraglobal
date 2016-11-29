@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>
+	#block("title")
+	文件上传
+	#end
+</title>
+	#include("../../common/common.vm")
+	#block("inHeader")
+	#end
+</head>
+<body>
+		<div class="pad10" id="details_edit" data-options="region:'center'">
+		#block("form")
+			<form id="form" method="post" enctype="multipart/form-data">
+				#block("hiddenInput")
+				
+				#end
+				<table class="forms">
+					<tbody>
+				    #block("formItem")
+                       <tr>
+					        <td class="right"><i class="require">*</i>选择文件：</td>
+							<td>
+							    <input type="file" style="width: 385px" name="uploadFile" id="uploadFile">
+						    </td>
+						</tr>
+				    #end
+				    </tbody>
+				</table>
+			</form>
+			#end
+    </div>
+#block("buttons")
+<ul class="lists rf">
+       <li><button type="button" class="button" id="uploadBtn">上传</button></li>
+       <li><button type="button" class="button" onclick="art.dialog.close();">取消</button></li>
+</ul>
+#end
+</body>
+</html>
+

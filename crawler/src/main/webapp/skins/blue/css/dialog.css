@@ -1,0 +1,167 @@
+h1{margin-bottom: 0px;font-size: 1em;}
+b{font-weight: bolder;}
+p{text-indent: 0em;}
+body{background-color: #fff;}
+/*标题*/
+.aui_title {
+    height: 40px;
+    line-height: 40px;
+    background-color: #0066cc;
+    color: #fff;
+    /* background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#edf5f8), to(#bdc6cd)); */
+    filter: none;
+    font-size: 16px;
+    font-weight: bold;
+    text-indent: 1em;
+}
+.aui_close {
+    right: 10px;
+    top: 6px;
+    font-size: 21px;
+    color: #fff;
+}
+table.forms {
+    width: 100%;
+}
+table.forms .left {
+    padding-left: 1em;
+    text-align: left;
+    width: 100%;
+}
+table.forms td {
+    color: #000000;
+    padding: 5px;
+    text-align: left;
+    font-family: "微软雅黑";
+}
+table.forms .right {
+    color: #333;
+    text-align: right;
+    white-space: nowrap;
+}
+.require {
+    color: #f00;
+    padding-left: 5px;
+    padding-right: 5px;
+    position: relative;
+    top: 3px;
+}
+button.plusNew{
+    display: block;
+    height: 21px;
+    width: 21px;
+    font-size: 16px;
+}
+div.combo-panel{
+    border: 1px solid #dcdcdc !important;
+    border-bottom: none;
+}
+.easyui-numberbox{
+    width: 50px;
+}
+/* 输入框 */
+
+table.forms select,
+table.forms input[type="text"],
+table.forms input[type="password"]{
+    height: 30px;
+    padding: 4px 0;
+    width: 238px;
+}
+table.forms input.combo-text {
+    background: none;
+}
+/*table.forms input[type="checkbox"],
+table.forms input[type="radio"]{
+    width: 15px;
+    height: 15px;
+}*/
+input.txtwc{
+    width: 30px;
+}
+input.error {
+    border: 1px dotted red;
+}
+table.forms select.sltqf {
+    height: 30px;
+    width: 50px;
+}
+form.cmxform label.error, label.error {
+	display: block;
+    visibility: visible;
+    color: red;
+    padding-left: 5px;
+}
+table.forms textarea{
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: #fff url("easyui/txt_bg.png") no-repeat;
+    background-position: -2px 0;
+    font: 12px/22px arial;
+    height: 100px;
+    outline: medium none;
+    padding: 5px;
+    width: 226px;
+}
+/*树结构*/
+.tree-node,
+.tree-title{
+    height: 30px !important;
+    line-height: 30px !important;
+    color: #333;
+}
+.tree-expanded, 
+.tree-collapsed, 
+.tree-folder, 
+.tree-file, 
+.tree-checkbox, 
+.tree-indent {
+	margin-top: 5px !important;
+}
+.tree-expanded {
+    background: url("easyui/tree_icons.png") no-repeat;
+    background-position: -18px 0px;
+}
+
+.tree-collapsed {
+    background: url("easyui/tree_icons.png") no-repeat;
+    background-position: -0px 0px;
+}
+.tree-collapsed-hover {
+    background: url("easyui/tree_icons.png") no-repeat;
+    background-position: -32px 0px;
+}
+.tree-file {
+    background: url("easyui/tree_icons.png") no-repeat;
+    background-position: -240px 0px;
+}
+.tree-folder {
+    background: url("easyui/tree_icons.png") no-repeat;
+    background-position: -208px 0px;
+}
+.tree-folder-open {
+    background: url("easyui/tree_icons.png") no-repeat;
+    background-position: -224px 0px;
+}
+.tree-checkbox0 {
+    background: url("easyui/tree_icons.png") no-repeat;
+    background-position: -208px -18px;
+}
+.tree-checkbox1 {
+    background: url("easyui/tree_icons.png") no-repeat;
+    background-position: -224px -18px;
+}
+.qtip:not(.ie9haxors) div.qtip-content, 
+.qtip:not(.ie9haxors) div.qtip-titlebar {
+    filter: none;
+}
+.qtip-content {
+    overflow: hidden;
+    padding: 5px 9px;
+    position: relative;
+    text-align: left;
+    word-wrap: break-word;
+}
+

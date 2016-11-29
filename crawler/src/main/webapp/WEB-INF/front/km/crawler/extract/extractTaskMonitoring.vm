@@ -1,0 +1,215 @@
+#override("inHeader")
+<input type="hidden" name="jobType" id="jobType" value="$!{jobType}"/>
+<input type="hidden" name="id" id="id" value="$!{id}"/>
+<input type="hidden" name="state" id="state" value="$!{state}"/>
+<input type="hidden" name="ruleContent" id="ruleContent" value="$!{ruleContent}"/>
+<input type="hidden" name="automatic" id="automatic" value="$!{automatic}"/>
+
+<script type="text/javascript">
+seajs.use(['modules/km/js/extract/extractTaskMonitoring'], function(dic) {
+	$(function(){
+		dic.info();
+		var grid = dic.gridLoad("$!{id}");
+		var grid2 = dic.gridLoad2("$!{id}");
+		dic.dataFilter("$!{id}");
+		//grid.datagrid("toolbarPermission",{toolbarDel:true});
+	});
+});
+</script>
+<style>
+	#fullbg {
+		background-color:gray;
+		left:0;
+		opacity:0.5;
+		position:absolute;
+		top:0;
+		z-index:3;
+		filter:alpha(opacity=50);
+		-moz-opacity:0.5;
+		-khtml-opacity:0.5;
+	}
+	#dialog {
+		background-color:#fff;
+		border:5px solid rgba(0,0,0, 0.4);
+		height:400px;
+		left:50%;
+		margin:-200px 0 0 -200px;
+		padding:1px;
+		position:fixed !important; /* 浮动对话框 */
+		position:absolute;
+		top:50%;
+		width:500px;
+		z-index:5;
+		border-radius:5px;
+		display:none;
+		overflow:auto;
+	}
+	#dialog p {
+		margin:0 0 12px;
+		height:24px;
+		line-height:24px;
+		background:#CCCCCC;
+	}
+	#dialog p.close {
+		text-align:right;
+		padding-right:10px;
+	}
+	#dialog p.close a {
+		color:#fff;
+		text-decoration:none;
+	} 
+</style>
+#end
+#override("taskMonitoring")
+<tr>
+	<td class="right">
+		<strong>任务名称：</strong>
+	</td>
+	<td>
+		<input id="name" name="name" type="text" value="$!{name}" style="width:400px; border-style:none;background-color:#FFFFFF" disabled=true>
+		<br/>
+		<br/>
+	</td>
+</tr>
+<tr>
+	<td class="right">
+		<strong>知识模板：</strong>
+	</td>
+	<td>
+		<input id="temp1" name="temp1" type="text" value="数据类模板1" style="width:400px; border-style:none;background-color:#FFFFFF" disabled=true>
+		<br/>
+		<br/>
+	</td>
+</tr>
+<tr>
+	<td class="right">
+		<strong>任务状态：</strong>
+	</td>
+	<td>
+		<input id="cjState" name="cjState" type="text" value="" style="width:100px; border-style:none;background-color:#FFFFFF" disabled=true>
+		<br/>
+		<br/>
+	</td>
+</tr>
+<tr>
+	<td class="right">
+		<strong>定时任务：</strong>
+	</td>
+	<td>
+		<input id="job" name="job" type="text" value="" style="width:200px; border-style:none;background-color:#FFFFFF" disabled=true>
+		<br/>
+		<br/>
+		<br/>
+	</td>
+</tr>
+<tr>
+	<td class="right">
+		<strong>转换信息：</strong>
+	</td>
+	<td>
+		<input id="info" name="info" type="text"  value="" style="width:700px; border-style:none;background-color:#FFFFFF" disabled=true title="$!{ruleContent}">
+		<br/>
+		<br/>
+		<br/>
+	</td>
+</tr>
+<tr>
+	<td>
+		<tr>
+			<td class="right">
+				<strong>采集数据量：</strong>
+			</td>
+			<td>
+				0
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+			<td class="right">
+				<strong>有附件的数据量：</strong>
+			</td>
+			<td>
+				0
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+			<td class="right">
+				<strong>附件数：</strong>
+			</td>
+			<td>
+				0
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+		</tr>
+	</td>
+	<td>
+		<br/>
+		<br/>
+	</td>
+</tr>
+<tr>
+	<td>
+		<tr>
+			<td class="right">
+				<strong>文件分割数：</strong>
+			</td>
+			<td>
+				0
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+			<td class="right">
+				<strong>抽取出的图片数：</strong>
+			</td>
+			<td>
+				0
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+			<td class="right">
+				<strong>格式转换完成数：</strong>
+			</td>
+			<td>
+				0
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+		</tr>
+	</td>
+	<td>
+		<br/>
+		<br/>
+	</td>
+</tr>
+<tr>
+	<td>
+		<tr>
+			<td class="right">
+				<strong>转换后数据量：</strong>
+			</td>
+			<td>
+				<input id="number" name="number" type="text"  value="$!{triggerNumber}" style="width:50px; border-style:none;background-color:#FFFFFF" disabled=true>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+			<td class="right">
+				<strong>完整的数据量：</strong>
+			</td>
+			<td>
+				<input id="isFullnumber" name="isFullnumber" type="text"  value="$!{isFullNumber}" style="width:50px; border-style:none;background-color:#FFFFFF" disabled=true>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+			<td class="right">
+				<strong>不完整的数据量：</strong>
+			</td>
+			<td>
+				<input id="notFullnumber" name="notFullnumber" type="text"  value="$!{notFullNumber}" style="width:50px; border-style:none;background-color:#FFFFFF" disabled=true>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+		</tr>
+	</td>
+	<td>
+		<br/>
+		<br/>
+	</td>
+</tr>
+#end
+<div id="fullbg"></div>
+<div id="dialog" style="height:150px;width:560px;">
+	<p class="close"><a href="#" id="closeBg">关闭</a></p>
+	<div id="testContent"></div>
+</div>
+#extends("/km/crawler/task/HandoverListDataGrid.vm")

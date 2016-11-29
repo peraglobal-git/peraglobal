@@ -1,0 +1,29 @@
+#override("inHeader")
+    <script type="text/javascript">
+		seajs.use(['framework/admin/userRole'], function(userRole) {
+			$(function(){
+				$("#js_layout").layout({fit:true});
+				userRole.gridLoad('$!{ids}');
+				userRole.init('$!{id}');
+			});
+		});
+	</script>
+#end
+#override("body")
+	<div class="wrapper empower roles" id="js_layout" >
+	<form id="form" name="#" action="#" method="post" tabindex="0">
+		<div data-options="region:'center'" class="noborder " style="height:435px;width: 350px;" id="js_center">
+			<table id="grid"></table>	
+		</div>
+		<div data-options="region:'south',collapsible:false,height:58" class="noborder hidden">
+			<div class="ftbutton border-n">
+				<ul class="lists rf">
+					<li><button class="button" type="submit" id="saveBtn">确定</button></li>
+					<li><button class="button" type="button" onclick="art.dialog.close();">取消</button></li>
+				</ul>
+			</div>
+		</div>
+	</form>	
+	</div>
+#end
+#extends("/template/editDialog.vm")

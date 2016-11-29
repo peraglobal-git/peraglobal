@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>index</title>
+    #parse("../../common/common.vm") 
+    <script type="text/javascript" src="$!{staticPath}/public/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+    <div class="wrapper" id="js_layout">  
+        <div data-options="region:'west',split:true,width:140" class="aside">
+            <div class="easyui-accordion" data-options="fit:true" id="accordion">
+            	#if($module)
+	                <div title="$!{module.moduleName}" data-options="" style="overflow:auto;position: relative;">
+<!-- 	                 <spen onclick='_collapse();' style='display:block;width:15px;height:15px;float:right;cursor:pointer;background:url(../js/easyui/css/easyui/layout_arrows.png) no-repeat 0 0;' ></spen> -->
+	                 	<ul class="lists listsMenu">
+	                 	#set($menu = $modules)
+	                 	#if($menu)
+	                 		#foreach($m in $menu)
+	                 			<li> #if($!m.iconAttachmentId)<span class="ico" style="background-image: url($SERVER_CONTEXT/attachment/download.html?id=$!{m.iconAttachmentId})"></span>
+	                 			#else
+	                 			<span class="ico syss"></span>
+	                 			#end
+	                 			<a href="javascript:void(0);" id="a_$!{m.id}" onclick="clickMenu('$!{m.isCanRefresh}','$!{m.id}','$!{m.moduleName}','$!{m.path}');">$!{m.moduleName}</a></li>
+	                 		#end
+	                 	#end
+						</ul> 
+	                </div>
+                #end
+            </div>
+        </div>  
+        <div data-options="region:'center'" id="layout_center" style="overflow:hidden;" class="hidden">
+        	<div id="tabs" class="easyui-tabs" data-options="fit:true,onContextMenu:onRightKeyClick">
+        	</div>
+        </div>
+        <div id="rm" class="easyui-menu" style="width:100px;">   
+		    <div data-options="iconCls:'icon-refresh'" onclick="onIframeRefreshClick()">刷新</div>    
+		</div>
+    </div>
+    
+    <script type="text/javascript" charset="utf-8">
+    var gIndex = 0;
+    
+	jQuery(function($){
+	    $("#js_layout").layout({fit:true});
+		/*listMenu*/
+// 		$("ul.listsMenu li a").bind("click",function(){
+// 			$(this).parent("li").addClass("cur");
+// 			$(this).parent("li").siblings("li").removeClass("hover cur");
+// 		});
+		$("ul.listsMenu li").hover(function(){
+			if(!$(this).hasClass("cur")) {
+				$(this).toggleClass("hover");
+			}
+		});
+
+	    /*window resize*/
+	    winResize=function(){
+	        var winWidth = $(window).width(),winHeight=$(window).height();
+	        $("#layout").layout("resize",{width:winWidth,height:winHeight});
+	        //选择页签后回显
+	        $('#tabs').tabs({onSelect:function(title,index){
+	        		var tabId = $('#tabs').tabs('getTab',title).attr("id");
+	        		if(tabId){
+	        			tabId = tabId.substring(tabId.indexOf("_")+1, tabId.length);
+	        			$.cookie("clickModule", "a_"+tabId);
+	        		}
+		        	var parentLI = $("#a_"+tabId).parent("li");
+		        	parentLI.addClass("cur");
+		        	parentLI.siblings("li.cur").removeClass("hover cur");
+	        	}
+	        });
+	        var tab = $('#tabs').tabs('getSelected');
+	        var index = $('#tabs').tabs('getTabIndex',tab);
+	        $('#div_'+index).height(winHeight-31);
+
+	        
+	        
+	        
+	        if ($.support.boxModel && !$.support.leadingWhitespace){
+	            var iframes = window.frames;
+	            for(var l = iframes.length,i=0;i<l;i++){
+	                var f = iframes[i].winResize;if(f)f();
+	            }
+	        }
+	    };
+	    $(window).wresize(winResize);
+	    winResize();
+	    if($.cookie("clickModule")){
+	    //	$('#'+$.cookie("clickModule")).trigger("click");
+	    	$('#'+$.cookie("clickModule")).click();
+	    }else{
+		    //触发第一个列表的点击事件
+		   // $('#a_1').trigger("click");
+		    $("ul.listsMenu li a:first").trigger("click");
+	    } 
+	    $("#accordion").find(".panel-title").first().html($("#accordion").find(".panel-title").first().html()+"<span onclick='_collapse();' class='layout-button-left' style='display:block;width:15px;height:15px;*margin-top:-17px;_margin-top:-17px;float:right;cursor:pointer;' />");
+	});
+	
+	function _collapse(){
+		$("#js_layout").layout('collapse','west');
+	}
+	
+	//点击事件,用于触发生成tab页面或者切换到对应的tab页面
+	function clickMenu(isCanRefresh,id,title,url) {
+		$.cookie("clickModule", "a_"+id);
+		if(!url){return ;}
+		var tab = $('#tabs').tabs('getTab',title);
+		if(url && url.indexOf("http:")==-1){
+			url="${SERVER_CONTEXT}/"+url;
+		}
+		if(!tab) {
+			var height = $('#tabs').height();
+			var innerHtml = '<iframe name="frameright" id="frame_'+gIndex+'" src="'+url+'" height="100%" width="100%" frameborder="0" scrolling="no" allowtransparency="true"></iframe>';
+			$('#tabs').tabs('add',{
+				id:'tab_'+id,
+			    title:title,
+			    content:innerHtml,    
+				fit:true,
+			    closable:true
+			});
+			gIndex++;
+		}else {
+			if("Yes"==isCanRefresh){
+				onIframeRefreshClick();
+			}
+			$('#tabs').tabs('select',title);
+		}
+		$("#a_"+id).parent("li").addClass("cur");
+		$("#a_"+id).parent("li").siblings("li").removeClass("hover cur");
+	}
+	
+	/*
+	*	右键
+	*/
+	function onRightKeyClick(e,title,index) {
+		e.preventDefault();
+		$('#rm').menu('show', {
+			left:e.pageX,
+			top:e.pageY
+		});
+	}
+	
+	
+	/*
+	*	刷新
+	*/
+	function onIframeRefreshClick() {
+		var tab = $('#tabs').tabs('getSelected');
+		var index = $('#tabs').tabs('getTabIndex',tab);
+		var ifrmid =  "frame_" + index;
+		$('#rm').menu('hide');
+		var wframe = document.getElementById(ifrmid);
+		if(wframe && wframe.contentWindow){
+			wframe.contentWindow.location.reload(true);
+		}
+	}
+	</script>
+</body>
+</html>

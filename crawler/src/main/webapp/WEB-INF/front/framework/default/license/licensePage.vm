@@ -1,0 +1,74 @@
+
+#override("form")
+		<!--<div data-options="region:'center'" class="noborder hidden-x">-->
+		<div class="pad10" id="details_edit" data-options="region:'center'">
+			<form id="formUploadLic" method="post" enctype="multipart/form-data">
+					<table class="forms">
+						<tbody>
+						<tr>
+							<td></td>
+							<td class="right">注册用户数：</td>
+							<td><input type="text" name='userAmountdisp'
+								id='userAmountdisp' value="$!{license.userAmountdisp}"
+								class="txt easyui-validatebox" disabled="disabled" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td class="right">项目数：</td>
+							<td><input type="text" name='projectAmountdisp'
+								id='projectAmountdisp' value="$!{license.projectAmountdisp}"
+								class="txt easyui-validatebox" disabled="disabled" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td class="right">可使用模块：</td>
+							<td><textarea id="canUseModules" name="canUseModules"
+									class="textarea easyui-validatebox" style="width: 236px; height: 100px" disabled="disabled">$!{license.canUseModules}</textarea>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td class="right">License连接数：</td>
+							<td><input type="text" name='connectAmountdisp' id='connectAmountdisp' value="$!{license.connectAmountdisp}" class="txt easyui-validatebox" disabled="disabled"/>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td class="right">有效期：</td>
+							<td><input type="text" name='notAfterdisp' id='notAfterdisp' value="$!{license.notAfterdisp}" class="txt easyui-validatebox" disabled="disabled"/>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td class="right"><i class="require">*</i>许可文件：</td>
+						 	<td>
+						    	<input type="file" style="width: 500px" name="importFile" id="importFile">
+					     	</td>
+						</tr>
+					</tbody>
+					</table>
+				</form>
+    </div>
+#end
+#override("title")
+许可管理
+#end
+#override("inHeader")
+<style>
+	td{height:33px;line-height:33px;}
+</style>
+<script type="text/javascript">
+	seajs.use(['framework/admin/license'], function(license) {
+		$(function() {
+			license.init();
+		});
+	});
+</script>
+#end
+#override("buttons")
+      <ul class="lists rf">
+             <!--<li><button type="button" class="button" id="submitBtn" style="position:absolute;left:90%;">提交</button></li>-->
+             <li><button type="button" class="button" id="submitBtn">提交</button></li>
+      </ul>
+#end
+#extends("/template/editDialog.vm")

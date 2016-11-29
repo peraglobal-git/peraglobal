@@ -1,0 +1,30 @@
+#override("point")
+<h1 style="text-align: center;">$!{pointDic}</h1>
+ #end
+#override("hiddenInput")
+<input type="hidden" name="id" id="id" value="$!{obj.id}"/>
+<input type="hidden" name="parentId" id="parentId" value="$!{parentId}">
+<input type="hidden" id="dicCategory" name="dicCategory" value="$!{dicCategory}">
+<input type="hidden" id="dictionaryType" name="dictionaryType" value="$!{dictionaryType}">
+#end
+#override("formItem")
+#trText('名称','obj.dictionaryName',true,'')
+#trText('字典值','obj.value',true,'')
+#trText('序号','obj.sortNum',false,'')
+#trTextArea('描述','obj.description',false,'')
+#end
+#override("inHeader")
+<script type="text/javascript">
+	seajs.use(['framework/admin/saveDictionary'], function(main) {
+		$(function(){
+			main.init({
+					dictionaryName:'$!{obj.dictionaryName}',
+					value:'$!{obj.value}',
+					dictionaryId:'$!{obj.id}',
+					dictionaryParentId:'$!{parentId}'
+			});
+		});
+	});
+</script>
+#end
+#extends("/template/editDialog.vm")

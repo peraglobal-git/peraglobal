@@ -1,0 +1,348 @@
+
+	#override("point")
+		<h1 style="text-align: center;"><!-- $!{pointDic} -->编辑采集</h1>
+ 	#end
+	#override("hiddenInput")
+	<input type="hidden" name="id" id="id" value="$!{id}"/>
+	<input type="hidden" name="oldname" id="oldname" value="$!{name}"/>
+	<input type="hidden" name="sourceId" id="sourceId" value="$!{sourceId}">
+	<input type="hidden" name="jobState" id="jobState" value="$!{jobstate}">
+	<input type="hidden" name="knowledgeModelName" id="knowledgeModelName" value="$!{knowledgeModelName}"/>
+	<input type="hidden" name="systemName" id="systemName" value="$!{systemName}"/>
+	<input type="hidden" name="sourceName" id="sourceName" value="$!{sourceName}" />
+	<input type="hidden" name="knowledgeType" id="knowledgeType" value="$!{knowledgeType}"/>
+	<input type="hidden" name="knowledgeTypeName" id="knowledgeTypeName" value="$!{knowledgeTypeName}"/>
+	<input type="hidden" name="knowledgeModel" id="knowledgeModel" value="$!{knowledgeModel}"/>
+	<input type="hidden" name="systemId" id="systemId" value="$!{systemId}"/>
+	#end
+#override("formItem")
+<div id="fullbg"></div>
+<div id="dialog">
+	<p class="close"><a href="#" onclick="closeBg();">关闭</a></p>
+	<div id="testContent"></div>
+</div>
+<tr>
+<td colspan="2">
+<hr/>
+</td>
+</tr>
+<tr style="width:100%;padding:0;">
+<!-- 	<td class="right" width="120px" style="marker-offset:auto;border-width: " >
+知识源：<i class="require">*</i>
+</td>
+<td style="width:100%">
+<input type="text" class="txt" id="knowledgeSource" name="knowledgeSource" style="width:100%;" value="$!{sourceName}" class="readonly" readonly="readonly"/>
+</td> -->
+<td  colspan="2" style="width:100%"><span style="float: left;width: 10%;">知识源：&nbsp;&nbsp;<i class="require">*</i></span><span style="float: left;width: 90%;"><input type="text" class="txt" id="knowledgeSource" name="knowledgeSource" style="width:100%;" value="$!{sourceName}" class="readonly" readonly="readonly"/>
+</span></td>
+</tr>
+<tr>
+<!-- 	<td class="right">
+		任务名称：<i class="require">*</i>
+	</td>
+	<td style="width:100%">	
+		<input type="text" class="txt" id="name" name="name"  value="$!{name}" #if($!jobstate!=0) readonly="readonly" class="readonly"  #end   style="width: 100%;">
+	</td> -->
+<td  colspan="2" style="width:100%">
+	<span style="float: left;width: 10%;">任务名称：<i class="require">*</i></span>
+	<span style="float: left;width: 90%;"><input type="text" class="txt" id="name" name="name"  value="$!{name}" #if($!jobstate!=0) readonly="readonly" class="readonly"  #end   style="width: 100%;"></span>
+</td>
+</tr>
+<tr>
+<!-- 
+<td  colspan="2" style="width:100%">
+	<span style="float: left;width: 10%;">知识形态：<i class="require">*</i></span>
+	<span style="float: left;width: 90%;"><input type="text" class="txt" style="width:100%;" readonly="readonly" class="readonly" value="$!{knowledgeTypeName}"></span>
+</td>
+</tr>
+<tr>
+<td  colspan="2" style="width:100%">
+	<span style="float: left;width: 10%;">知识模板：<i class="require">*</i></span>
+	<span style="float: left;width: 90%;"><input type="text" class="txt" style="width:100%;" readonly="readonly" class="readonly" value="$!{knowledgeModelName}"></span>
+</td>
+</tr>
+<tr>
+<td  colspan="2" style="width:100%">
+	<span style="float: left;width: 10%;">存储系统：<i class="require">*</i></span>
+	<span style="float: left;width: 90%;"><input type="text" class="txt" style="width:100%;" readonly="readonly" class="readonly" value="$!{systemName}"></span>
+</td>
+</tr>
+-->
+<tr>
+<td colspan="2">
+<hr />
+</td>
+</tr>
+<tr style="padding:0px;">
+	<td colspan="2" style="width:100%;padding:0;">
+		<h3 style="float:left;padding:0;margin:0;">内容规则</h3>
+		<a style= "cursor:pointer;float:right;" id="contentRule_a"><span id="contentRule_triangle" style="color:blue;">&#9660</span>展开收起</a></td>
+</tr>
+<tbody id="contentRule_div" >
+<tr style="padding:0px;">
+	<td colspan="2" style="width:100%;padding:0;">
+	<input type="hidden" value="$!{entityname}" id="TaskSelect" name="TaskSelect">
+	<span style="color:gray;">选择表/视图 :</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="text" class="txt"  style="width: 150px;" class="readonly" readonly="readonly" value="$!{entityname}">
+	</td>
+</tr>
+<tr style="padding:0px;">
+	<td colspan="2" style="width:100%;padding:0;">
+		<span style="color:gray;">字段规则 :</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span >共<span id="filedcount">$list.size()</span>个数据库字段,已设置<span id="filedselect">$selectlist.size()</span>个
+	</td>
+</tr>
+<tr >
+	<td colspan="2" >
+<div style="float:left;width:430px; height:390px; overflow-y:scroll;"> 
+	<table border="0" id="fieldstable" >
+		<tr align="center">
+			<th width='165px'><span style="color:blue;">对应列名称</span></th>
+			<th width='205px'><span style="color:blue;">字段</span></th>
+			<th width='50px'><span style="color:blue;">操作</span></th>
+		</tr>
+		#foreach($tab in $list)
+		<tr>
+			<td align='center'>
+				<input type='hidden' id='fieldName' name='fieldName' value='$!{tab.fieldName}' />$tab.fieldName
+			</td>
+			<td align='center'>
+				<input type='text' class="txt" name='1$!{tab.fieldName}' id='1$!{tab.fieldName}' #if($!jobstate==2)  disabled="disabled" #end #foreach($ckecklist in $selectlist) #if($!ckecklist.key==$!{tab.fieldName}) value='$!{ckecklist.value}' #end #end/>
+				<!-- <select name='1$!{tab.fieldName}' id='1$!{tab.fieldName}' class="easyui-combobox" #if($!jobstate==2)  disabled="disabled" #end style="width:180px;" >
+						<option></option>
+					#foreach($pr in $properties)
+						<option #foreach($ckecklist in $selectlist) #if($!ckecklist.key==$!{tab.fieldName})  #if($!ckecklist.value==$!{pr.PROP_ID}) selected="selected" #end #end #end value="$!{pr.PROP_ID}">$pr.PROP_NAME</option>
+ 					#end  
+				</select> -->
+			</td>
+			<td align='center'>
+				&nbsp;&nbsp;<input type="checkbox" name='fieldCheck'  id='fieldCheck' #if($!jobstate==2) disabled="disabled" #end #foreach($ckecklist in $selectlist) #if($!ckecklist.key==$!{tab.fieldName})  checked="checked" #end #end value='$!{tab.fieldName};$!{tab.fieldType}'>
+			</td>
+			<!-- <td align='center'>
+				<input type='hidden' id='fieldType' name='fieldType' value='$!{tab.fieldType}'>$tab.fieldType
+			</td> -->
+		</tr>
+		#end
+	</table>
+</div>
+<div style="float:left;padding-left:5px;padding-right:5px;padding-top:10px; width:250px; height:390px; overflow-y:scroll;" id="attribute_div" >
+	<h3>当前知识模板的属性字段列表：</h3>
+	<table class="attributetable" style="border:solid 1px #ccc;"  id="attributetable_prop">
+		<tr><td width="100px" class="attributetd">通用属性</td><td class="attributetd">属性名</td></tr>
+		#foreach($prop in $inherentProp)
+		<tr><td class="attributetd"></td><td class="attributetd">$!{prop.PROP_NAME}</td></tr>
+		#end
+	</table>
+	<table class="attributetable" style="border:solid 1px #ccc;border-top: 0px;"  id="attributetable">
+		<tr><td width="100px" class="attributetd">扩展属性</td><td class="attributetd">属性名</td></tr>
+		#foreach($prop in $properties_model)
+		<tr><td class="attributetd"></td><td class="attributetd">$!{prop.PROP_NAME}</td></tr>
+		#end
+	</table>
+</div>
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+	<span style="color:gray;">选择主键 :</span>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<select name="pkid" id="pkid" style="width:240px;" #if($!jobstate==2) disabled="disabled" #end>
+			#foreach($select in $list)
+			<option>$select.fieldName</option>
+			#end
+		</select>
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+	是否下载附件：<input type="checkbox" name="isAttachment" id="isAttachment" #if($filekey) checked="checked" #end  #if($!jobstate==2) disabled="disabled" #end>
+	<div style="height:15px"></div>
+	
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="isUrl" id="isUrl" #if(!$filename) checked="checked" #end #if($!jobstate==2 || !$filekey) disabled="disabled" #end>附件存储方式为URL
+		<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;字段： <input  name="attachmentAs" id="attachmentAs" #if($!jobstate==2 || !$filekey) disabled="disabled" #end type="text" class="txt" value="$!{filevalue}" />
+		&nbsp;&nbsp;&nbsp;表列名： <select name="attachmentName" id="attachmentName" #if($!jobstate==2 || !$filekey) disabled="disabled" #end style="width:200px">
+			   	<option value="0">请选择</option>
+			   	#foreach($select in $list)
+					<option #if($!filekey==$!{select.fieldName}) selected="selected" #end>$select.fieldName</option>
+				#end
+			    </select>
+		
+		<!-- 是否为URL列：<input type="checkbox" name="isUrl" id="isUrl" #if(!$filename) checked="checked" #end #if($!jobstate==2) disabled="disabled" #end> -->
+		<div style="height:10px"></div>
+		<p id="attach" #if(!$filename) style="display: none" #end>
+			&nbsp;&nbsp;&nbsp;文件名： <select name="attachmentFileName" id="attachmentFileName" #if($!jobstate==2 || !$filekey) disabled="disabled" #end style="width:200px">
+		   		<option value="0">请选择</option>
+		   		#foreach($select in $list)
+					<option #if($!filename==$!{select.fieldName}) selected="selected" #end>$select.fieldName</option>
+				#end
+		   		 </select>
+			&nbsp;&nbsp;&nbsp;后缀名： <select name="attachmentFileType" id="attachmentFileType" #if($!jobstate==2 || !$filekey) disabled="disabled" #end style="width:200px">
+		   		<option value="0">请选择</option>
+		   		#foreach($select in $list)
+					<option #if($!filetype==$!{select.fieldName}) selected="selected" #end>$select.fieldName</option>
+				#end
+		   	 </select>	
+		</p>
+		
+	</td>
+</tr>
+	</tbody>
+		
+<tr>
+	<td colspan="2">
+	<hr />
+	</td>
+</tr>
+<tr style="padding:0px;">
+	<td colspan="2" style="width:100%;padding:0;">
+		<h3 style="float:left;padding:0;margin:0;">附件抽取规则：<i class="require"><span style="font-size: 12px;">*若设置了下载附件，才可以设置抽取规则</span></i></h3>
+		<a style= "cursor:pointer;float:right;" id="attachmentRule_a"><span id="attachmentRule_triangle" style="color:blue;">&#9660</span>展开收起</a></td>
+</tr>
+<tbody id="attachmentRule_div">
+<tr>
+	<td colspan="2">
+	&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox"name="extractListDB" value="1" #foreach($list in $extractList) #if($!list==1) checked="checked" #end #end>文件分割&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="checkbox" name="extractListDB" value="2" #foreach($list in $extractList) #if($!list==2) checked="checked" #end #end>图片抽取&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="checkbox" name="extractListDB" value="3" #foreach($list in $extractList) #if($!list==3) checked="checked" #end #end>作者抽取&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="checkbox" name="extractListDB" value="4" #foreach($list in $extractList) #if($!list==4) checked="checked" #end #end>关键词抽取&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="checkbox" name="extractListDB" value="5" #foreach($list in $extractList) #if($!list==5) checked="checked" #end #end>摘要抽取
+	</td>
+</tr>
+</tbody>
+<tr>
+	<td colspan="2">
+	<hr />
+	</td>
+</tr>
+<tr style="padding:0px;">
+	<td colspan="2" style="width:100%;padding:0;">
+		<h3 style="float:left;padding:0;margin:0;">高级设置</h3>
+		<a style= "cursor:pointer;float:right;" id="timingRule_a"><span id="timingRule_triangle" style="color:blue;">&#9650</span>高级设置</a></td>
+</tr>
+<tbody id="timingRule_div" style="display: none;">
+<tr >
+	<td colspan="2">
+		#if($!checkbox_trigger==1)
+			#parse("km/crawler/task/editTaskTiming.vm")
+		#else
+			#parse("km/crawler/task/taskTiming.vm")
+		#end
+	</td>
+</tr>
+</tbody>
+<tr><td colspan="2"><div style="height:50px"></div></td></tr>
+#end
+#override("buttons")
+<ul class="lists rf">
+	<li><button type="button" class="button" id="saveAndTest">采集测试</button></li>
+	<li><button type="button" class="button" id="saveAndStart">立即采集</button></li>
+	<li><button type="submit" class="button" id="saveBtn">保存</button></li>
+    <li><button type="button" class="button" onclick="window.close();">取消</button></li>
+</ul>
+#end
+#override("inHeader")
+<style>  
+        .attributetable{  
+            border: 1px solid black;
+            width: 100%;  
+            border-collapse:collapse;  
+        }  
+        .attributetd{  
+            border: 1px solid black;  
+        }  
+        .tableContent_table{  
+      		border:solid 1px #F2F2F2;
+       		 margin-left:20px;width:78%; 
+       		 border-collapse: collapse;
+       		 border-width:1px;
+       		 text-overflow:ellipsis;
+			 white-space:nowrap;
+			 overflow:hidden;
+        }
+        .tableContent_th{
+        	color: blue;
+        	width:200px;
+        	background-color:rgb(230,230,230);
+        	border: 1px solid black;
+        }
+        .tableContent_td{ 
+       		 border: 1px solid black;
+       		 width:200px;
+       		 overflow: hidden;
+       		 text-overflow:ellipsis;
+        } 
+        .tableContent_tr{
+        	color:#0000FF;
+        	background-color:#F9F9F9
+        } 
+    </style> 
+<script src="../static/framework/js/validate_plugin_m.js" type="text/javascript"></script>
+<script src="../static/public/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script type="text/javascript"> 
+	seajs.use(['modules/km/js/taskGroup/taskTiming'], function(main) {
+	});
+</script>
+<script type="text/javascript"> 
+	seajs.use(['modules/km/js/taskGroup/saveDBTask'], function(main) {
+		$(function(){
+			main.init({
+					groupId:'$!{groupId}',
+					oldname:'$!{name}',
+					inherentProp:'$!{inherentProp}',
+					kmProperties:'$!{typeList}'
+			});
+		});
+	});
+</script>
+<script type="text/javascript"> 
+	seajs.use(['modules/km/js/taskGroup/knowledgeType'], function(main) {
+		$(function(){
+		});
+	});
+</script>
+<style>
+#fullbg {
+background-color:gray;
+left:0;
+opacity:0.5;
+position:absolute;
+top:0;
+z-index:3;
+filter:alpha(opacity=50);
+-moz-opacity:0.5;
+-khtml-opacity:0.5;
+}
+#dialog {
+background-color:#fff;
+border:5px solid rgba(0,0,0, 0.4);
+height:400px;
+left:50%;
+margin:-200px 0 0 -200px;
+padding:1px;
+position:fixed !important; /* 浮动对话框 */
+position:absolute;
+top:50%;
+width:500px;
+z-index:5;
+border-radius:5px;
+display:none;
+overflow:auto;
+}
+#dialog p {
+margin:0 0 12px;
+height:24px;
+line-height:24px;
+background:#CCCCCC;
+}
+#dialog p.close {
+text-align:right;
+padding-right:10px;
+}
+#dialog p.close a {
+color:#fff;
+text-decoration:none;
+} 
+</style>
+#end
+
+#extends("/template/blue-km/editDialog.vm")

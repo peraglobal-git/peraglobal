@@ -1,0 +1,563 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>部门管理</title>
+#include("../../common/common.vm")
+
+
+<link rel="stylesheet" href="/psvn/static/css/common.css" type="text/css" charset="utf-8"/>
+<link rel="stylesheet" href="/psvn/static/css/sys.css" type="text/css" charset="utf-8"/>
+<link rel="stylesheet" href="/psvn/static/css/com.css" type="text/css" charset="utf-8"/>
+<script src="/psvn/static/js/common.js" type="text/javascript" charset="utf-8"></script>
+<SCRIPT language="javascript">
+
+jQuery(function($){ 
+	var d = $("#toolbar").find("a");   
+	
+//    $(d).each(function(){   
+//          var dId = $(this).attr("id");
+//          if(permissions.indexOf('{'+dId+'}')<0){   
+//            $('#'+dId).remove();           
+//          }   
+})	
+</script>	
+    <link rel="stylesheet" href="/psvn\static\/pdoc/css/xuimg.css" type="text/css" charset="utf-8"/>
+</head>
+<body>
+<div class="wrapper" id="js_layout">
+      
+     <div data-options="region:'west',split:true,width:220" class="noborder border-e">
+        <ul id="tree" class="easyui-tree"></ul>
+     </div>
+     
+     <div class="rf reletive sch">
+		   <input id="search" type="text" class="txt" value="输入部门名称或编号"> <button id="search_button" class="sbutton" type="button">搜索</button>
+	 	   <input id="searchstatus" name="searchstatus" type="hidden" value="0" />
+	 </div>
+
+       <div id="toolbar" class="datagrid-toolbar">
+       	
+           <a href="#" class="easyui-linkbutton" iconCls="icon-new" plain="true" id="page_department_js_new">新建</a>
+           
+       	
+           <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="page_department_js_edit">编辑</a>
+           
+       	
+			<a href="#" class="easyui-linkbutton" iconCls="icon-del" plain="true" id="page_department_js_del">删除</a>
+           
+		   <!-- a href="#" class="easyui-linkbutton toggles" iconCls="icon-showStop" plain="true" id="page_department_js_show">显示停用部门</a-->
+         <!--  <a href="#" class="easyui-linkbutton" iconCls="icon-userLeadin" plain="true" id="page_department_js_imp">批量导入</a> -->
+          <!--a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="page_department_js_tb">部门同步</a-->
+       </div>
+       
+       <div id="dlg" class="easyui-dialog"  modal="true" inline="true"  shadow="true" style="width: 480px; height: 380px;"  closed="true" buttons="#dlg-buttons">
+		<div data-options="region:'center'" class="noborder hidden-x">
+			<form id="form1" method="post">
+					<div class="datagrid-toolbar">部门管理</div>
+					<input  type='hidden' name='parentOrg' id='parentOrg' value="1"/>
+					<input  type='hidden' name='ppmId' id='ppmId' />
+					<table class="forms">
+						<tbody>
+							<tr>
+								<td class="right"><i class="require">*</i>名称：</td>
+								<td><input type="text" name='orgName' id='orgName' value='' class="txt easyui-validatebox" data-options="prompt:'请输入名称.',required:true,validType:'length[1,100]'" />
+								</td>
+							</tr>
+							<tr>
+								<td class="right"><i class="require">*</i>部门编号：</td>
+								<td><input type="text" name='orgCode' id='orgCode' value='' class="txt easyui-validatebox" data-options="prompt:'请输入部门编号.',required:true,validType:'length[1,100]'" />
+								</td>
+							</tr>
+							
+							<tr>
+								<td class="right">描述：</td>
+								<td><textarea class="txt easyui-validatebox" id='depdes' name='depdes' 
+										style="width: 75%; height: 90px;" data-options="validType:'length[0,1000]'"></textarea></td>
+							</tr>
+							
+						</tbody>
+					</table>
+				</form>
+    </div>
+</div>
+<div id="dlg-buttons">
+		<div class="ftbutton border-n">
+            <ul class="lists rf">
+                <li><button id="save" class="button" type="button">保存</button></li>
+                <li><button class="button" type="button"  onclick="$('#dlg').dialog('close');" >取消</button></li>
+            </ul>
+        </div>
+</div>
+       
+     <div data-options="region:'center'" class="noborder border-w" id="js_center">
+	  <table class="easyui-datagrid" data-options="fitColumns:true,singleSelect:true,toolbar:'#toolbar'" id="grid"></table>
+     </div>
+		<div id="menu" class="easyui-menu" style="width: 50px; display: none;">
+			<!--放置一个隐藏的菜单Div-->
+			<div onclick="moveup();">上移</div>
+			<!-- <div data-options="iconCls:'icon-save'" onclick="">下移</div> -->
+			<div onclick="movedown();">下移</div>
+			<!--具体的菜单事件请自行添加，跟toolbar的方法是基本一样的-->
+			<div onclick="moveto();">移动到</div>
+		</div>
+		
+		
+		<div id="dlgtree" class="easyui-dialog"  modal="true" inline="true" title="移动到"  shadow="true" style="width: 380px; height: 480px;padding:10px"  closed="true" buttons="#dlg-buttonstree">
+		<div  class="wrapper tree_penalx noborder scroll ">
+       <ul  id="movetotree" class="easyui-tree"></ul>
+       </div>
+      </div>
+      <div id="dlg-buttonstree">
+		<div class="ftbutton border-n">
+            <ul class="lists rf">
+                <li><button id="savetree" class="button" type="button">保存</button></li>
+                <li><button class="button" type="button"  onclick="$('#dlgtree').dialog('close');" >取消</button></li>
+            </ul>
+        </div>
+</div>
+	</div>
+
+<script type="text/javascript" charset="utf-8">
+
+
+function moveup(){
+	
+	var row=$("#grid").datagrid("getSelected");
+	//alert("上移"+row.ppmId+" parent:"+row.parentOrg);
+	$.ajax({
+		   type: "POST",
+		   url: 'changeOrderAjax.html',
+		   data: "ppmId="+row.ppmId+"&parentOrg="+row.parentOrg+"&flag=up",
+		   dataType: 'json',
+		   success: function(msg){
+		     alert(msg.msg);
+		     //changegrid(window.pdp_id,"0");
+		     $('#grid').datagrid({  
+		 	  	url:'dept_list_page.html',  
+		 	  	queryParams:{  
+		 	  		parentOrg: window.pdp_id,
+		 	  		status: 0
+		 	  	} 
+		 	  });
+		     $('#tree').tree('reload');
+		     
+		   }
+		});
+}
+function movedown(){
+	var row=$("#grid").datagrid("getSelected");
+	$.ajax({
+		   type: "POST",
+		   url: 'changeOrderAjax.html',
+		   dataType: 'json',
+		   data: "ppmId="+row.ppmId+"&parentOrg="+row.parentOrg+"&flag=down",
+		   success: function(msg){
+		     alert(msg.msg);
+		     $('#grid').datagrid({  
+			 	  	url:'dept_list_page.html',  
+			 	  	queryParams:{  
+			 	  		parentOrg: window.pdp_id,
+			 	  		status: 0
+			 	  	} 
+			 	  });
+		     $('#tree').tree('reload');
+		   }
+		});
+	//alert("下移"+row.ppmId);
+}
+function moveto(){
+	var row=$("#grid").datagrid("getSelected");
+	window.rid=row.ppmId;
+	window.rparentid=row.parentOrg;
+	//alert("移动到"+row.ppmId);
+	$('#dlgtree').dialog('open');
+	$("#movetotree").tree({
+    	url:'treelistMoveTo.html?unshowid='+row.ppmId,
+        onSelect:function(node){
+        	window.did = node.id;
+        	/* //清空查询参数      
+        	if($('#grid').queryParams){
+            	var queryParams = $('#grid').datagrid('options').queryParams;  
+				queryParams.name = "";
+				$('#grid').datagrid('options').queryParams = queryParams; 
+			}
+        	//给隐藏父级文本框赋值
+        	$("#parentOrg").val(node.id);
+        	//显示部门列表
+        	gridLoad(node.id,"0"); */
+        },
+        onExpand:function(node){
+        	
+        },
+		onLoadSuccess:function(){
+			window.did ="";
+			/* var nodec = $("#tree").tree('find', window.pdp_id); 
+			if(nodec){
+				$('#tree').tree('select', nodec.target); 
+			}  */ 
+			
+		}
+    });
+	
+}
+$("#savetree").click(function(){
+	if(window.did==""){
+		alert("请选择移动到的位置！");
+		return false;
+	}
+	//alert(window.rid+","+window.rparentid+","+window.did);
+	$.ajax({
+		   type: "POST",
+		   url: 'moveToSystemOrgAjax.html',
+		   dataType: 'json',
+		   data: "rid="+window.rid+"&rparentid="+window.rparentid+"&did="+window.did,
+		   success: function(msg){
+			   if(msg.success=="false"){
+				   $.messager.alert("提示",msg.msg,"info");
+				   return;
+			   }
+			   $.messager.alert("提示",msg.msg,"info",function(){
+				   $('#grid').datagrid({  
+				 	  	url:'dept_list_page.html',  
+				 	  	queryParams:{  
+				 	  		parentOrg: window.pdp_id,
+				 	  		status: 0
+				 	  	} 
+				 	  });
+			     $('#tree').tree('reload');
+			     $('#dlgtree').dialog('close');
+			   });
+		    
+		   }
+		});
+});
+jQuery(function($){	
+	
+	var refreshx=function(p1,p2){//alert("refreshx");
+		var noder=$('#tree').tree("getSelected");//alert(noder.text);
+		$('#tree').tree("reload");
+		//$('#tree').tree("select",noder.target);
+		var nodec = $("#tree").tree('find', window.pdp_id); 
+		if(nodec){
+			$('#tree').tree('select', nodec.target); 
+			gridLoad(window.pdp_id,"0");
+		}
+		//alert(noder.text+" x1");
+	};
+	$(".toggles").each(function() {
+		$(this).click(function(){
+			var cur=$(this).find(".l-btn-text").html();
+			switch (cur) {
+				case "显示停用部门":
+				gridLoad($("#parentOrg").val(),"1")
+				break;
+				case "显示启用部门":
+				gridLoad($("#parentOrg").val(),"0")
+				break;
+			} 
+		});
+	});
+	
+	 	 //加载grid表格
+    function gridLoad(id,status){
+    	if(""==id){
+    		id = "初始化列表不加载数据";
+    	}
+    	if(status == undefined){
+    		status = "0";
+    	}
+    	$("#searchstatus").val(status);
+    	$("#grid").datagrid({
+	             url: '/psvn/sysOrgController/list.html?parentOrg='+id+'&status='+status,
+	            fit:true,
+	            striped:true,
+	            singleSelect:false,
+	            pagination:true,
+	            pageNumber : 1,
+	            pageSize: 15,
+	            pageList: [15, 20, 30, 40, 50],
+	            rownumbers:true,
+	            checkOnSelect:true,
+	            selectOnCheck:true,
+	            height:$("#js_center").height(),
+	            columns:[[
+	    			{field:'ppmId',checkbox:true},
+	                {field:'orgName',align:'left',width:30,title:'名称'},
+	                {field:'orgCode',align:'left',width:15,title:'部门编号'},
+	                {field:'chargeMan',align:'left',hidden:true,width:20,title:'管理者'},
+	                {field:'createUser',align:'left',width:15,title:'创建人'},
+	                {field:'createTime',align:'left',width:30,title:'创建时间'},
+	                {field:'depdes',align:'left',width:30,title:'描述'},
+	                {field:'parentOrg',hidden:true}
+	            ]],
+	            onSelect:function(index, row){
+	               
+	            },
+				onLoadSuccess:function(data){
+					//$("#grid").datagrid("selectRow",0);
+					$(".toggles").each(function() {
+						if(status=="0"){
+							$(this).attr("iconCls","icon-showStop").find(".l-btn-text").removeClass("icon-showStart").html("显示停用部门");
+						}else{
+							$(this).attr("iconCls","icon-showStart").find(".l-btn-text").addClass("icon-showStart").html("显示启用部门");
+						}
+					});
+				}
+			  	
+	        });
+    };
+    gridLoad("1","0");
+	
+    $("#js_layout").layout({fit:true});
+	 //加载tree
+    function treeLoad(){
+        $('#tree').tree({
+        	url:'/psvn/systemOrgController/treelist.html',
+        	onClick: function(node){
+        		window.pdp_id = node.id;
+        	},
+            onSelect:function(node){
+            	window.pdp_id = node.id;
+            	$("#search").val("");
+            	//清空查询参数      
+            	//if($('#grid').queryParams){
+	            	var queryParams = $('#grid').datagrid('options').queryParams;  //alert();
+					queryParams.parentOrg = window.pdp_id;
+					 queryParams.status = "0";
+					queryParams.keyText = "";
+					$('#grid').datagrid('options').queryParams = queryParams; 
+				//}
+            	//给隐藏父级文本框赋值
+            	
+            	//显示部门列表
+            	gridLoad(node.id,"0");
+            	$("#parentOrg").val(node.id);
+            },
+            onExpand:function(node){
+            	
+            },
+			onLoadSuccess:function(){
+				/* if($('#tree').tree("getRoots")!=""&&$('#tree').tree("getRoots").length>0&&$('#tree').tree("getSelected")=='null'){
+				var node= $('#tree').tree("getRoots")[0];
+				gridLoad(node.id,"0");
+				} */
+				/* alert(window.ppm_id);*/
+				 if(window.pdp_id!=null && window.pdp_id!=""&&window.pdp_id!=undefined){
+				
+				}else{
+					window.pdp_id = "1";
+				}  
+				//alert(window.ppm_id);
+				 var nodec = $("#tree").tree('find', window.pdp_id); 
+				//alert(nodec.text);
+				if(nodec){//node.checked=true;
+					$('#tree').tree('select', nodec.target); 
+				}  
+				
+			}
+        });
+    };
+    
+    treeLoad();
+
+    
+   // gridLoad("1","0");
+	//$("#tree").tree("select",$("#tree").tree("find",'1').target);
+	  
+    /*新建&编辑*/
+    $("#page_department_js_new").on("click",function(){
+    	 var parentOrg = window.pdp_id;
+    	 /*$('#dlg').dialog('open').dialog('setTitle', '添加部门信息');
+        $('#form1').form('clear');
+        $("#parentOrg").val(parentOrg);
+        $("#blockup").attr("checked",false);
+        $("#statusx").attr("checked","checked"); */
+        
+    	//$("#page_department_js_new").winOpen({url:"/psvn/systemOrgController/addSysOrgPage.html?parentOrg="+parentOrg+"",width:"500px",height:"350px"});
+    	 var returnVal =   window.showModalDialog("/psvn/systemOrgController/addSysOrgPage.html?parentOrg="+parentOrg+"","newwin","dialogWidth:500px;dialogHeight:350px;scroll:yes;status:no");
+		if("1"==returnVal){
+			//refreshx();
+			var nodec = $("#tree").tree('find', window.pdp_id); 
+			if(nodec){
+				$('#tree').tree('select', nodec.target); 
+				gridLoad(window.pdp_id,"0");
+				$('#tree').tree("reload");
+				window.pdp_id=parentOrg;
+			}
+    	} 
+       
+	   	});
+   
+    
+    $("#save").on("click",function(){
+    	$('#form1').form({
+    	    url:'/psvn/systemOrgController/add_update.html',
+    					onSubmit : function() {
+    						return $("#form1").form('validate');
+    						//进行表单验证
+    						//如果返回false阻止提交
+    					},
+    					success : function(data) {
+    						var str=data;
+    						if(str.success=='false'){
+    							$.messager.alert('提示',str.err,'Warning');;
+    							return ;
+    						}
+    						//if(''=='add')
+    						$.messager.alert("操作提示", "保存成功！","info", function () { 
+					            $('#dlg').dialog('close');
+						 		$('#grid').datagrid('reload');
+	    						$('#tree').tree('reload'); 
+					        }); 
+    					}
+    				});
+    				//提交表单
+    				$('#form1').submit();
+    });
+    
+    $("#page_department_js_edit").on("click",function(){
+    	var rowsArr = $('#grid').datagrid('getSelections');
+    	if(rowsArr.length>1){
+    		$.messager.alert('提示消息','只能选择一行');   
+    		return false;
+    	}
+    	var row = $("#grid").datagrid("getSelected");
+    	var parentOrg = window.pdp_id;
+        if(undefined != row){
+     	   //$('#dlg').dialog('open').dialog('setTitle', '编辑部门信息');
+     	   $("#ppmId").val(row.ppmId);
+        		returnVal=window.showModalDialog("/psvn/systemOrgController/addSysOrgPage.html?parentOrg="+parentOrg+"&ppmId="+row.ppmId,"newwin","dialogWidth:500px;dialogHeight:350px;scroll:yes;status:no");
+        		if("1"==returnVal){
+        			//$('#tree').tree("reload");
+        			
+        			
+        				//$('#tree').tree('select', nodec.target); 
+        				gridLoad(parentOrg,"0");
+        				$('#tree').tree("reload");//alert("1");
+        				 //var nodec = $("#tree").tree('find', parentOrg); alert(nodec.text);
+        				 window.pdp_id=parentOrg;
+        				//$('#tree').tree('select', nodec.target);  
+        				//alert("2");
+        			
+            	} ;
+        }else{
+     	   $.messager.alert('提示信息','请选择一行!');
+        }
+    });
+    $("#page_department_js_show").on("click",function(){
+        //treeLoad("status=stop");
+        //$("#page_department_js_info").html("");
+    });
+    
+    $("#page_department_js_del").on("click",function(){
+        var rowsArr = $('#grid').datagrid('getSelections');
+    	if(rowsArr.length<=0){
+    		$.messager.alert('提示信息','请选择一行!');
+    		return false;
+    	}
+    	var ids="";
+    	$.messager.confirm('提示信息','确认删除选中的数据?',function(r){
+    	    if (r){
+    	    	for(var i=0;i<rowsArr.length;i++){
+    		        var row = rowsArr[i];
+    		        var id = row.ppmId;
+    		    	if(undefined != row){
+    		    		if(i==0){
+    		    			ids=id;
+    		    		}else{
+    		    			ids+=","+id;
+    		    		}
+    		    	}
+    	    	}
+    	    
+    	    	 $.getJSON("/psvn/sysOrgController/delOrgById.html",{ ids: ids } , function(data){
+    	    		 /* alert(data.success);
+    	    		 alert(data.success=="false"); */
+		    		 if(data.success=="false"){
+		    			 $.messager.alert("提示",data.msg,function(){
+		    				 return; 
+		    			 });
+		    			 
+		    		 }else{
+		    			 $('#tree').tree('reload');
+		 	         	$('#grid').datagrid('reload');
+		    		 }
+		         });
+    	    	//删除后刷新表格和树
+	         	
+    	    }  
+    	}); 
+    });
+    
+    $("#page_department_js_tb").on("click",function(){
+    	$("<div class=\"datagrid-mask\"></div>").css({display:"block",width:"100%",height:$(window).height()}).appendTo("body");
+    	$("<div class=\"datagrid-mask-msg\"></div>").html("正在向外同步数据，可能需要几分钟时间，请稍候。。。").appendTo("body").css({display:"block",left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2}); 
+    	$.ajax({
+	   		   type: "POST",
+	   		   url: "synOrgZj.html",
+	   		   dataType: "json",
+	   		   success: function(result){
+	   		   	 $.messager.alert('提示信息',result.msg);
+		   		 $("body").find("div.datagrid-mask-msg").remove();
+	             $("body").find("div.datagrid-mask").remove();
+	   		   }
+	   		});
+    });
+    
+    //批量导入功能
+    $("#page_department_js_imp").on("click",function(){
+    	var returnVal =  window.showModalDialog("dep_imp.html","newwin","dialogWidth:380px;dialogHeight:200px;scroll:no;resizable:yes");
+        if(returnVal == "cancel"){
+        	$('#tree').tree('reload');	
+        }
+    	//$(this).winOpen({url:"dep_imp.html",width:380,height:200});
+    });
+    
+    //默认关键字切换
+    $("#search").focus(function(){
+    	var keytext = $("#search").val();
+    	if(keytext=="输入部门名称或编号"){
+    		$("#search").val("");    		
+    	}
+    });
+   $("#search").blur(function(){
+	   var keytext = $("#search").val();
+	   	if(keytext==""){
+	   		$("#search").val("输入部门名称或编号");
+	   	}
+    });
+   //搜索列表
+   $("#search_button").on("click",function(){
+      var keytext = $.trim($("#search").val());
+      var searchstatus =  $("#searchstatus").val();
+      if(keytext=="输入部门名称或编号"){
+      	keytext="";
+      } 
+	  //重新加载grid
+	  $('#grid').datagrid({  
+	  	url:'/psvn/sysOrgController/list.html',  
+	  	queryParams:{  
+	  		parentOrg: window.pdp_id,
+	  		keyText: keytext,
+	  		status: searchstatus
+	  	},
+	  	onRowContextMenu: function(e, rowIndex, rowData) {//xupp
+	  		
+	  		
+	  	} 
+	  });
+  	 });
+    
+     document.onkeydown = function(e){ 
+	    var ev = document.all ? window.event : e;
+	    if(ev.keyCode==13&&$("#search").is(":focus")) {
+			$("#search_button").trigger("click");
+	     }
+	  }
+  	  
+   
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>#block("title")#end</title>
+#parse("../../common/common.vm")
+<link rel="stylesheet" href="$skinsPath/blue/css/system_css/subFrame.css" type="text/css" />
+<script type="text/javascript">
+	var SERVER_CONTEXT = "$SERVER_CONTEXT";
+	$(document).ready(function(){
+		//先设置fit属性.后设置会报错
+		$("#js_layout").layout({fit:true});
+	});
+</script>
+#block("inHeader")
+#end
+</head>
+
+<body>
+
+
+#block("conMenu")
+#end	
+
+<div class="wrapper" id="js_layout">
+	<div data-options="region:'center'" class="noborder border-w" id="js_center">
+#block("list")
+	#block("toolbar")
+		<div id="toolbar" class="datagrid-toolbar">
+			<form  id="listForm" method="post" action="$!{formAction}" onsubmit="return false;">
+   				<table style="width: 100%;">
+					<tr>
+						<td>
+						#block("toolbarButton")
+							<a href="javascript:;" class="easyui-linkbutton" id="add$!{model}" data-options="iconCls:'icon-new',plain:true">#PDPMessage('add.button.text')</a>
+<!-- 		<a href="#" class="easyui-linkbutton" id="update$!{model}" data-options="iconCls:'icon-edit',plain:true">#PDPMessage('update.button.text')</a> -->
+							<a href="javascript:;" class="easyui-linkbutton" id="delete$!{model}" data-options="iconCls:'icon-del',plain:true">#PDPMessage('delete.button.text')</a>
+						#end
+						#block("customeButton")
+							
+						#end
+						</td>
+						<td style="text-align: right;vertical-align: middle;">
+							#block("conditions")
+				  				
+				         	#end
+							#block("conditionsbuttons")
+								<button id="search_button" class="sbutton" type="button">#PDPMessage('search.button.text')</button>
+					         #end
+				         </td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	#end
+	<table id="grid" ></table>
+ #end
+ </div>
+</div>
+</body>
+</html>
+
+
+

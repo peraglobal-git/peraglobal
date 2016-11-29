@@ -1,0 +1,93 @@
+#override("point")
+<h1 style="text-align: center;">编辑知识源</h1>
+ #end
+#override("hiddenInput")
+<input type="hidden" name="id" id="id" value="$!{id}"/>
+<input type="hidden" name="oldname" id="oldname" value="$!{name}"/>
+<input type="hidden" name="linkState" id="linkState" value="$!{state}"/>
+<input type="hidden" name="SelectType" id="SelectType" value="2"/>
+#end
+#override("formItem")
+<tr>
+	<td style="width:100px;"  class="right">知识源名称：<i class="require">*</i></td>
+	<td colspan="5">
+		<input type="text" class="txt" id="name" name="name" style="width: 100%;" value="$!{name}" #if($!hasTasks==1)readonly="readonly"#end>
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;"  class="right">知识源类型：<i class="require">*</i></td>
+	<td colspan="5">
+		<input type="text" class="txt" id="linktype" name="linktype" readonly="readonly"  style="width: 240px;" value="数据类">
+	</td>
+</tr>
+
+<tbody name="dbdiv" id="dbdiv" >
+<tr>
+	<td style="width:100px;"  class="right">数据库类型：<i class="require">*</i></td>
+	<td colspan="5">
+		<select name="DBSelectType" id="DBSelectType">
+			<option value="0" #if($!DBtype==0) selected="selected" #end>请选择</option>
+			<option value="oracle" #if($!DBtype=='oracle') selected="selected" #end>ORACLE</option>
+			<option value="mysql" #if($!DBtype=='mysql') selected="selected" #end>MYSQL</option>
+			<option value="sqlserver" #if($!DBtype=='sqlserver') selected="selected" #end>SQL SERVER</option>
+		</select>
+	</td>
+</tr>
+	
+<tr>
+	<td style="width:100px;"  class="right">数据库连接：<i class="require">*</i></td>
+	<td>
+		<input type="text" class="txt" id="dburl" style="width: 240px;" name="dburl" value="$!{url}">
+	</td>
+	<td class="right">端口号：</td>
+	<td>
+		<input type="text" class="txt" id="port" style="width: 100px;" name="port" value="$!{port}">
+	</td>
+	<td class="right">数据库名称：</td>
+	<td>
+		<input type="text" class="txt" id="dataname" name="dataname" style="width: 100px;" value="$!{dataname}">
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;"  class="right">用户名：<i class="require">*</i></td>
+	<td colspan="5">
+		<input type="text" class="txt" id="username" style="width: 100%;" name="username" value="$!{username}">
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;"  class="right">密码：<i class="require">*</i></td>
+	<td colspan="5">
+		<input type="password" class="txt" name="password_v" id="input_password" style="width: 100%;" name="password" value="******" >
+		<input type="hidden"   id="password" name="password" value="$!{password}">
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;"  class="right"></td>
+	<td>
+		<input type="button" name="linkbutton" id="linkbutton" value="连接测试">
+	</td>
+	
+</tr>
+</tbody>
+#end
+#override("buttons")
+      <ul class="lists rf">
+             <li><button type="submit" class="button" id="saveBtn">保存</button></li>
+             <li><button type="button" class="button" onclick="window.close();">取消</button></li>
+      </ul>
+#end
+#override("inHeader")
+<script src="../static/framework/js/validate_plugin_m.js" type="text/javascript"></script>
+<script type="text/javascript"> 
+	seajs.use(['modules/km/js/source/saveDBsource'], function(main) {
+		$(function(){
+			
+			main.init({
+					groupId:'$!{groupId}',
+					oldname:'$!{name}',
+			});
+		});
+	});
+</script>
+#end
+#extends("/template/blue-km/editDialog.vm")

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="webapp.moduleName">pdp.master.com.cn</entry>
+ 	<entry key="db.url.master.default"><![CDATA[jdbc:mysql://pdp.master.com.cn:3306/crawler?useUnicode=true&characterEncoding=utf8]]></entry> 
+ 	<entry key="jdbc.masterName"><![CDATA[root]]></entry> 
+ 	<entry key="jdbc.masterPasswd"><![CDATA[root]]></entry> 
+	<entry key="fail.login.count">2</entry>
+	<!-- 开启url权限验证 -->	
+	<entry key="auth.url.enabled">false</entry>	
+	<!-- 模块导航开启递归查询，支持跟多层 -->
+	<entry key="module.find.deep">true</entry>	
+	<!-- ui配置对应front下的页面  -->
+	<entry key="skin.page.name">blue</entry>	
+	<!-- ui配置对已skins下的文件 -->
+	<entry key="skin.ui.name">blue-km</entry>	
+	
+	<!-- 开启三员日志权限验证 -->	
+	<entry key="admin.log.syrole">false</entry>	
+
+	<!-- license许可相关属性-->	
+	<entry key="license.userAmount">1000</entry>
+	<entry key="license.projectAmount">1000</entry>
+	<entry key="license.licenseConnAmount">20</entry>
+	<entry key="license.validDays">90</entry>
+	<entry key="license.canUseModules">需求管理;配置管理;系统管理;指标管理</entry>
+</properties>

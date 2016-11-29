@@ -1,0 +1,110 @@
+	
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="trigger" name="trigger" #if($!checkbox_trigger==1)  checked="checked" #end>启用定时任务
+		<br><br>
+		<div id="triggerdiv" >
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="triggerType" id="day" value="1" checked="checked">每天
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="triggerType"  id="week" value="2" #if($!triggerType==2) checked="checked" #end>每周
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="triggerType" id="month" value="3" #if($!triggerType==3) checked="checked" #end>每月
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="triggerType" id="one" value="4"   #if($!triggerType==4) checked="checked" #end>一次<br><br>
+			<div id="trigger_timeforhour"  #if($!triggerType!=1 && $!triggerType!=0) style="display: none;" #end>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开始时间：<input id="startTime_hour" name="startTime" #if($!triggerType==1) value="$!{startTime}" #end  class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'HH:mm:ss'})"/>
+	&nbsp;&nbsp;&nbsp;结束时间：<input id="stopTime_hour" name="stopTime" #if($!triggerType==1) value="$!{stopTime}" #end  class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'HH:mm:ss'})"/>
+			</div>
+		<div id="trigger_timeforday" #if($!triggerType!=3) style="display: none;" #end >
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开始时间：<input id="startTime_day" name="startTime" #if($!triggerType==3) value="$!{startTime}" #end class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'HH:mm:ss'})"/>
+	&nbsp;&nbsp;&nbsp;结束时间：<input id="stopTime_day" name="stopTime" #if($!triggerType==3) value="$!{stopTime}" #end class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'HH:mm:ss'})"/>
+		<br><br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;选择月份：<select id="monthformonth"  name="monthformonth" class="easyui-combobox" data-options="multiple:true,editable:false"  >
+			<option></option>
+			<option value="1" #foreach($tab in $monthList) #if($!tab==1) selected="selected" #end #end>一月</option>
+			<option value="2" #foreach($tab in $monthList) #if($!tab==2) selected="selected" #end #end>二月</option>
+			<option value="3" #foreach($tab in $monthList) #if($!tab==3) selected="selected" #end #end>三月</option>
+			<option value="4" #foreach($tab in $monthList) #if($!tab==4) selected="selected" #end #end>四月</option>
+			<option value="5" #foreach($tab in $monthList) #if($!tab==5) selected="selected" #end #end>五月</option>
+			<option value="6" #foreach($tab in $monthList) #if($!tab==6) selected="selected" #end #end>六月</option>
+			<option value="7" #foreach($tab in $monthList) #if($!tab==7) selected="selected" #end #end>七月</option>
+			<option value="8" #foreach($tab in $monthList) #if($!tab==8) selected="selected" #end #end>八月</option>
+			<option value="9" #foreach($tab in $monthList) #if($!tab==9) selected="selected" #end #end>九月</option>
+			<option value="10" #foreach($tab in $monthList) #if($!tab==10) selected="selected" #end #end>十月</option>
+			<option value="11" #foreach($tab in $monthList) #if($!tab==11) selected="selected" #end #end>十一月</option>
+			<option value="12" #foreach($tab in $monthList) #if($!tab==12) selected="selected" #end #end>十二月</option>
+		</select>
+		<div id="monthforday_div">
+		<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio"  class="monthType"  value="1" name="monthType" #if($!monthType==1 || $!triggerType!=3) checked="checked" #end>&nbsp;&nbsp;选择日期：
+		<select id="monthforday" name="monthforday" class="easyui-combobox" data-options="multiple:true,editable:false" #if($!monthType==2 ) disabled="disabled"  #end>  
+		<option></option>
+		<option value="1" #foreach($day in $dayList) #if($!day==1) selected="selected" #end #end>一日</option>
+		<option value="2" #foreach($day in $dayList) #if($!day==2) selected="selected" #end #end>二日</option>
+		<option value="3" #foreach($day in $dayList) #if($!day==3) selected="selected" #end #end>三日</option>
+		<option value="4" #foreach($day in $dayList) #if($!day==4) selected="selected" #end #end>四日</option>
+		<option value="5" #foreach($day in $dayList) #if($!day==5) selected="selected" #end #end>五日</option>
+		<option value="6" #foreach($day in $dayList) #if($!day==6) selected="selected" #end #end>六日</option>
+		<option value="7" #foreach($day in $dayList) #if($!day==7) selected="selected" #end #end>七日</option>
+		<option value="8" #foreach($day in $dayList) #if($!day==8) selected="selected" #end #end>八日</option>
+		<option value="9" #foreach($day in $dayList) #if($!day==9) selected="selected" #end #end>九日</option>
+		<option value="10" #foreach($day in $dayList) #if($!day==10) selected="selected" #end #end>十日</option>
+		<option value="11" #foreach($day in $dayList) #if($!day==11) selected="selected" #end #end>十一日</option>
+		<option value="12" #foreach($day in $dayList) #if($!day==12) selected="selected" #end #end>十二日</option>
+		<option value="13" #foreach($day in $dayList) #if($!day==13) selected="selected" #end #end>十三日</option>
+		<option value="14" #foreach($day in $dayList) #if($!day==14) selected="selected" #end #end>十四日</option>
+		<option value="15" #foreach($day in $dayList) #if($!day==15) selected="selected" #end #end>十五日</option>
+		<option value="16" #foreach($day in $dayList) #if($!day==16) selected="selected" #end #end>十六日</option>
+		<option value="17" #foreach($day in $dayList) #if($!day==17) selected="selected" #end #end>十七日</option>
+		<option value="18" #foreach($day in $dayList) #if($!day==18) selected="selected" #end #end>十八日</option>
+		<option value="19" #foreach($day in $dayList) #if($!day==19) selected="selected" #end #end>十九日</option>
+		<option value="20" #foreach($day in $dayList) #if($!day==20) selected="selected" #end #end>二十日</option>
+		<option value="21" #foreach($day in $dayList) #if($!day==21) selected="selected" #end #end>二十一日</option>
+		<option value="22" #foreach($day in $dayList) #if($!day==22) selected="selected" #end #end>二十二日</option>
+		<option value="23" #foreach($day in $dayList) #if($!day==23) selected="selected" #end #end>二十三日</option>
+		<option value="24" #foreach($day in $dayList) #if($!day==24) selected="selected" #end #end>二十四日</option>
+		<option value="25" #foreach($day in $dayList) #if($!day==25) selected="selected" #end #end>二十五日</option>
+		<option value="26" #foreach($day in $dayList) #if($!day==26) selected="selected" #end #end>二十六日</option>
+		<option value="27" #foreach($day in $dayList) #if($!day==27) selected="selected" #end #end>二十七日</option>
+		<option value="28" #foreach($day in $dayList) #if($!day==28) selected="selected" #end #end>二十八日</option>
+		<option value="29" #foreach($day in $dayList) #if($!day==29) selected="selected" #end #end>二十九日</option>
+		<option value="30" #foreach($day in $dayList) #if($!day==30) selected="selected" #end #end>三十日</option>
+		<option value="31" #foreach($day in $dayList) #if($!day==31) selected="selected" #end #end>三十一日</option>
+		<option value="L" #foreach($day in $dayList) #if($!day=='L') selected="selected" #end #end>最后一天</option>
+	</select>
+	</div>
+	<div id="monthforweek_div">
+	<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="monthType" name="monthType" value="2" #if($!monthType==2) checked="checked" #end >&nbsp;&nbsp;选择周期：
+	<select id="monthforweek" name="monthforweek" class="easyui-combobox" data-options="multiple:true,editable:false" #if($!monthType==1 || $!triggerType!=3) disabled="disabled" #end>
+		<option></option>
+		<option value="1" #foreach($few in $weekList) #if($!few==1) selected="selected" #end #end>第一周</option>
+		<option value="2" #foreach($few in $weekList) #if($!few==2) selected="selected" #end #end>第二周</option>
+		<option value="3" #foreach($few in $weekList) #if($!few==3) selected="selected" #end #end>第三周</option>
+		<option value="4" #foreach($few in $weekList) #if($!few==4) selected="selected" #end #end>第四周</option>
+		<option value="5" #foreach($few in $weekList) #if($!few==5) selected="selected" #end #end>第五周</option>
+		<option value="L" #foreach($few in $weekList) #if($!few=='L') selected="selected" #end #end>最后一周</option>
+	</select>
+	&nbsp;&nbsp;&nbsp;选择星期：<select id="monthforweek2" name="monthforweek2" class="easyui-combobox" data-options="multiple:true,editable:false" #if($!monthType==1 || $!triggerType!=3) disabled="disabled" #end>
+		<option></option>
+		<option value="2" #foreach($week in $weekList2) #if($!week==2) selected="selected" #end #end>星期一</option>
+		<option value="3" #foreach($week in $weekList2) #if($!week==3) selected="selected" #end #end>星期二</option>
+		<option value="4" #foreach($week in $weekList2) #if($!week==4) selected="selected" #end #end>星期三</option>
+		<option value="5" #foreach($week in $weekList2) #if($!week==5) selected="selected" #end #end>星期四</option>
+		<option value="6" #foreach($week in $weekList2) #if($!week==6) selected="selected" #end #end>星期五</option>
+		<option value="7" #foreach($week in $weekList2) #if($!week==7) selected="selected" #end #end>星期六</option>
+		<option value="1" #foreach($week in $weekList2) #if($!week==1) selected="selected" #end #end>星期日</option>
+	</select>
+	</div>
+			</div>
+			<div id="trigger_timeforweek" #if($!triggerType!=2) style="display: none;" #end>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开始时间：<input id="startTime_week" name="startTime" #if($!triggerType==2) value="$!{startTime}" #end class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'HH:mm:ss'})"/>
+	&nbsp;&nbsp;&nbsp;结束时间：<input id="stopTime_week" name="stopTime" #if($!triggerType==2) value="$!{stopTime}" #end class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'HH:mm:ss'})"/>
+					<br><br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox"  name="triggerWeek" value="1" #foreach($week in $weekList1) #if($!week==1) checked="checked" #end #end>星期日
+				&nbsp;<input type="checkbox"  name="triggerWeek" value="2" #foreach($week in $weekList1) #if($!week==2) checked="checked" #end #end>星期一
+				&nbsp;<input type="checkbox"  name="triggerWeek" value="3" #foreach($week in $weekList1) #if($!week==3) checked="checked" #end #end>星期二
+				&nbsp;<input type="checkbox"  name="triggerWeek" value="4" #foreach($week in $weekList1) #if($!week==4) checked="checked" #end #end>星期三
+				&nbsp;<input type="checkbox"  name="triggerWeek" value="5" #foreach($week in $weekList1) #if($!week==5) checked="checked" #end #end>星期四
+				&nbsp;<input type="checkbox"  name="triggerWeek" value="6" #foreach($week in $weekList1) #if($!week==6) checked="checked" #end #end>星期五
+				&nbsp;<input type="checkbox"  name="triggerWeek" value="7" #foreach($week in $weekList1) #if($!week==7) checked="checked" #end #end>星期六	
+			</div>
+			<div id="trigger_timeforone" #if($!triggerType!=4) style="display: none;" #end>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开始时间：<input type="text" class="Wdate" #if($!triggerType==4) value="$!{startTime}" #end readonly="readonly" id="startTime_one"
+	style="width: 200px; height: 25px;" name="startTime"
+	onfocus="WdatePicker({minDate:'%y-%M-#{%d} ',dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+			</div> 
+		</div>

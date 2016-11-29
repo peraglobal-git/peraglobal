@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peraglobal.km.crawler.web.dao.AttachPropertyDao">
+	<!--根据taskId查询AttachProperty列表 -->
+	<select id="getAttachPropertyByTaskId" parameterType="map" resultType="com.peraglobal.km.crawler.web.model.AttachProperty">
+		<if test="taskId!=null and taskId!=''">
+			select * from AttachProperty t where t.taskId=#{taskId}
+		</if>
+	</select>
+	<!--删除附件属性 -->
+	<delete id="delAttachPropertyByIds" parameterType="list">
+		delete from AttachProperty 
+		<where>
+			taskId in 
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+	</delete>
+</mapper>

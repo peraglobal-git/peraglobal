@@ -1,0 +1,31 @@
+#override("title")用户列表#end
+#override("inHeader")
+		<script>
+			seajs.use(['framework/admin/user'], function(user) {
+				$(function(){
+					user.init();
+					var grid = user.gridLoad();
+					user.treeLoad(null,'../user/getUserList.html');
+					grid.datagrid("toolbarPermission",{toolbarDel:true});
+				});
+			});
+		</script>
+#end
+	#set($model='User')
+	#override("customeButton")	
+		<a href="#" class="easyui-linkbutton" iconCals="icon-showStart" plain="true" id="enableUser">#PDPMessage("enable.button.text")</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-showStop" plain="true" id="disableUser">#PDPMessage("disable.button.text")</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-back" plain="true" id="resetPassword">#PDPMessage("reset.password.button.text")</a> 
+		<!-- <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="setDegree">#PDPMessage("degree.button.text")</a>  -->
+<!-- 		<a href="#" class="easyui-linkbutton" iconCls="icon-lotauthor" plain="true" id="setUserRole">#PDPMessage("roleForUser.button.text")</a> -->
+		<a href="#" class="easyui-linkbutton" iconCls="icon-addType" plain="true" id="importUserList">#PDPMessage("import.button.text")</a>
+        <!-- <a href="#" class="easyui-linkbutton" id="sendMail" data-options="iconCls:'icon-start',plain:true">测试发送</a> -->
+        <a href="#" class="easyui-linkbutton" iconCls="icon-userLeadin" plain="true" id="moveUser">移动到</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-unlock" plain="true" id="unlockUser">解除锁定</a>
+	#end
+	#override("conditions")
+		<input id="search" type="text" class="txt" name="conditions['username-realName'].value" value="输入姓名或账号">
+		<input type="hidden" id="orgId" name="conditions['orgId_eq'].value">
+	#end
+
+#extends("/template/leftTreeCenterGrid.vm")

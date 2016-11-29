@@ -1,0 +1,21 @@
+#override("formItem")
+	#trText('名称','obj.resourceName',true,'')
+	#trText('URL','obj.url',true,'')
+	<tr><td>时间</td>
+		<td> <input class="text-input" type="text"name="createDate"  onfocus="WdatePicker()"/></td>
+	</tr>
+#end
+#override("hiddenInput")
+<input type="hidden" name="id" value="$!{obj.id}" />
+#end
+#override("inHeader")
+<script src="$!staticPath/public/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+	seajs.use(['framework/admin/saveResource'], function(main) {
+		$(function(){
+			main.init({id:'$!{obj.id}',url:"$!{obj.url}"});
+		});
+	});
+</script>
+#end
+#extends("/template/editDialog.vm")

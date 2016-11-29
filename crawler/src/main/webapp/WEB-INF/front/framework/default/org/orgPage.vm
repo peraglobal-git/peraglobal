@@ -1,0 +1,24 @@
+#override("inHeader")
+		<script type="text/javascript">
+			seajs.use(['framework/admin/org'], function(org) {
+				$(function(){
+					org.init();
+					org.treegridLoad();
+					//控制toolbar显示权限
+					 $("#grid").treegrid("toolbarPermission",{toolbarDel:true});
+				});
+			});
+		</script>
+#end
+#set($model="Org")
+	#override("customeButton")	
+		<a href="#" class="easyui-linkbutton" iconCls="icon-showStart" plain="true" id="orgEnable">#PDPMessage("enable.button.text")</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-showStop" plain="true" id="orgDisable">#PDPMessage("disable.button.text")</a>
+	#end
+
+	#override("conditions")
+			<input id="search" type="text" class="txt" name="conditions['name-orgCode'].value" value="输入部门名称或编号" >
+			<!--  <input type="hidden" id="parentId" name="conditions['parentId_eq'].value"> -->
+	#end
+	
+#extends("/template/listDataGrid.vm")

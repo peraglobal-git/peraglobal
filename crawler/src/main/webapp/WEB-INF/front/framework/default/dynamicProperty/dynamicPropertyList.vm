@@ -1,0 +1,22 @@
+#override("customeButton")
+	<a href="#" class="easyui-linkbutton" iconCls="icon-showStart" plain="true" id="enableDynamicProperty">启用</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-showStop" plain="true" id="disableDynamicProperty">停用</a>
+#end
+
+
+#override("inHeader")
+<script type="text/javascript">
+	seajs.use(['framework/admin/dynamicProperty.js'], function(properties) {
+		$(function(){
+			properties.gridLoad();
+			properties.init();
+		});
+	});
+</script>
+#end
+#set($model="DynamicProperty")
+#override("conditions")
+<input id="search" type="text" class="txt" name="conditions['name-code'].value" value="输入属性名称或者编码">
+#end
+
+#extends("/template/listDataGrid.vm")

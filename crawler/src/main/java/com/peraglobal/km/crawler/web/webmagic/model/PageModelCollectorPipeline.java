@@ -1,0 +1,46 @@
+package com.peraglobal.km.crawler.web.webmagic.model;
+
+import java.lang.annotation.Annotation;
+import java.util.List;
+
+import com.peraglobal.km.crawler.web.webmagic.ResultItems;
+import com.peraglobal.km.crawler.web.webmagic.Task;
+import com.peraglobal.km.crawler.web.webmagic.model.annotation.ExtractBy;
+import com.peraglobal.km.crawler.web.webmagic.pipeline.CollectorPageModelPipeline;
+import com.peraglobal.km.crawler.web.webmagic.pipeline.CollectorPipeline;
+
+/**
+ * @author code4crafter@gmail.com
+ * @since 0.4.0
+ */
+class PageModelCollectorPipeline<T> implements CollectorPipeline<T> {
+
+    private final CollectorPageModelPipeline<T> classPipeline = new CollectorPageModelPipeline<T>();
+
+    private final Class<?> clazz;
+
+    PageModelCollectorPipeline(Class<?> clazz) {
+        this.clazz = clazz;
+    }
+
+    @Override
+    public List<T> getCollected() {
+        return classPipeline.getCollected();
+    }
+
+    @Override
+    public synchronized void process(ResultItems resultItems, Task task) {
+        Object o = resultItems.get(clazz.getCanonicalName());
+        if (o != null) {
+            Annotation annotation = clazz.getAnnotation(ExtractBy.class);
+            if (annotation == null || !((ExtractBy) annotation).multi()) {
+                classPipeline.process((T) o, task);
+            } else {
+                List<Object> list = (List<Object>) o;
+                for (Object o1 : list) {
+                   classPipeline.process((T) o1, task);
+                }
+            }
+        }
+    }
+}

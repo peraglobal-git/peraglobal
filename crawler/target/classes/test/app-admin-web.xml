@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="webapp.moduleName">pdp.master.com.cn</entry>
+<!-- 	<entry key="db.dialect">oracle</entry> -->
+<!-- 	<entry key="table.prefix">PDP</entry> -->
+	<entry key="db.url.master.default"><![CDATA[jdbc:mysql://pdp.master.com.cn:3307/pdpbig?useUnicode=true&characterEncoding=utf8]]></entry>
+<!-- 	<entry key="db.url.master.default"><![CDATA[jdbc:oracle:thin:@spm.master.com.cn:1521:orcl]]></entry> -->
+	<entry key="jdbc.masterName"><![CDATA[root]]></entry>
+	<entry key="jdbc.masterPasswd"><![CDATA[root]]></entry>
+<!-- 	<entry key="db.url.slave.default"><![CDATA[jdbc:mysql://pdp.master.com.cn:3307/test?useUnicode=true&characterEncoding=utf8]]></entry> -->
+<!-- 	<entry key="jdbc.slaveName"><![CDATA[root]]></entry> -->
+<!-- 	<entry key="jdbc.slavePasswd"><![CDATA[root]]></entry> -->
+	<entry key="fail.login.count">2</entry>
+	<!-- 开启url权限验证 -->	
+	<entry key="auth.url.enabled">false</entry>	
+	<!-- 模块导航开启递归查询，支持跟多层 -->
+	<entry key="module.find.deep">false</entry>	
+	<!-- admin的ui配置对应front下文件夹  	-->
+	<entry key="skin.page.name">blue</entry>	
+	<entry key="skin.ui.name">blue</entry>	
+
+	<!-- 开启三员日志权限验证 -->	
+	<entry key="admin.log.syrole">false</entry>	
+	<!-- license许可相关属性-->	
+	<entry key="license.userAmount">1000</entry>
+	<entry key="license.projectAmount">1000</entry>
+	<entry key="license.licenseConnAmount">20</entry>
+	<entry key="license.validDays">90</entry>
+	<entry key="license.canUseModules">需求管理;配置管理;系统管理;指标管理</entry>
+</properties>

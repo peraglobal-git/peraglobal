@@ -1,0 +1,126 @@
+#override("point")
+<h1 style="text-align: center;"><!-- $!{pointDic} -->新建传输任务</h1>
+ #end
+#override("hiddenInput")
+<input type="hidden" name="id" id="id" value="$!{id}"/>
+<input type="hidden" name="oldname" id="oldname" value="$!{name}"/>
+<input type="hidden" name="jobState" id="jobState" value="$!{obj.jobState}">
+<input type="hidden" name="sourceId" id="sourceId" value="$!{sourceId}">
+<input type="hidden" name="sourceName" id="sourceName" value="$!{sourceName}">
+<input type="hidden" name="systemName" id="systemName" value="KM知识管理系统"/>
+#end
+#override("formItem")
+<table class="forms">
+	<tr>
+		<td colspan="3"><hr/></td>
+	</tr>
+	<tr>
+		<td class="right">
+			知识源：<i class="require">*</i>
+		</td>
+		<td style="width:100%" colspan="2">
+			<select id="knowledgeSource" name="knowledgeSource" style="width:90%">
+				<option value="0">请选择</option>
+				#foreach($source in $sourceList)
+					<option value="$!{source.id}"  #if($!{source.id}==$!{sourceId}) selected="selected" #end>$!{source.name}</option>
+				#end
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="right">
+			选择采集任务：<i class="require">*</i>
+		</td>
+	    <td style="width:100%" colspan="2">
+			<select id="TaskSelect" name="TaskSelect" value="$!{connectId}" style="width:90%">
+				<option value="0">请选择</option>
+				#foreach($t in $taskList)
+					<option value="$!{t.id},$!{t.name}" #if($connectId==$t.id) selected="selected" #end>$!t.name [ $!t.knowledgeTypeName,$!t.knowledgeModelName ]</option>
+				#end
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="right">
+			选择数据库类型：<i class="require">*</i>
+		</td>
+	    <td style="width:100%" colspan="2">
+			<select name="DBSelectType" id="DBSelectType">
+				<option value="0">请选择</option>
+				<option value="oracle">ORACLE</option>
+				<option value="mysql">MYSQL</option>
+				<option value="sqlserver">SQL SERVER</option>
+		</select>
+		</td>
+	</tr>
+	<tr>
+	<td style="width:100px;"  class="right">数据库地址：<i class="require">*</i></td>
+	<td>
+		<input type="hidden" id="type" style="width: 240px;" name="type" value="JdbcDataSource">
+		<input type="text" class="txt" id="dburl"  name="dburl" value="">
+	</td>
+</tr>
+<tr>
+	<td class="right">数据库名称/端口号：</td>
+	<td>
+		<input type="text" class="txt" id="dataname" name="dataname" value="" >/
+		<input type="text" class="txt" id="port" name="port" value="">
+	</td>
+</tr>
+
+<tr>
+	<td style="width:100px;"  class="right">用户名/密码：<i class="require">*</i></td>
+	<td colspan="5" style="width:100%;">
+		<input type="text" class="txt" id="username" name="username" value="">/
+		<input type="password" id="input_password" class="txt" name="password" value="">
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;"  class="right"></td>
+	<td colspan="5" style="width:100%;">
+		<input type="button" name="linkbutton" id="linkbutton" value="连接测试">
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;"  class="right">数据库脚本：</td>
+	<td colspan="5" style="width:100%;">
+		<textarea name="insertSQL" id="insertSQL" style="width:100%">INSERT INTO Table_Name (title,content,time) VALUES ()</textarea>
+	</td>
+</tr>
+	<tr>
+		<td colspan="3"><hr/></td>
+	</tr>
+</table>
+<div style="height:15px"></div>
+	#parse("km/crawler/task/taskTiming.vm")
+<div style="height:10px"></div>
+#end
+#override("buttons")
+   <ul class="lists rf">
+        <li><button type="submit" class="button" id="saveBtn">保存</button></li>
+        <li><button type="button" class="button" onclick="window.close();">取消</button></li>
+   </ul>
+#end
+#override("inHeader")
+<script src="../static/framework/js/validate_plugin_m.js" type="text/javascript"></script>
+<script src="../static/public/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script type="text/javascript">
+	seajs.use(['modules/km/js/taskTransfer/saveTransferTask'], function(main) {
+		$(function(){
+			main.init();
+		});
+	});
+</script>
+
+<script type="text/javascript"> 
+	seajs.use(['modules/km/js/taskGroup/attributeField'], function(main) {
+			main.queryAttribute();
+	});
+</script>
+
+<script type="text/javascript"> 
+	seajs.use(['modules/km/js/taskGroup/taskTiming'], function(main) {
+	});
+</script>
+#end
+#extends("/template/blue-km/editDialog.vm")

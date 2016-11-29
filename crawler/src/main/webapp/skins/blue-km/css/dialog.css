@@ -1,0 +1,237 @@
+h1{
+	margin-bottom: 0px;
+	font-size: 2em;
+	float: left;
+	padding: 0 20px;
+	color: #999;
+}
+ul, li {
+    list-style: outside none none;
+}
+body{
+	background-color: #fff;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+table.forms {
+    empty-cells: show;
+    width: 100%;
+}
+table.forms {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+table.forms .left {
+    padding-left: 1em;
+    text-align: left;
+    width: 100%;
+}
+table.aui_border td{
+	border: none !important;
+}
+table.forms td {
+    color: #000000;
+    padding: 6px 0;
+    text-align: left;
+    font-family: "微软雅黑";
+}
+table.forms tr td {
+    empty-cells: show;
+}
+table.forms .right {
+    color: #333;
+    text-align: right;
+    white-space: nowrap;
+}
+.require {
+    color: #f00;
+    padding-left: 5px;
+    padding-right: 5px;
+    position: relative;
+    top: 3px;
+}
+ul.lists {
+    padding-right: 20px;
+}
+ul.lists {
+    overflow: hidden;
+}
+ul.lists li {
+    display: inline;
+    float: left;
+}
+.rf {
+    float: right;
+}
+
+button.plusNew{
+    display: block;
+    height: 21px;
+    width: 21px;
+    font-size: 16px;
+}
+.border-n {
+    border-top: 1px solid #aaa;
+}
+.ftbutton {
+    background: #f0f0f0 none repeat scroll 0 0;
+    bottom: 1px;
+    height: 48px;
+    left: 1px;
+    position: absolute;
+    right: 1px;
+    text-align: right;
+}
+button.button {
+    background: url("easyui/button.png") no-repeat ;
+    background-position: -105px 0px;
+    border: 0 none;
+    font: 12px/140% Arial;
+    height: 24px;
+    margin: 10px 3px;
+    width: 86px;
+}
+.pad10{
+	padding: 10px;
+}
+.combo-p{
+    box-shadow: 0px 0px 1px;
+}
+/* 输入框 */
+input.txt,
+input.txtw{
+    background: #fff url("easyui/txt_bg.png") no-repeat scroll 0 0;
+    border-color: #999 #bbb #bbb #999;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    outline: medium none;
+    padding-left: 0.5em;
+    color: #333;
+    font-family: Verdana,Geneva,sans-serif,"宋体";
+    font-size: 12px;
+    padding: 7px;
+    width: 228px;
+}
+input.txtw {
+	padding: 7px 7px 6px 7px;
+}
+table.forms select{
+    background: #fff url("easyui/txt_bg.png") no-repeat scroll 0 0;
+    height: 30px;
+    padding: 4px;
+	border-color: #999 #bbb #bbb #999;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+}
+input.error {
+    border: 1px dotted red;
+}
+table.forms select.sltqf {
+    height: 30px;
+    width: 50px;
+}
+form.cmxform label.error, label.error {
+	display: block;
+    visibility: visible;
+    color: red;
+    padding-left: 5px;
+}
+table.forms textarea{
+	box-sizing:border-box;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: #fff url("easyui/txt_bg.png") no-repeat;
+    background-position: -2px 0;
+    border-color: #999 #bbb #bbb #999;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    font: 12px/22px arial;
+    height: 100px;
+    outline: medium none;
+    padding: 5px;
+    width: 226px;
+	resize: none;
+}
+.tdDiv {
+	float:left;
+	padding:5px 10px;
+	height:390px;
+	border:solid 1px #F2F2F2;
+	overflow-y:scroll;
+}
+.tdDivL {
+	width:500px; 
+}
+.tdDivR {
+	border-left: none;
+}
+table.forms td.attributetd {
+	padding: 6px 0 6px 10px;
+	border: 1px solid #dcdcdc;
+}
+/*树结构*/
+.tree-node,
+.tree-title{
+    height: 30px !important;
+    line-height: 30px !important;
+    color: #333;
+}
+.tree-expanded, 
+.tree-collapsed, 
+.tree-folder, 
+.tree-file, 
+.tree-checkbox, 
+.tree-indent {
+	margin-top: 5px !important;
+}
+.tree-expanded {
+    background: url("easyui/tree_icons.png") no-repeat;
+    background-position: -18px 0px;
+}
+
+.tree-collapsed {
+    background: url("easyui/tree_icons.png") no-repeat;
+    background-position: -0px 0px;
+}
+.tree-collapsed-hover {
+    background: url("easyui/tree_icons.png") no-repeat;
+    background-position: -32px 0px;
+}
+.tree-file {
+    background: url("easyui/tree_icons.png") no-repeat;
+    background-position: -240px 0px;
+}
+.tree-folder {
+    background: url("easyui/tree_icons.png") no-repeat;
+    background-position: -208px 0px;
+}
+.tree-folder-open {
+    background: url("easyui/tree_icons.png") no-repeat;
+    background-position: -224px 0px;
+}
+.tree-checkbox0 {
+    background: url("easyui/tree_icons.png") no-repeat;
+    background-position: -208px -18px;
+}
+.tree-checkbox1 {
+    background: url("easyui/tree_icons.png") no-repeat;
+    background-position: -224px -18px;
+}
+.qtip:not(.ie9haxors) div.qtip-content, 
+.qtip:not(.ie9haxors) div.qtip-titlebar {
+    filter: none;
+}
+.qtip-content {
+    overflow: hidden;
+    padding: 5px 9px;
+    position: relative;
+    text-align: left;
+    word-wrap: break-word;
+}

@@ -1,0 +1,79 @@
+#override("form")
+		<div class="pad10" id="details_edit" data-options="region:'center'">
+			<table class="forms" id="forms">
+				<tbody>
+					<tr>
+						<td>
+							<div class="ttl2">用户信息</div>
+						</td>
+	                    <td></td>
+	                    <td></td>
+	                    <td>&nbsp;
+	                    	<input type="hidden" id="id" name="id"  value="$!{user.id}" >
+	                    </td> 
+	                    <td></td>
+					</tr>
+					<tr>
+						<td class="right">
+							<i class="require">*</i>姓名：
+						</td>
+						<td>
+							<input id="realName" name="realName" type="text"   value="$!{user.realName}" class="required txtw"  />
+						</td>
+						<td class="right">
+							<i class="require">*</i>账号：
+						</td>
+						<td>
+							<input id="username" name="username" type="text"  class="txtw"  value="$!{user.username}" />
+						</td>
+						
+					</tr>
+					<tr>
+						<td class="right" id="passwordTd">
+							<i class="require ">*</i>密码：
+						</td>
+						<td>
+							<input id="password" class="txtw" name="password" value="$!{user.password}" onpaste="return false" type="password"/>
+						</td>
+					 	<td class="right" id="passwordTdconfirm">
+					 		<i class="require">*</i>确认密码：
+					 	</td>
+						<td>
+							<input id="passwordconfirm" name="passwordconfirm" class="txtw"  value="$!{user.password}"  type="password"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="right">
+							<i class="require">*</i>所属部门：
+						</td>
+						<td colspan="3">
+							<input id="orgName" name="orgName" type="text"  class="txtw"  value="$!{orgName}" disabled="disabled"/>
+							<input id="orgId" name="orgId" type="hidden" value="$!{orgId}"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="right">邮箱地址：</td>
+						<td colspan="3">
+                               <input id="email" name="email" type="text" class="txtw"   value="$!{user.email}" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+#end
+#override("inHeader")
+<title>$!{type}</title>
+<script type="text/javascript">
+
+	seajs.use(['framework/admin/saveUser'], function(user) {
+		$(function(){
+			user.init({
+				pid:'$!{orgId}',
+				id:'$!{user.id}',
+				name:'$!{orgName}'
+			});
+		});
+	});
+</script>
+#end
+#extends("/template/editDialog.vm")

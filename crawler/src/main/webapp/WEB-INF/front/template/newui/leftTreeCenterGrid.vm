@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>#block("title")#end</title>
+#include("../../common/newcommon.vm")
+<link href="../newui/css/systemmenagement.css" rel="stylesheet">
+
+<link type="text/css" rel="stylesheet" href="../newui/css/zTreeStyle/zTreeStyle.css" /> 
+<script type="text/javascript" src="../newui/js/jquery.ztree.all-3.5.min.js"></script>
+
+<!-- dataTable -->
+<link href="../newui/dataTables/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="../newui/dataTables/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../newui/dataTables/js/handlebars-v3.0.1.js"></script>
+<!-- <script type="text/javascript" src="../newui/dataTables/js/colResizable-1.5.min.js"></script> -->
+
+<script type="text/javascript">
+var SERVER_CONTEXT = "$SERVER_CONTEXT";
+</script>
+#block("inHeader")
+#end
+</head>
+
+<body>
+<div class="mainContent-right right">
+#block("body")
+<!-- 右侧布局 -->
+    <div class="mainContent-right-bottom">
+		<!-- 右侧&左右布局&左树 -->
+			<div class="mainContent-right-left left">
+				#block("treeToolBar")
+				<div class="title-div">
+					#block("treeToolbarButton")
+					<span class="title-add" id="add$!{model}">#PDPMessage('add.button.text')</span> 
+					<span class="title-change" id="update$!{model}">#PDPMessage('update.button.text')</span>
+					<span class="title-remove" id="delete$!{model}">#PDPMessage('delete.button.text')</span>
+					#end
+				</div>
+				#end
+				<ul id="Tree" class="ztree"></ul>
+			</div>
+			<!-- 右侧&左右布局&右列表 -->
+       <div class="mainContent-right-right left">
+		   <div class="work-content work-content-now ">
+			#block("toolbar")
+                <div class="btns clearfix">
+                #block("toolbarButton")
+					<button class="add" id="add"><span class="add">增加</span></button>
+					<button class="remove" id="delete"><span class="remove">移除</span></button>
+				#end
+				#block("customeButton")
+				#end
+			   </div>
+            #end
+			#block("table")
+			#end
+		   </div>
+		</div>
+     </div>
+    
+#end
+</div>
+#block("afterScript")
+#end
+<script id="tpl" type="text/x-handlebars-template">
+    {{#each func}}
+	<a href="#" onclick="{{this.fn}}" class="{{this.type}}">{{this.name}}</a>
+    {{/each}}
+</script>
+<script id="check_tpl" type="text/x-handlebars-template">
+    {{#each func_c}}
+	<input id="checkall" name="{{this.name}}" type="checkbox" value="{{this.id}}"></input>
+    {{/each}}
+</script>
+</body>
+</html>

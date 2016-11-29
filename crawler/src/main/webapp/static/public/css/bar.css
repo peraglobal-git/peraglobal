@@ -1,0 +1,57 @@
+
+.main_m
+{
+    width: 400px;
+    height: 400px;
+    position: fixed;
+    bottom: 20px;
+    border: 1px solid #ccc;
+
+    background: #ffffff;
+    padding:5px;
+    /*color:#F00;*/
+    filter:alpha(Opacity=80);
+    -moz-opacity:0.8;
+    opacity: 0.8;
+}
+
+*
+{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+
+* html .main
+{
+    position: absolute;
+    top: expression(eval(document.documentElement.scrollTop));
+    margin-top: 320px;
+}
+
+.main1l
+{
+    width: 100px;
+    height: 180px;
+    border: 1px solid #ccc;
+    float: left;
+}
+.main1r
+{
+    width: 290px;
+    height: 180px;
+    float: right;
+    border: 1px solid #ccc;
+}
+
+.bar
+{
+    width: 25px;
+    height: 105px;
+    position: absolute;
+    left: -35px;
+    top: -1px;
+    background: url(../../../skins/default/images/mini_bg.png) no-repeat;
+    display: block;
+}

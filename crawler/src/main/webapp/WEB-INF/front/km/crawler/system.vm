@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>index</title>
+    #parse("../../common/common.vm") 
+</head>
+<body>
+    <div class="wrapper" id="js_layout">  
+        <div data-options="region:'west',border:false,split:true,width:198" class="aside">
+		 #if($module)
+        	<a class="easyui-accordion-title">$!{systemName}<span onclick='_collapse();' class='layout-button-left' style='display:block;width:15px;height:15px;float:right;cursor:pointer;'></span></a>
+            <div id="accordion" class="easyui-accordion" data-options="fit:false,border:false" style="width:178px;height:660px;">
+                <!-- 新页面左侧结构 -->
+               
+            	#set($menu = $modules)
+            		#if($menu)
+            			#foreach($m in $menu)
+							<div title="$!{m.moduleName}">
+							#if($!{m.id} == '2')
+							#set($me = ${m.childList})
+								#foreach($md in $me)
+								<a href="javascript:void(0)" onclick="clickMenu('$!{md.isCanRefresh}','$!{md.id}','$!{md.moduleName}','$!{md.path}','this');">$!{md.moduleName}</a>
+								#end					
+							#end
+						    </div>
+						    <input type="text" class="hide" id="$!{m.moduleName}" value="'$!{m.isCanRefresh}','$!{m.id}','$!{m.moduleName}','$!{m.path}'">
+						#end
+					#end
+			    
+            </div>
+		#end
+        </div>  
+        <div data-options="region:'center',border:false" id="layout_center" style="overflow:hidden;" class="hidden">
+        	<div id="tabs" class="easyui-tabs" data-options="fit:true,border:false,onContextMenu:onRightKeyClick">
+        	</div>
+        </div>
+        <div id="rm" class="easyui-menu" style="width:100px;">   
+		    <div data-options="iconCls:'icon-refresh'" onclick="onIframeRefreshClick()">刷新</div>    
+		</div>
+    </div>
+
+    <script type="text/javascript" src="$!{staticPath}/public/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    var gIndex = 0;
+    
+	jQuery(function($){
+	    $("#js_layout").layout({fit:true});
+
+	    /*window resize*/
+	    winResize=function(){
+	        var winWidth = $(window).width(),winHeight=$(window).height();
+	        $("#layout").layout("resize",{width:winWidth,height:winHeight});
+	        //选择页签后回显
+	        $('#tabs').tabs({onSelect:function(title,index){
+	        		var tabId = $('#tabs').tabs('getTab',title).attr("id");
+	        		if(tabId){
+	        			tabId = tabId.substring(tabId.indexOf("_")+1, tabId.length);
+	        			$.cookie("clickModule", "a_"+tabId);
+	        		}
+		        	var parentLI = $("#a_"+tabId).parent("li");
+		        	parentLI.addClass("cur");
+		        	parentLI.siblings("li.cur").removeClass("hover cur");
+	        	}
+	        });
+	        var tab = $('#tabs').tabs('getSelected');
+	        var index = $('#tabs').tabs('getTabIndex',tab);
+	        $('#div_'+index).height(winHeight-31);
+
+	        if ($.support.boxModel && !$.support.leadingWhitespace){
+	            var iframes = window.frames;
+	            for(var l = iframes.length,i=0;i<l;i++){
+	                var f = iframes[i].winResize;if(f)f();
+	            }
+	        }
+	    };
+	    $(window).wresize(winResize);
+	    winResize();
+	    if($.cookie("clickModule")){
+	    //	$('#'+$.cookie("clickModule")).trigger("click");
+	    	$('#'+$.cookie("clickModule")).click();
+	    }else{
+		    //触发第一个列表的点击事件
+		    //$('#a_1').trigger("click");
+		    $("ul.listsMenu li a:first").trigger("click");
+	    	
+	    } 
+	    //判断是否存在三级导航
+	    
+	    var thepanel = $('#accordion').accordion('getSelected');
+	    var thelength = thepanel.children().length;
+		if(thelength == 0){
+			$('.accordion .panel-body').hide();
+			//给手风琴标题加入click方法
+		    var thenum = $('.accordion .panel-header').length;
+			$('.accordion .panel').children('.panel-body').panel('resize',{height:40});
+		    for(var i=0 ; i <= thenum-1 ; i++){
+		    	var theval = $('.accordion input').eq(i).attr('value');
+		    	var aaa = theval.split(',');
+		    	$('.accordion .panel-header').eq(i).attr('onclick','clickMenu('+aaa[0]+','+aaa[1]+','+aaa[2]+','+aaa[3]+',this)');
+		    }
+		    
+		}
+		else{
+			var somepanel = $('#accordion').accordion('getSelected');
+			//进入系统管理（三级导航）页面自动执行
+			somepanel.children().eq(0).click();
+			//重置三级导航高度
+			accordionHeight();
+			
+		}
+	    //进入系统管理页面后自动执行一次点击事件
+	    $('.accordion-header-selected').click(); 
+		
+		//点击伸缩west按钮.重置三级导航高度
+		$(".layout-button-left").click(function(){
+		    $(".layout-button-right").click(function(){
+				//重置三级导航高度
+				accordionHeight();
+		    });
+	    });
+	    
+	});
+
+	//重置三级导航高度
+	function accordionHeight(){
+		var thepanels = $('#accordion .panel');
+		var thenum = thepanels.length;
+		for(var m = 0;m <= thenum - 1; m++){
+			var someLength = thepanels.eq(m).children('.panel-body').children().length;
+			var someHeight = someLength * $('.accordion .panel-body').children().height();
+			thepanels.eq(m).children('.panel-body').panel('resize',{height:someHeight+40});
+		}
+	}
+	
+	//缩进
+	function _collapse(){
+		$("#js_layout").layout('collapse','west');
+		$('.layout-expand .panel-body').click(function(){return false});
+		$('.layout-expand a.layout-button-right').click(function(){
+			
+			return false;
+		});
+	}
+	//点击事件,用于触发生成tab页面或者切换到对应的tab页面
+	function clickMenu(isCanRefresh,id,title,url,e) {
+		$.cookie("clickModule", "a_"+id);
+		if(!url){return ;}
+		var tab = $('#tabs').tabs('getTab',title);
+		if(url && url.indexOf("http:")==-1){
+			url="${SERVER_CONTEXT}/"+url;
+		}
+		if(!tab || id=='3') {
+			var _tab = $('#tabs').tabs('getTab',0);
+			if(_tab){
+				var innerHtml = '<iframe name="frameright" id="frame_'+gIndex+'" src="'+url+'" height="100%" width="100%" frameborder="0" scrolling="no" allowtransparency="true"></iframe>';
+				$('#tabs').tabs('update', {
+					tab: _tab,
+					options: {
+						title: title,
+						content:innerHtml  // the new content URL
+					}
+				});
+			}else{
+				var height = $('#tabs').height();
+				var innerHtml = '<iframe name="frameright" id="frame_'+gIndex+'" src="'+url+'" height="100%" width="100%" frameborder="0" scrolling="no" allowtransparency="true"></iframe>';
+				$('#tabs').tabs('add',{
+					id:'tab_'+id,
+				    title:title,
+				    content:innerHtml,    
+					fit:true,
+				    closable:true
+				});
+				//gIndex++;
+			}
+		}else {
+			if("Yes"==isCanRefresh){
+				onIframeRefreshClick();
+			}
+			$('#tabs').tabs('select',title);
+		}
+		// $("#a_"+id).parent("li").addClass("cur");
+		// $("#a_"+id).parent("li").siblings("li").removeClass("hover cur");
+		
+		//重置手风琴中三级菜单高度
+		
+		var thepanels = $('#accordion .panel');
+		var thenum = thepanels.length;
+		for(var m = 0;m <= thenum - 1; m++){
+			var someLength = thepanels.eq(m).children('.panel-body').children().length;
+			var someHeight = someLength * $('.accordion .panel-body').children().height();
+			if(someLength == 0){
+				thepanels.eq(m).children('.panel-body').css('height',0);
+			}
+			else{
+				thepanels.eq(m).children('.panel-body').panel('resize',{height:someHeight+40});	
+			}
+		}
+	}
+	/*
+	*	右键
+	*/
+	function onRightKeyClick(e,title,index) {
+		e.preventDefault();
+		$('#rm').menu('show', {
+			left:e.pageX,
+			top:e.pageY
+		});
+	}
+	
+	/*
+	*	刷新
+	*/
+	function onIframeRefreshClick() {
+		var tab = $('#tabs').tabs('getSelected');
+		var index = $('#tabs').tabs('getTabIndex',tab);
+		var ifrmid =  "frame_" + index;
+		$('#rm').menu('hide');
+		document.getElementById(ifrmid).contentWindow.location.reload(true);
+	}
+	</script>
+</body>
+</html>

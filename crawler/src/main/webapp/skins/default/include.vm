@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="../skins/public/easyui/css/easyui.css" type="text/css"/>
+<link rel="stylesheet"  href="../skins/public/easyui/css/tabs.css" type="text/css"/>
+<link rel="stylesheet" href="../skins/default/css/com.css" type="text/css" />
+<link rel="stylesheet" href="../skins/default/css/common.css" type="text/css"/>
+<link rel="stylesheet" href="../skins/default/css/sys.css" type="text/css" />
+<link rel="stylesheet" href="../skins/default/css/main.css" type="text/css" />
+
+<script src="../skins/public/easyui/easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../skins/public//easyui/easyui-lang-zh_CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="../skins/public//easyui/easyui.datagrid.js" type="text/javascript" charset="utf-8"></script>
+<script src="../skins/public//easyui/easyui.tree.js" type="text/javascript" charset="utf-8"></script>
+<script src="../skins/public//easyui/easyui.treegrid.js" type="text/javascript" charset="utf-8"></script>
+<script src="../skins/public//easyui/easyui.groupview.js" type="text/javascript" charset="utf-8"></script>
+<script src="../skins/public//easyui/linkbuttonfix.js" type="text/javascript" charset="utf-8"></script>
+<script src="../skins/public//easyui/menushowfix.js" type="text/javascript" charset="utf-8"></script>

@@ -1,0 +1,25 @@
+#override("title")在线人数#end
+#override("inHeader")
+		<script>
+			seajs.use(['framework/admin/userOnLineList'], function(line) {
+				$(function(){
+					$("#js_layout").layout({fit:true});
+					line.gridLoad();
+					line.init();
+				});
+			});
+		</script>
+#end
+#override("toolbar")	
+	<div id="toolbar" class="datagrid-toolbar"> 
+	    <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-refresh" plain="true" id="js_refresh">刷新</a>
+		<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-xiaXian" plain="true" id="js_offline">强制下线</a>
+		<span style="margin-left: 390px;">
+				服务器启动时间:$!{START_DATE}
+				&nbsp;&nbsp;
+				||&nbsp;&nbsp;在线用户：
+				<span id="login_count" style="color: red;">0</span>
+			</span>
+	</div>
+#end
+#extends("/template/listDataGrid.vm")

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peraglobal.km.crawler.web.dao.GeneralDao">
+	<!-- 添加 -->
+	<insert id="save"  parameterType="map">
+		insert into Datum 
+		(
+		<trim suffixOverrides="," suffix=" ">
+			<if test="id!=null and id!=''">
+				id,
+			</if>
+			<if test="url!=null and url!=''">
+				url,
+			</if>
+			<if test="taskid!=null and taskid!=''">
+				taskid,
+			</if>
+			<if test="expire!=null and expire!=''">
+				expire,
+			</if>
+			<if test="isFail!=null and isFail!=''">
+				isFail,
+			</if>
+			<if test="dbpk!=null and dbpk!=''">
+				dbpk,
+			</if>
+			<if test="md5!=null and md5!=''">
+				md5,
+			</if>
+			<if test="attachmentIds!=null and attachmentIds!=''">
+				attachmentIds,
+			</if>
+			<if test="createDate!=null and createDate!=''">
+				createDate
+			</if>
+		</trim>
+		) values 
+		(<trim suffixOverrides="," suffix=" ">
+			<if test="id!=null and id!=''">
+				#{id},
+			</if>
+			<if test="url!=null and url!=''">
+				#{url},
+			</if>
+			<if test="taskid!=null and taskid!=''">
+				#{taskid},
+			</if>
+			<if test="expire!=null and expire!=''">
+				#{expire},
+			</if>
+			<if test="isFail!=null and isFail!=''">
+				#{isFail},
+			</if>
+			<if test="dbpk!=null and dbpk!=''">
+				#{dbpk},
+			</if>
+			<if test="md5!=null and md5!=''">
+				#{md5},
+			</if>
+			<if test="attachmentIds!=null and attachmentIds!=''">
+				#{attachmentIds},
+			</if>
+			<if test="createDate!=null and createDate!=''">
+				#{createDate}
+			</if>
+		</trim>
+		)
+	</insert>
+
+	
+	<!--获取任务规则-->
+	<select id="getTaskRules" parameterType="map" resultType="map">
+		select id,taskId,name,type,optFlag,rule,rule text from rule where taskid=<if test="taskid!=null and taskid!=''">#{taskid}</if>
+	</select>
+	
+	<!--获取附加属性-->
+	<select id="getAttachProperty" parameterType="map" resultType="map">
+		select * from ATTACHPROPERTY where taskId=<if test="taskId!=null and taskId!=''">#{taskId}</if>
+	</select>
+	<!--删除规则任务 -->
+	
+	<!--根据任务id删除 Attach_Property-->
+	<delete id="delAttachPropertyByTaskId" parameterType="map">
+		delete ATTACHPROPERTY where taskId = <if test="taskId!=null and taskId!=''">#{taskId}</if>
+	</delete> 
+	<!--获取规则-->
+	<select id="getAttachment" parameterType="map" resultType="map">
+		select * from ATTACHPROPERTY where taskId =<if test="taskId!=null and taskId!=''">#{taskId}</if>
+	</select>
+	<!--根据id删除rule -->
+	<!-- <delete id="delRuleByTaskId" parameterType="map">
+		delete rule where taskId = <if test="taskId!=null and taskId!=''">#{taskId}</if>
+	</delete> -->
+	<!--根据id删除AttachProperty -->
+<!-- 	<delete id="delAttachPropertyByTaskId" parameterType="map">
+		delete ATTACHPROPERTY where taskId = <if test="taskId!=null and taskId!=''">#{taskId}</if>
+	</delete> -->
+	<!-- 通过Url获取数据-->
+	<select id="getDatumByUrl" parameterType="map" resultType="map">
+		select id,url,taskid,expire,isFail,dbpk,md5,attachmentIds,hasAttachment ,kvs,htmlmeta from Datum  where 1=1 
+		<if test="url!=null and url!=''">
+			url=#{url}
+		</if>
+		<if test="taskid!=null and taskid!=''">
+			 and taskid=#{taskid}
+		</if>
+	</select>
+	<!-- 根据PK获取Datum-->
+	<select id="getDatumByPK" parameterType="map" resultType="map">
+		select id,url,taskid,expire,isFail,dbpk,md5,attachmentIds,hasAttachment ,kvs,htmlmeta from Datum  where 1=1
+		<if test="dbpk!=null and dbpk!=''">
+			dbpk=#{dbpk}
+		</if>
+			<if test="taskid!=null and taskid!=''">
+			and taskid=#{taskid}
+		</if>
+	</select>
+	<!--修改Datum -->
+	<update id="update" parameterType="map">
+		update Datum 
+		<set>
+			<if test="url!=null and url!=''">
+				url=#{url},
+			</if>
+			<if test="taskid!=null and taskid!=''">
+				taskid=#{taskid},
+			</if>
+			<if test="expire!=null and expire!=''">
+				expire=#{expire},
+			</if>
+			<if test="isFail!=null and isFail!=''">
+				isFail=#{isFail},
+			</if>
+			<if test="dbpk!=null and dbpk!=''">
+				dbpk=#{dbpk},
+			</if>
+			<if test="md5!=null and md5!=''">
+				md5=#{md5},
+			</if>
+			<if test="attachmentIds!=null and attachmentIds!=''">
+				attachmentIds=#{attachmentIds},
+			</if>
+			<if test="hasAttachment!=null and hasAttachment!=''">
+				hasAttachment=#{hasAttachment},
+			</if>
+			<if test="updateDate!=null and updateDate!=''">
+				updateDate=#{updateDate}
+			</if>
+		</set>
+		<where>
+			<if test="id!=null and id!=''">
+				id=#{id}
+			</if>
+		</where>
+	</update>
+	
+	<!--待该名 -->
+	<!-- <update id="update" parameterType="map">
+		update ATTACHMENTCRAWLER 
+		<set>
+			<if test="name!=null and name!=''">
+				name=#{name},
+			</if>
+			<if test="isFail!=null and isFail!=''">
+				isFail=#{isFail},
+			</if>
+			<if test="path!=null and path!=''">
+				path=#{path},
+			</if>
+			<if test="type!=null and type!=''">
+				type=#{type},
+			</if>
+			<if test="path!=null and path!=''">
+				path=#{path},
+			</if>
+			<if test="updateDate!=null and updateDate!=''">
+				updateDate=#{updateDate},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null and id!=''">
+				id=#{id}
+			</if>
+		</where>
+	</update> -->
+	<!--待改名 -->
+	<!-- <insert id="save" parameterType="map">
+		insert into Picture 
+		(
+		<trim suffixOverrides="," suffix=" ">
+			<if test="id!=null and id!=''">
+				id,
+			</if>
+			<if test="taskId!=null and taskId!=''">
+				taskId,
+			</if>
+			<if test="datumID!=null and datumID!=''">
+				datumID,
+			</if>
+			<if test="name!=null and name!=''">
+				name,
+			</if>
+			<if test="type!=null and type!=''">
+				type,
+			</if>
+			<if test="isFail!=null and isFail!=''">
+				isFail,
+			</if>
+			<if test="path!=null and path!=''">
+				path
+			</if>
+		</trim>
+		) values (
+		SEQ_DATUM.NEXTVAL,
+		<if test="taskId!=null and taskId!=''">
+				#{taskId},
+			</if>
+			<if test="datumID!=null and datumID!=''">
+				#{datumID},
+			</if>
+			<if test="name!=null and name!=''">
+				#{name},
+			</if>
+			<if test="type!=null and type!=''">
+				#{type},
+			</if>
+			<if test="isFail!=null and isFail!=''">
+				#{isFail},
+			</if>
+			<if test="path!=null and path!=''">
+				#{path}
+			</if>
+		)
+	</insert> -->
+	<!-- 被任务Id细节的钥匙-->
+	<select id="getDetailKeysByTaskId" parameterType="map" resultType="map">
+		select id, name from Rule where taskId = 
+		<if test="taskId!=null and taskId!=''">#{taskId}</if> and optFlag='detailcontent'
+	</select>
+	<!--根据name获取 -->
+	<select id="getAttachmentByName" parameterType="map" resultType="map">
+		select id,taskid,datumId,name from ATTACHMENTCRAWLER  where taskId=
+		<if test="taskId!=null and taskId!=''">#{taskId}</if> 
+		and name=<if test="name!=null and name!=''">#{name}</if>
+	</select>
+	<!--根据id获取 -->
+	<select id="getDatumById" parameterType="map" resultType="map">
+		select id,url,taskid from Datum  where id=<if test="id!=null and id!=''">#{id}</if>
+	</select>
+	
+</mapper>

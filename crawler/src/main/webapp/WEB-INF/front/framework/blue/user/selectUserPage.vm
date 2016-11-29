@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>
+			#block("title")
+			#end
+		</title>
+		#parse("../../common/common.vm")
+		<link rel="stylesheet" href="$skinsPath/blue/css/dialog.css" type="text/css" />
+		<style type="text/css">
+			img{
+				cursor: pointer;
+			}
+		</style>
+		<script type="text/javascript">
+			var targetId = "$!{targetId}";
+			var targetText = "$!{targetName}";
+			
+			$(function() {
+				$("#js_layout").layout({fit:true});
+				
+				var height = $("#js_layout").height();
+				
+				loadTree();
+				loadGrid();
+			});
+			
+			function loadTree(url) {
+				ur = "../user/findOrgUserTree.html";
+				if(url != undefined && url != null && url != "") {
+					ur = url;
+				}
+				$("#tree").tree({
+					url:ur,
+					checkbox:true,
+					cascadeCheck:true,
+					onlyLeafCheck:true,
+					onBeforeCheck:onBeforeCheckNode,
+					onLoadSuccess:function(node, data) {
+						doWithChildren(data);				
+					}
+				});
+			}
+			
+			function doWithChildren(child) {
+				if(child != null) {
+					var len = child.length;
+					for(var i=0 ; i < len ; i++) {
+						var n = child[i];
+						var ch = n.children;
+						if(ch != null && ch.length > 0) {
+							doWithChildren(ch);
+						}else {
+							if(n.attributes.nodeType != "person") {
+								$("#tree").find("[node-id='"+n.id+"']").children(".tree-checkbox").remove();
+							}
+						}
+					}
+				}
+			}
+			
+			function loadGrid() {
+				$('#grid').datagrid({    
+				    data:null,
+				    fit:true,
+				    columns:[[    
+				        {field:'id',title:'id',hidden:true},    
+				        {field:'name',title:'姓名',halign:'center',align:'center',width:350}  
+				    ]]    
+				});
+			}
+			
+			
+			function onBeforeCheckNode(node, checked) {
+				var nodeType = node.attributes.nodeType;
+				if(nodeType != "person") {
+					return false;
+				}
+				return true;
+			}
+			
+		
+			function onRadioCheck() {
+				var id = $("input[type='radio']:checked").attr("id");
+				var url = "";
+				if("depart" == id) {
+					url = "../user/findOrgUserTree.html";
+				}
+				if("role" == id) {
+					url = "../user/findRoleUserTree.html";
+				}
+				$("#grid").datagrid('loadData',[]);
+				loadTree(url);
+			}
+			
+			function insertUser() {
+				
+				$("#grid").datagrid('loadData',[]);
+				var checkedNodes = $("#tree").tree("getChecked");
+				for(var i = checkedNodes.length-1 ; i >= 0 ; i--) {
+					var node = checkedNodes[i];
+					var isLeaf = $("#tree").tree("isLeaf",node.target);
+					if(isLeaf != undefined && isLeaf != null) {
+						var id = node.id;
+						var name = node.text;
+						$("#grid").datagrid("insertRow",{index:0,row:{
+							id:id,
+							name:name
+						}});
+					}
+				}
+			}
+			
+			function removeUser() {
+				var rows = $("#grid").datagrid("getSelections");
+				for(var i in rows) {
+					var ro = rows[i];
+					var rowIndex = $("#grid").datagrid("getRowIndex",ro);
+					var findNode = $("#tree").tree('find',ro.id);
+					$("#grid").datagrid("deleteRow",rowIndex);
+					$("#tree").tree('uncheck',findNode.target);
+				}
+				
+			}
+			
+			function confirmSelect() {
+				var rows = $("#grid").datagrid("getRows");
+				var ids = "";
+				var text = "";
+				for(var i in rows) {
+					var row = rows[i];
+					ids += row.id;
+					text += row.name;
+					if(i != rows.length-1) {
+						ids += ",";
+						text += ",";
+					}
+				}
+				$("#"+targetId).val(ids);
+				$("#"+targetText).val(text);
+			}
+		</script>
+	</head>
+	<body>
+		<div class="wrapper" id="js_layout">
+			<div data-options="region:'west'" style="overflow-x:hidden;overflow-y:auto;width:370px;" class="noborder border-e">
+				<div style="height: 35px;">
+					<div style="margin-top: 10px;margin-left: 10px;">
+						<input type="radio" checked="checked" name="showType" id="depart" onclick="onRadioCheck();"/>部门用户列表
+						<input style="margin-left: 10px;" type="radio" name="showType" id="role" onclick="onRadioCheck();"/>角色用户列表
+					</div>
+				</div>
+				<div style="height: 500px;width: 370px;">
+					<ul id="tree"></ul>  
+				</div>
+			</div>
+			<div data-options="region:'center'" class="noborder border-w" id="js_center" align="center">
+				<div style="margin-top: 200px;">
+					<img id="insert" alt="" src="../skins/blue/img/arrow.png" onclick="insertUser();" style="width: 30px;height: 60px;"/><br><br><br>
+					<img id="remove" alt="" src="../skins/blue/img/arrow1.png" onclick="removeUser();" style="width: 30px;height: 60px;"/>
+				</div>
+			</div>
+			<div data-options="region:'east'" style="overflow-x:hidden;overflow-y:auto;width:350px;" class="noborder border-e">
+				<table id="grid"></table>
+			</div>
+			<div data-options="region:'south',collapsible:false,collapsed:false" style="height:50px;" class="noborder border-e">
+		        <div class="ftbutton border-n">
+		   			<ul class="lists rf">
+		   				<li><button id="js_nextSave" onclick="confirmSelect();" class="button" type="button">#PDPMessage("confirm.button.text")</button></li>
+		   				<li><button id="js_nextcancel" onclick="window.close();" class="button" type="button">#PDPMessage("cancel.button.text")</button></li>
+		   			</ul>
+		   		</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,16 @@
+#set($model='Resource')
+#override("inHeader")
+<script type="text/javascript">
+seajs.use(['framework/admin/resource'], function(main) {
+	$(function(){
+		var grid = main.gridLoad();
+		grid.datagrid("toolbarPermission",{toolbarDel:true});
+	});
+});
+</script>
+#end
+#override("conditions")
+<input id="search" type="text" class="txt" name="conditions['resourceName'].value" value="输入资源名称"> 
+#end
+
+#extends("/template/listDataGrid.vm")

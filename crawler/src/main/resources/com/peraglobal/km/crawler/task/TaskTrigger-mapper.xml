@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peraglobal.km.crawler.task.dao.TaskTriggerDao">
+	<!--创建id -->
+	<select id="createId" resultType="int">
+		SELECT TO_CHAR(SEQ_TASK.NEXTVAL) SEQ FROM DUAL
+	</select>
+	<!-- 添加Trigger-->
+	<insert id="addTrigger" parameterType="map">
+		insert into TASKTRIGGER 
+		(
+		<trim suffixOverrides="," suffix=" ">
+			<if test="jobId!=null and jobId!=''">
+				jobId,
+			</if>
+			<if test="jobName!=null and jobName!=''">
+				jobName,
+			</if>
+			<if test="id!=null and id!=''">
+				id,
+			</if>
+			<if test="triggerType!=null and triggerType!=''">
+				triggerType,
+			</if>
+			<if test="triggerSpace!=null and triggerSpace!=''">
+				triggerSpace,
+			</if>
+			<if test="triggerState!=null and triggerState!=''">
+				triggerState,
+			</if>
+			<if test="triggerFew!=null and triggerFew!=''">
+				triggerFew,
+			</if>
+			<if test="triggerDay!=null and triggerDay!=''">
+				triggerDay,
+			</if>
+			<if test="triggerMonth!=null and triggerMonth!=''">
+				triggerMonth,
+			</if>
+			<if test="triggerWeek!=null and triggerWeek!=''">
+				triggerWeek,
+			</if>
+			<if test="triggerDate!=null and triggerDate!=''">
+				triggerDate,
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				startTime,
+			</if>
+			<if test="stopTime!=null and stopTime!=''">
+				stopTime,
+			</if>
+			<if test="description!=null and description!=''">
+				description,
+			</if>
+			<if test="createDate!=null and createDate!=''">
+				createDate,
+			</if>
+			<if test="updateDate!=null and updateDate!=''">
+				updateDate
+			</if>
+		</trim>
+		)
+		values 
+		(
+		<trim suffixOverrides="," suffix=" ">
+			<if test="jobId!=null and jobId!=''">
+				#{jobId},
+			</if>
+			<if test="jobName!=null and jobName!=''">
+				#{jobName},
+			</if>
+			<if test="id!=null and id!=''">
+				#{id},
+			</if>
+			<if test="triggerType!=null and triggerType!=''">
+				#{triggerType},
+			</if>
+			<if test="triggerSpace!=null and triggerSpace!=''">
+				#{triggerSpace},
+			</if>
+			<if test="triggerState!=null and triggerState!=''">
+				#{triggerState},
+			</if>
+			<if test="triggerFew!=null and triggerFew!=''">
+				#{triggerFew},
+			</if>
+			<if test="triggerDay!=null and triggerDay!=''">
+				#{triggerDay},
+			</if>
+			<if test="triggerMonth!=null and triggerMonth!=''">
+				#{triggerMonth},
+			</if>
+			<if test="triggerWeek!=null and triggerWeek!=''">
+				#{triggerWeek},
+			</if>
+			<if test="triggerDate!=null and triggerDate!=''">
+				#{triggerDate},
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				#{startTime},
+			</if>
+			<if test="stopTime!=null and stopTime!=''">
+				#{stopTime},
+			</if>
+			<if test="description!=null and description!=''">
+				#{description},
+			</if>
+			<if test="createDate!=null and createDate!=''">
+				#{createDate},
+			</if>
+			<if test="updateDate!=null and updateDate!=''">
+				#{updateDate}
+			</if>
+		</trim>
+		)
+	</insert>
+	<!--编辑触发器 -->
+	<update id="editTrigger" parameterType="map">
+		update TASKTRIGGER 
+		<set>
+			<if test="triggerType!=null and triggerType!=''">triggerType=#{triggerType},</if>
+			<if test="startTime!=null and startTime!=''">startTime=#{startTime},</if>
+			<if test="stopTime!=null and stopTime!=''">stopTime=#{stopTime}</if>
+		</set>
+		<where>
+			id = <if test="id!=null and id!=''">#{id}</if>
+		</where>
+	</update>
+	<!--删除触发器 -->
+	<delete id="delTrigger" parameterType="map">
+		delete TASKTRIGGER where id = <if test="id!=null and id!=''">#{id}</if>
+	</delete>
+	<!-- 根据JobId删除触发器 -->
+	<delete id="delTriggerByJobId" parameterType="map">
+		delete TASKTRIGGER where jobId = <if test="jobId!=null and jobId!=''">#{jobId}</if>
+	</delete>
+	<!--根据JobId批量删除定时器 -->
+	<delete id="bulkDeletionByJobId" parameterType="list">
+		delete from TASKTRIGGER 
+		<where>
+			jobId in
+			<foreach collection="list" item="item"  index="index" open="(" separator="," close=")" >
+				#{item}
+			</foreach>
+		</where>
+	</delete>
+	
+	<!--查询触发器列表 -->
+	<select id="queryTriggerList" resultType="map">
+		select * from TASKTRIGGER t order by t.id desc 
+	</select>
+	<!--根据id查询触发器 -->
+	<select id="queryTriggerById" parameterType="map" resultType="map">
+		select * from TASKTRIGGER t where t.id = <if test="id!=null and id!=''">#{id}</if>
+	</select>
+	<!--根据JobId查询触发器 -->
+	<select id="queryTriggerByJobId"  parameterType="map" resultType="com.peraglobal.km.crawler.task.model.TaskTrigger">
+		select * from TASKTRIGGER t where t.jobId = <if test="jobId!=null and jobId!=''">#{jobId}</if>
+	</select>
+	<!--编辑触发器状态 -->
+	<update id="editTriggerState" parameterType="map">
+		update TASKTRIGGER 
+		set triggerState = <if test="triggerState!=null and triggerState!=''">#{triggerState}</if> 
+		where id = <if test="id!=null and id!=''">#{id}</if>
+	</update>
+</mapper>

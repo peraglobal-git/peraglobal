@@ -1,0 +1,66 @@
+#override("inHeader")
+<link href="$SERVER_CONTEXT/css/jquery.loadmask.css" rel="stylesheet"/>
+<script type="text/javascript" src="$SERVER_CONTEXT/js/jquery.loadmask.js"></script>
+<script type="text/javascript" src="$SERVER_CONTEXT/js/test/test.js"></script>
+#end
+#override("conditions")
+	<table width="100%">
+		<tbody>
+        <tr>
+	        <th><label>创建时间：</label></th>
+			<td>
+				<input type="text" id="userCreateDateGt" name="conditions['createDate_date_gt'].value" value="$!{conditions['createDate_date_gt'].value}" class="date-input" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'userCreateDateLt\')}'})"/>
+				<label>至</label>
+				<input type="text" id="userCreateDateLt" name="conditions['createDate_date_lt'].value" value="$!{conditions['createDate_date_lt'].value}" class="date-input" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'userCreateDateGt\')}'})"/>
+			</td>
+			<th><label>账号：</label></th>
+			<td colspan="2">
+		        <input class="text-input" type="text"name="conditions['username'].value" value="$!{conditions['username'].value}" />
+	        </td>
+		</tr>
+		<tr>
+			<th colspan="5"></th>
+			<td>
+	        	<input class="btn btn-blue" type="submit" value="查询" />
+	        </td>
+		</tr>
+		</tbody>
+	</table>
+#end
+
+#override("buttons")
+<a class="btn btn-blue" href="javascript:saveHandler();">创建账号 </a> 
+<a class="btn btn-gray" onclick="del();" href="javascript:void(0)">批量删除 </a>
+#end
+#set($title="测试")
+#override("list")
+<table id="testTable" style="width:80%;">
+    <thead>
+        <tr>
+            <th width="50">序号</th>
+            <th>用户名</th>
+            <th>年龄</th>
+            <th>地址</th>
+            <th>状态</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+    #if($list)
+	    #foreach($obj in $list)
+	        <tr>
+	            <td width="50"><input type="checkbox" name="checkboxItem" value="$!{obj.id}"/>$!{velocityCount}</td>
+	            <td>$!{obj.username}</td>
+	            <td>$!{obj.age}</td>
+	            <td>$!{obj.address}</td>
+	            <td>$!{obj.status.chineseName}</td>
+	            <td>$!{DATE_UTIL.formatToDay($!{obj.createDate})}</td>
+	            <td><a href="javascript:saveHandler($!{obj.id});">修 改|</a><a href="javascript:del($!{obj.id})">删 除</a></td>
+	        </tr>
+		#end
+	#end
+    </tbody>
+</table>
+#end
+#extends("/template/list.vm")

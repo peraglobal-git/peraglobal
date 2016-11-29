@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peraglobal.km.crawler.task.dao.MonitorErrorDao">
+	
+	<!--按监控id查询报错信息 -->
+	<select id="queryMonitorErrors" resultType="com.peraglobal.km.crawler.task.model.MonitorError"
+		parameterType="map">
+		select * from MonitorError where 1=1 and 
+		<if test="monitorId!=null and monitorId!=''">
+			 monitorId=#{monitorId}
+		</if>
+	</select>
+	<!--删除监控报错信息 -->
+	<delete id="delTaskMonitorErrorsByIds" parameterType="list">
+		delete from MonitorError 
+		<where>
+			taskId in
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+	</delete>
+</mapper>

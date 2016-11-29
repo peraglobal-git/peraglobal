@@ -1,0 +1,23 @@
+#override("hiddenInput")
+	<input type="hidden" name="id" id="id" value="$!{org.id}"/>
+#end
+
+#override("formItem")
+	#trText('名称','org.name',true,'')
+	#trText('部门编号','org.orgCode',true,'')
+	#trTextArea('描述','org.depdes',false,'')
+#end
+
+#override("inHeader")
+<script type="text/javascript">
+
+	seajs.use(['framework/admin/saveOrg'], function(org) {
+		
+		$(function(){
+			org.init({name:'$!{org.name}',id:'$!{id}',pid:'${pid}'});
+		});
+	});
+</script>
+#end
+
+#extends("/template/editDialog.vm")

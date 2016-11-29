@@ -1,0 +1,13 @@
+#override("inHeader")
+ 	<script type="text/javascript">
+			seajs.use(['framework/admin/moveUser'], function(moveUser) {
+				$(function(){
+					moveUser.init('$!{ids}');
+				});	
+			});
+	</script>
+#end
+#override("content")
+<ul id="tree"></ul>
+#end
+#extends("/template/infoDialog.vm")

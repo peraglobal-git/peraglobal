@@ -1,0 +1,296 @@
+#override("point")
+<h1 style="text-align: center;"><!-- $!{pointDic} -->新建采集</h1>
+ #end
+#override("hiddenInput")
+<input type="hidden" name="id" id="id" value="$!{id}"/>
+<input type="hidden" name="oldname" id="oldname" value="$!{name}"/>
+<input type="hidden" name="sourceId" id="sourceId" value="$!{sourceId}" />
+<input type="hidden" name="sourceName" id="sourceName" value="$!{sourceName}" />
+<input type="hidden" name="knowledgeTypeName" id="knowledgeTypeName" value=""/>
+<input type="hidden" name="knowledgeModelName" id="knowledgeModelName" value=""/>
+<input type="hidden" name="systemName" id="systemName" value="KM知识管理系统"/>
+#end
+#override("formItem")
+<tr style="width:100%;padding:0;">
+	<td colspan="2"><hr /></td>
+</tr>
+<tr style="width:100%;padding:0;">
+	 <td class="right" width="120px">知识源：<i class="require">*</i></td>
+	<td style="width:100%">
+		<select id="knowledgeSource" name="knowledgeSource" style="width:100%;">
+			<option value="0">请选择</option>
+			#foreach($source in $sourceList)
+				<option value="$!{source.id}" type="$!{source.linkType}" linkState="$!{source.linkState}" #if($!{source.id}==$!{sourceId}) selected="selected" #end >$!{source.name}</option>
+			#end
+		</select>
+	</td> 
+	<!-- <td colspan="2" style="width:100%">
+	<span style="float: left;width: 10%;">知识源：<i class="require">*</i></span>
+	<span style="float: left;width: 90%;">
+		<select id="knowledgeSource" name="knowledgeSource" style="width:100%;">
+			<option value="0">请选择</option>
+			#foreach($source in $sourceList)
+				<option value="$!{source.id}" type="$!{source.linkType}" linkState="$!{source.linkState}" #if($!{source.id}==$!{sourceId}) selected="selected" #end >$!{source.name}</option>
+			#end
+		</select>
+	</span>
+	</td> -->
+</tr>
+<tr>
+	<td class="right">任务名称：<i class="require">*</i></td>
+	<td style="width:100%">	
+		<input type="text" id="name" name="name" class="txt" value="$!{taskName}" style="width: 100%;">
+	</td>
+</tr>
+<!-- 
+<tr>
+	<td class="right" >知识形态：<i class="require">*</i></td>
+	<td style="width:100%" >
+		<select id="knowledgeType" name="knowledgeType" style="width: 100%;">
+			<option value="0">请选择</option>
+			#foreach($type in $typeList)
+				<option value="$!{type.CLASSIFY_ID}">$!{type.CLASSIFY_NAME}</option>
+			#end
+		</select>
+	</td>
+</tr>
+<tr>
+	<td class="right">知识模板：<i class="require">*</i></td>
+	<td style="width:100%">
+		<select id="knowledgeModel" name="knowledgeModel" style="width: 100%;">
+			<option value="0">请选择</option>
+		</select> 
+	</td>
+</tr>
+<tr>
+	<td class="right">存储系统：<i class="require">*</i></td>
+	<td style="width:100%">
+		<select id="system" name="system" style="width:100%;">
+			<option value="KM">KM知识管理系统</option>
+			<option value="CMS">CMS门户系统</option>
+		</select>
+	</td>
+</tr>
+ -->
+<tr><td colspan="2"><hr /></td></tr>
+<tr style="padding:0px;">
+	<td colspan="2" style="width:100%;padding:0;">
+		<h3 style="float:left;padding:0;margin:0;">内容规则</h3>
+		<a style= "cursor:pointer;float:right;" id="contentRule_a"><span id="contentRule_triangle" style="color:blue;">&#9660</span>展开收起</a></td>
+</tr>
+<tbody id="contentRule_div" >
+<tr>
+	<td colspan="2">
+		<span style="color:gray;">选择表/视图 :</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<select id="TaskSelect" name="TaskSelect" style="width:240px;">
+				<option>请选择</option>
+				#foreach($tab in $tables)
+				<option value="$!{tab}" >$tab</option>
+				#end
+		</select>
+	</td>
+</tr> 
+<tr>
+	<td colspan="2">
+		<span style="color:gray;">字段规则 :</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span >共<span id="filedcount">0</span>个数据库字段,已设置<span id="filedselect">0</span>个
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+		<table border="0" id="fieldstable" style="width:100%;">
+				
+		</table>
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+		<span style="color:gray;">选择主键 :</span>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<select name="pkid" id="pkid" style="width:240px;"></select>
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+		<div style="height:20px"></div>
+			是否下载附件：<input type="checkbox" name="isAttachment" id="isAttachment" />
+		<div style="height:15px"></div>
+		
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="isUrl" id="isUrl" disabled="disabled"/>附件存储方式为URL
+		<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;字段： <input  name="attachmentAs" id="attachmentAs" disabled="disabled" type="text" class="txt" />
+			
+			
+			&nbsp;&nbsp;&nbsp;表列名： <select name="attachmentName" id="attachmentName"  disabled="disabled" style="width:200px">
+			<option value="0">请选择</option>
+			    </select>
+				<!-- 样式修改
+		 			 是否为URL列：<input type="checkbox" name="isUrl" id="isUrl">
+		
+		 		 -->
+		
+		<div style="height:10px"></div>
+			<p id="attach">
+				&nbsp;&nbsp;&nbsp;文件名： <select name="attachmentFileName" id="attachmentFileName"  disabled="disabled" style="width:200px">
+			    	  <option value="0">请选择</option>
+			   		 </select>
+				&nbsp;&nbsp;&nbsp;后缀名： <select name="attachmentFileType" id="attachmentFileType"  disabled="disabled" style="width:200px">
+			    	 <option value="0">请选择</option>
+			    </select>	
+			</p>
+		
+	</td>
+</tr>
+</tbody>
+<tr>
+	<td colspan="2"><hr /></td>
+</tr>
+<tr style="padding:0px;">
+	<td colspan="2" style="width:100%;padding:0;">
+		<h3 style="float:left;padding:0;margin:0;">附件抽取规则：<i class="require"><span style="font-size: 12px;">*若设置了下载附件，才可以设置抽取规则</span></i></h3>
+		<a style= "cursor:pointer;float:right;" id="attachmentRule_a"><span id="attachmentRule_triangle" style="color:blue;">&#9660</span>展开收起</a></td>
+</tr>
+<tbody id="attachmentRule_div">
+<tr>
+<td colspan="2">
+	&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="extractListDB" value="1">文件分割&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="checkbox" name="extractListDB" value="2">图片抽取&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="checkbox" name="extractListDB" value="3">作者抽取&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="checkbox" name="extractListDB" value="4">关键词抽取&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="checkbox" name="extractListDB" value="5">摘要抽取
+</td>
+</tr>
+</tbody>
+<tr>
+	<td colspan="2"><hr /></td>
+</tr>
+<tr style="padding:0px;">
+	<td colspan="2" style="width:100%;padding:0;">
+		<h3 style="float:left;padding:0;margin:0;">高级设置</h3>
+		<a style= "cursor:pointer;float:right;" id="timingRule_a"><span id="timingRule_triangle" style="color:blue;">&#9650</span>高级设置</a></td>
+</tr>
+<tbody id="timingRule_div" style="display: none;">
+	<tr>
+		<td colspan="2">
+			#parse("km/crawler/task/taskTiming.vm")
+		</td>
+	</tr>
+</tbody>
+<tr>
+	<td colspan="2"><div style="height:50px"></div></td>
+</tr>
+#end
+#override("buttons")
+	<ul class="lists rf">
+		<li><button type="button" class="button" id="saveAndTest">采集测试</button></li> 
+		<li><button type="button" class="button" id="saveAndStart">立即采集</button></li>
+		<li><button type="submit" class="button" id="saveBtn">保存</button></li>
+	    <li><button type="button" class="button" onclick="window.close();">取消</button></li>
+	</ul>
+	#end
+<div id="fullbg"></div>
+<div id="dialog">
+	<p class="close"><a href="#" onclick="closeBg();">关闭</a></p>
+	<div><table id="testContent"></table></div>
+</div>
+#override("inHeader")
+    <style>  
+        .attributetable{  
+            border: 1px solid black;
+            width: 100%;  
+            border-collapse:collapse;  
+        }  
+        .attributetd{  
+            border: 1px solid black;  
+        }  
+        .tableContent_table{  
+      		border:solid 1px #F2F2F2;
+       		 margin-left:20px;width:78%; 
+       		 border-collapse: collapse;
+       		 border-width:1px;
+       		 text-overflow:ellipsis;
+			 white-space:nowrap;
+			 overflow:hidden;
+        }
+        .tableContent_th{
+        	color: blue;
+        	width:200px;
+        	background-color:rgb(230,230,230);
+        	border: 1px solid black;
+        }
+        .tableContent_td{ 
+       		 border: 1px solid black;
+       		 width:200px;
+       		 overflow: hidden;
+       		 text-overflow:ellipsis;
+        } 
+        .tableContent_tr{
+        	color:#0000FF;
+        	background-color:#F9F9F9
+        } 
+    </style>    
+<script src="../static/framework/js/validate_plugin_m.js" type="text/javascript"></script>
+<script src="../static/public/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script type="text/javascript"> 
+	seajs.use(['modules/km/js/taskGroup/taskTiming'], function(main) {
+	});
+</script>
+<script type="text/javascript"> 
+	seajs.use(['modules/km/js/taskGroup/saveDBTask'], function(main) {
+		$(function(){
+			
+			main.init({
+					groupId:'$!{sourceId}',
+					oldname:'$!{name}',
+					inherentProp:'$!{inherentProp}',
+					kmProperties:'$!{properties}',
+					
+			});
+			
+		});
+	});
+</script>
+<style>
+#fullbg {
+background-color:gray;
+left:0;
+opacity:0.5;
+position:absolute;
+top:0;
+z-index:3;
+filter:alpha(opacity=50);
+-moz-opacity:0.5;
+-khtml-opacity:0.5;
+}
+#dialog {
+background-color:#fff;
+border:5px solid rgba(0,0,0, 0.4);
+height:400px;
+left:50%;
+margin:-200px 0 0 -200px;
+padding:1px;
+position:fixed !important; /* 浮动对话框 */
+position:absolute;
+top:50%;
+width:500px;
+z-index:5;
+border-radius:5px;
+display:none;
+overflow:auto;
+}
+#dialog p {
+margin:0 0 12px;
+height:24px;
+line-height:24px;
+background:#CCCCCC;
+}
+#dialog p.close {
+text-align:right;
+padding-right:10px;
+}
+#dialog p.close a {
+color:#fff;
+text-decoration:none;
+} 
+</style>
+#end
+#extends("/template/blue-km/editDialog.vm")

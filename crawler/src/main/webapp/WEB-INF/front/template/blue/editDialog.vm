@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>
+	#block("title")
+	#end
+</title>
+	#parse("../../common/common.vm")
+	<link rel="stylesheet" href="$skinsPath/blue/css/dialog.css" type="text/css" />
+	<script type="text/javascript">
+		var SERVER_CONTEXT = "$SERVER_CONTEXT";
+		$(function(){
+			var interval = setInterval(function(){
+				clearInterval(interval);
+				var t = $("#form").find(":text:eq(0)");
+				if(t.length>0){
+					t.focus();
+					return ;
+				}
+				$("#form").find(":password:eq(0)").focus();
+			},500);
+		});
+	</script>
+	#block("inHeader")
+	#end
+</head>
+
+<body>
+<div class="wrapper details" id="js_layout" >
+#block("body")
+ #block("point")
+ <h1 style="text-align: center;">$!{pointDic}</h1>
+ #end
+<form id="form" name="#" action="#" method="post">
+	<div>
+    #block("form")
+    	<div class="pad10" id="details_edit" data-options="region:'center'">
+				#block("hiddenInput")
+				
+				#end
+				<table class="forms">
+					<tbody>
+					#block("formItem")
+					
+					#end
+					</tbody>
+				</table>
+		</div>		
+    #end
+	<div data-options="region:'south',collapsible:false,height:50" class="noborder hidden">
+        <div class="ftbutton border-n">
+	#block("buttons")
+       <ul class="lists rf">
+              <li><button type="submit" class="button" id="saveBtn">保存</button></li>
+              <li><button type="button" class="button" onclick="$.dialog.close();">取消</button></li>
+       </ul>
+	#end
+        </div>
+    </div>
+</div>
+</form>
+#end
+</div>
+</body>
+</html>

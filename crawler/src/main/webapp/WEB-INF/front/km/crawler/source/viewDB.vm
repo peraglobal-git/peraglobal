@@ -1,0 +1,75 @@
+#override("point")
+<h1 style="text-align: center;">知识源详情</h1>
+ #end
+#override("hiddenInput")
+<input type="hidden" name="id" id="id" value="$!{id}"/>
+<input type="hidden" name="oldname" id="oldname" value="$!{name}"/>
+<input type="hidden" name="linkState" id="linkState" value="$!{state}"/>
+#end
+#override("formItem")
+<tr>
+	<td style="width:100px;" class="right">知识源名称：</td>
+	<td style="width:100%;" colspan="5">
+		<span id="name">$!{name}</span>
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;" class="right">知识源类型：</td>
+	<td colspan="5" style="width:100%;">
+		<span id="linkType">数据类</span>
+	</td>
+</tr>
+
+<tbody name="dbdiv" id="dbdiv" >
+<tr>
+	<td style="width:100px;" class="right">数据库类型:</td>
+	<td colspan="5" style="width:100%;">
+		<span id="DBtype">$!{DBtype}</span>
+	</td>
+</tr>
+	
+<tr>
+	<td style="width:100px;" class="right">数据库连接：</td>
+	<td>
+		<span id="dburl">$!{url}</span>
+	</td>
+	<td>端口号：</td>
+	<td>
+		<span id="port">$!{port}</span>
+	</td>
+	<td>数据库名称：</td>
+	<td>
+		<span id="dataname">$!{dataname}</span>
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;" class="right">用户名：</td>
+	<td colspan="5" style="width:100%;">
+		<span id="username">$!{username}</span>
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;" class="right">密码：</td>
+	<td colspan="5" style="width:100%;">
+		<input type="password" id="password" style="border:none;" value="******">
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;" class="right">链接状态:</td>
+	<td>
+		#if($!state==0)
+		<span>链接正常</span> 
+		#elseif ($!state==1)
+		<span style="color: red">链接异常</span> 
+		#end
+	</td>
+</tr>
+#end
+#override("buttons")
+	
+	       <ul class="lists rf">
+	              <li><button type="button" class="button" onclick="window.close();">关闭</button></li>
+	       </ul>
+	
+#end
+#extends("/template/blue-km/editDialog.vm")

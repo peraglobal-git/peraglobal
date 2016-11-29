@@ -1,0 +1,42 @@
+#override("point")
+<h1 style="text-align: center;">数据详情</h1>
+ #end
+
+#override("formItem")
+
+#foreach($pr in $datum)
+<tr>
+	<td style="width:100px;" class="right">$!{pr.key} : &nbsp;&nbsp;</td>
+	<td style="width:100%;" >
+		#set($str = $pr.value.length())
+		<span id="name">#if($pr.value && $str > 0) $pr.value #else 无  #end</span>
+	</td>
+</tr>
+#end
+
+#foreach($pr in $datumName)
+<tr>
+	<td style="width:100px;" class="right">附件名称  : &nbsp;&nbsp;</td>
+	
+	<td style="width:100%;" >
+		<a href="javascript:void(0);" onclick="to_getFile('$!{pr.key}','$!{pr.value}')" >$!{pr.value}</a>
+	</td>
+	
+</tr>
+#end
+
+#end
+#override("buttons")
+#end
+
+#override("inHeader")
+<script type="text/javascript">
+	seajs.use(['modules/km/js/taskGroup/datumView'], function(main) {
+		$(function(){
+			
+		});
+	});
+</script>
+
+#end 
+#extends("/template/blue-km/editDialog.vm")

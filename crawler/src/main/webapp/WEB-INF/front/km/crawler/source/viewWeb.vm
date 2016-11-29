@@ -1,0 +1,88 @@
+#override("point")
+<h1 style="text-align: center;">知识源详情</h1>
+ #end
+#override("hiddenInput")
+<input type="hidden" name="id" id="id" value="$!{id}"/>
+<input type="hidden" name="oldname" id="oldname" value="$!{name}"/>
+<input type="hidden" name="linkState" id="linkState" value="$!{state}"/>
+<input type="hidden" name="SelectType" id="SelectType" value="1"/>
+#end
+#override("formItem")
+<tr>
+	<td style="width:100px;" class="right">知识源名称：</td>
+	<td style="width:100%;">
+		<span>$!{name}</span>
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;" class="right">知识源类型：</td>
+	<td style="width:100%;">
+		<span>互联网</span>
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;" class="right">网站名称:</td>
+	<td style="width:100%;">
+		<span>$!{webname}</span>
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;" class="right">网站地址:</td>
+	<td style="width:100%;">
+		<span>$!{weburl}</span>
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;" class="right">是否需要用户验证:</td>
+	<td style="width:100%;">
+		#if($!radiotype==1)
+			<span>是</span> 
+		#elseif ($!radiotype==0)
+			<span>否</span> 
+		#end
+	</td>
+</tr>
+	<tbody id="userdiv" name="userdiv"  #if($!radiotype==0) style="display:none;" #end>
+		<tr>
+			<td style="width:100px;" class="right">登录请求：</td>
+			<td>
+				<span id="loginRequest">$!{loginrequest}</span>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:100px;" class="right">用户名：</td>
+			<td>
+				<span >[表单名]：</span><span id="user_k">$!{user_k}</span><br>
+				<span >[表单值]：</span><span id="username">$!{username}</span>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:100px;" class="right">密码：</td>
+			<td>
+				<span >[表单名]：</span><span id="password_k">$!{password_k}</span><br>
+				<span >[表单值]：</span><input type="password" id="password" style="border:none;" value="******">
+			</td>
+		</tr>
+		<tr>
+			<td style="width:100px;" class="right">登录提交：</td>
+			<td>
+			<span id="loginSubmit">$!{loginsubmit}</span>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:100px;" class="right">链接状态：</td>
+			<td>
+				#if($!state==0)
+				<span>链接正常</span> 
+				#elseif ($!state==1)
+				<span style="color: red">链接异常</span> 
+				#end
+			</td>
+		</tr>
+#end
+#override("buttons")
+	       <ul class="lists rf">
+	              <li><button type="button" class="button" onclick="window.close();">关闭</button></li>
+	       </ul>
+#end
+#extends("/template/blue-km/editDialog.vm")

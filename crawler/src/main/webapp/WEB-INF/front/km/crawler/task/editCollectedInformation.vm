@@ -1,0 +1,66 @@
+#override("formItem")
+<input id="id" type="hidden" value="$!{id}">
+<input id="jobState" type="hidden" value="$!{jobState}">
+<input id="name" type="hidden" value="$!{name}">
+<input id="groupName" type="hidden" value="$!{groupName}">
+<input id="registerType" type="hidden" value="$!{registerType}">
+<input id="jobPriority" type="hidden" value="$!{jobPriority}">
+	 <tr>
+		<td>
+			<h1>任务名称：</h1>
+			<input id="inputTaskName" type="text" class="txt" style="width:228px;height:22px;">
+		</td>
+	</tr>
+	<tr>
+		<td><h1>组名称：</h1><input id="inputGroupName" type="text" class="txt" style="width:228px;height:22px;"></td>
+	</tr>
+	<tr>
+		<td>
+			<h1>任务类型：</h1>
+				<select id="selectTaskType">
+					<option value="-1">请选择</option>
+					<option value="1">本地文件</option>
+					<option value="2">数据类</option>
+					<option value="3">互联网</option>
+				</select>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h1>任务状态：</h1>
+			<select id="selectJobState">
+					<option value="-1">请选择</option>
+					<option value="0">就绪</option>
+					<option value="1">进行中</option> 
+					<option value="2">暂停</option>
+					<option value="3">停止</option>
+					##<option value="4">完成</option>
+					##<option value="5">等待</option>
+			</select>
+			
+		</td>
+	</tr>
+ 	<tr>
+		<td>
+			<h1>任务优先级：</h1>
+			<select id="selectPriority">
+					<option value="-1">请选择</option>
+					<option value="1">高</option>
+					<option value="2">高于标准</option>
+					<option value="3">普通</option>
+					<option value="4">低于标准</option>
+					<option value="5">低</option>
+			</select>
+		</td>
+	</tr> 
+#end
+#override("inHeader")
+<script type="text/javascript">
+seajs.use(['modules/km/js/taskGroup/editCollectedInformation'], function(dic) {
+	$(function(){
+		dic.init();		
+	});
+});
+</script>
+#end
+#extends("/template/blue-km/editDialog.vm")

@@ -1,0 +1,3 @@
+#set($skinName=$APP_CONFIG_UTIL.get('skin.ui.name'))
+#if(!$skinName)  #set($skinName='default')  #end
+#parse("/template/${skinName}/editDialog.vm")

@@ -1,0 +1,56 @@
+@charset "utf-8";
+/* CSS Document */
+.header{ background:#eaeaea; height:90px;position:relative;}
+.header_bj{height:30px;background:url(img/logo.png) no-repeat 10px 0;padding-top:60px;}
+/*nav*/
+.nav{height:30px;background:#3f95c5;float:none;}
+.nav ul{width:1320px;height:30px;margin:0 auto;}
+.nav li,.nav li a,.nav .hover a{float:left; width:120px; height:30px; line-height:30px; color:#FFF; text-align:center; background:none; margin:0; overflow:hidden;position:relative;}
+.nav .hover{overflow:visible;}
+.nav .hover a{background:#56a2cc;}
+.nav .current a{height:30px; line-height:30px; width:120px; background:#3680a9;color:#FFF;}
+.nav .hover dl{position:absolute;clear:both;left:0;top:30px;}
+.nav .hover dd{width:120px;height:30px;}
+.nav .hover dd a{background:#72b2d6;}
+.nav .hover dd a:hover{background:#56a2cc;}
+/*content center*/
+.search_bar{width:550px; height:20px; line-height:20px; padding:15px 0; position:absolute; top:0; left:50%; margin-left:-275px;}
+.search_bar .keyword{float:left;width:372px;height:22px;font:14px/22px "宋体", Arial;border:2px solid #67c5d9;border-right:none;background:#FFF;padding:2px;}
+.search_bar .keyword_in{border-color:#5aacbd;}
+.search_bar .btn_search{float:left;width:81px;height:30px;font:14px/30px "宋体", Arial;color:#FFF;background:#67c5d9;text-align:center;margin-right:10px;}
+.search_bar a.keyword_in{width:77px;border-left:2px solid #5aacbd;padding-right:2px;}
+.search_bar .btn_search:hover{color:#FFF;background:#5aacbd;}
+.search_bar .adv_search{font:14px/28px "宋体", Arial;line-height:30px;}
+.search_bar .adv_search:hover{color:#326697;}
+/*fun right*/
+.fun_right{width:400px; height:30px;line-height:30px;color:#333;text-align:right;position:absolute;right:30px; top:15px;}
+.fun_right span{margin:0 5px;}
+.fun_right strong{color:#000;}
+.fun_right a{margin:0 5px;}
+.fun_right a:hover{color:#326697;}
+.fun_right .ico{float:none;zoom:1;width:16px;vertical-align:middle;padding:0;margin-top:-3px;}
+.fun_right a:hover .ico{background-position:0 -16px;}
+.fun_right .help{background:url(img/funHelp.png);}
+.fun_right .setting{background:url(img/funSetting.png);}
+.fun_right .pswd{background:url(img/funPswd.png);}
+.fun_right .cancelled{background:url(img/funCancelled.png);}
+/*page_603.html*/
+.asidenoborder{ border-right:none;}
+.content_rightmap{background-color: #FFFFFF;height:100%;border:1px solid #cccccc; border-left:none;}
+.titlenopadding{ padding-right:8px;}
+.picBox {width:9px; background:url(img/pic_clickleftimg.png) no-repeat center center #ffffff; cursor:pointer;border:1px solid #ccc;float:left;_margin-right:-3px;}
+/*pop_selectclassifylabel.html*/
+.marR20{ margin-right:20px;}
+/*index_home2.html*/
+.home2_left{ background:#fff;}
+.aside3 a.l-btn-plain {border:1px solid #fff;border-width:0 1px;}
+.aside3 a:hover.l-btn-plain {border-color:#bfddda;background:none; }
+
+.pager{position:absolute;bottom:15px;left:0;width:100%;background: #fff;}
+.pager a{text-decoration:none;float:left;margin-right: 6px;width:24px;height: 24px;border:1px solid #ccc;line-height: 24px;text-align: center;font-weight: bold;}
+.pager a.pnext,.pager a.pprev{width:80px;background:#2768a2;color:#fff;}
+.pager a.pcur{border:none;color:#333;}
+.pager ul.lists{width:400px;margin:0 auto;}
+
+.table table thead tr th{border-right:1px solid #dcdcdc;}
+

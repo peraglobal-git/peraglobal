@@ -1,0 +1,35 @@
+#override("inHeader")
+<script type="text/javascript">
+seajs.use(['modules/km/js/count/count'], function(dic) {
+	$(function(){
+		dic.init();
+		var grid = dic.gridLoad("$!{sourceId}");
+		//grid.datagrid("toolbarPermission",{toolbarDel:true});
+		//dic.initButtonEvent();
+	});
+});
+
+</script>
+#end
+#override("conditionsbuttons")
+#end
+#override("conditionsbuttons2")
+#end
+#override("toolbarButton")
+<!-- 	<a href="javascript:;" class="easyui-linkbutton" id="add$!{model}" data-options="iconCls:'icon-new',plain:true">#PDPMessage('add.button.text')</a>
+ -->
+<span style="font-size:18px;color:#004FA0">采集数据量统计</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-size:14px;">切换统计维度 : </span >&nbsp;&nbsp;
+<span style="font-size:14px;background-color: #CCC" id="knowledgesource_a"><a style= "cursor:pointer;" >按知识源统计</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
+<!-- 
+<span style="font-size:14px;" id="atrribute_a"><a style= "cursor:pointer;" >按知识模板统计</a></span>
+ -->
+#end
+#override("conditions")
+	<!-- <input id="search" type="text" class="txt" name="conditions['name'].value" value="输入知识源名称">
+	<input type="hidden" id="parentId" name="conditions['parentId_eq'].value"> -->
+#end
+#override("toolbarButton2")
+<span style="font-size:18px; color:#004FA0">采集数据详情</span>
+#end
+#extends("/km/crawler/template/countListDataGrid.vm")

@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>
+	#block("title")
+	#end
+</title>
+	#parse("../../common/common.vm")
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$("#js_layout").layout({fit:true});
+	});
+	</script>
+	#block("inHeader")
+	#end
+</head>
+
+<body>
+	<div style="height: inherit;">
+		<div style="height: 90%; overflow: auto;">
+		  #block("content")
+		   
+		   #end
+		</div>
+		<div style="height:10%">
+		#block("buttons")
+		<div class="ftbutton">
+	       <ul class="lists rf">
+	              <li><button type="button" class="button" id="saveBtn">保存</button></li>
+	              <li><button type="button" class="button" onclick="art.dialog.close();">取消</button></li>
+	       </ul>
+	      </div>
+		#end
+		</div>
+	</div>
+<!-- 	<div class="easyui-layout" style="height:480px;" id="js_layout" > -->
+<!-- 		<div data-options="region:'center',collapsible:false" > -->
+<!-- 	    </div> -->
+<!-- 	<div data-options="region:'south',collapsible:false,height:50" class="noborder hidden"> -->
+<!--         <div class="ftbutton border-n"> -->
+<!--         </div> -->
+<!--     </div> -->
+<!-- </div> -->
+</body>
+</html>

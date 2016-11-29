@@ -1,0 +1,142 @@
+@charset"utf-8";
+/*default style*/
+.datagrid-toolbar{
+    width: 100%;
+    height: 37px;
+    padding: 5px 0px;
+    background-color: #fff;
+    border-top: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+}
+/* 功能按钮 */
+.arrleft,
+.arrright{
+    width: 18px !important;
+    padding: 0px 5px;
+}
+.datagrid-toolbar button{
+    width: 18px;
+    height: 37px;   
+    font-size: 1px;
+    cursor: pointer;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #95B8E7;
+    background: #e0ecff url("../easyui/tabs_icons.png") no-repeat scroll 1px center;
+}
+#scrollbox{
+    margin-top: 5px;
+}
+#arrLeft{
+    background-position: 1px center;
+}
+#arrRight{
+    background-position: -15px center !important;
+}
+.icon-add {
+    background: url(../easyui/ico.png) no-repeat scroll -600px -150px;
+}
+.l-btn{
+	margin: 0;
+	padding: 0;
+	border-radius: 0px;
+}
+.l-btn:hover{
+	background: none;
+	border: none;
+}
+.l-btn span .l-btn-icon-left{
+    padding: 0px;
+}
+.l-btn-left{
+	background: url("../../img/btn_bg.png") !important;
+}
+.easyui-linkbutton span.l-btn-left{
+    background: none !important;
+}
+.easyui-linkbutton span.icon-add{
+    margin-top: 12px !important;
+    margin-left: 5px !important;
+}
+.l-btn-plain:hover{
+	border-radius: 0px !important;
+}
+.l-btn-icon-left{
+    border: 1px solid #dcdcdc;
+    border-radius: 1px;
+    font-family: "微软雅黑";
+    height: 26px;
+    line-height: 25px;
+    margin-left: 10px;
+    text-align: center;
+    margin: 0px;
+    width: 100px;
+    padding: 0px;
+	text-indent: 25px;
+	background: url("../easyui/ico.png") no-repeat scroll 8px center;
+}
+.icon-new{
+    background-position: 8px 4px !important;
+}
+.icon-del{
+    background-position: -192px 6px !important;
+}
+.icon-showStart{
+    background-position: -592px -94px !important;
+}
+.icon-showStop{
+    background-position: -392px -94px !important;
+}
+.icon-moreBtn{
+    width: 100px;
+    text-indent: 25px !important;
+    background-position: -992px 5px !important;
+}
+.icon-refresh{
+    background-position: 8px -196px !important;
+}
+.icon-xiaXian {
+    width: 100px;
+    text-indent: 25px !important;
+    background-position: -192px -196px !important;
+}
+.icon-edit{
+    text-indent: 19px !important;
+    background-position: 3px -94px !important;
+}
+.icon-lotauthor{
+    text-indent: 19px !important;
+    background-position: -797px -94px !important;
+}
+.icon-back{
+    background-position: -592px -296px !important;
+}
+.icon-userLeadin{
+    background-position: -792px -94px !important;
+}
+.icon-unlock{
+    background-position: -392px -144px !important;
+}
+.icon-addType {
+    background-position: -792px -344px !important;
+}
+.icon-start {
+    background-position: 12px -894px !important;
+}
+/*主要内容区域*/
+.layout-panel-center{
+
+}
+/* 拖拽框 */
+td{
+    border-width: 0px;
+    padding: 0px;
+}
+.portal-panel .panel-header{
+    border: 1px solid #dcdcdc !important;
+}
+
+.portal-panel .panel-body{
+    border: 1px solid #dcdcdc !important;
+    border-top: none !important;
+}

@@ -1,0 +1,23 @@
+#override("hiddenInput")
+	<input type="hidden" id="id" name="id" value="$!{config.id}"/>
+#end
+#override("formItem")
+	#trText('配置名称','config.name',true,'为这个邮件配置起一个您喜欢的名字吧')
+	#trText('发送服务器地址（SMTP）','config.smtp',true,'例如：smtp.peraglobal.com')
+	#trText('发送服务器端口（SSL）','config.smtpSSL',true,'例如：587')
+	#trText('接收服务器地址（POP3）','config.pop3',false,'例如：pop3.peraglobal.com')
+	#trText('接收服务器端口（SSL）','config.pop3SSL',false,'例如：110')
+#end
+#override("inHeader")
+<script type="text/javascript">
+    seajs.use(['framework/admin/saveMailConfig.js'], function (saveMail)
+    {
+    	 $(function(){
+        //保存
+        	saveMail.init();
+    	 });
+    });
+
+</script>
+#end
+#extends("/template/editDialog.vm")

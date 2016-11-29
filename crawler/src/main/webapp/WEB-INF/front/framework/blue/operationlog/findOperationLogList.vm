@@ -1,0 +1,24 @@
+#override("inHeader")
+
+<script type="text/javascript" src="../static/public/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+seajs.use(['framework/admin/operationLog'], function(main) {
+	$(function(){
+		main.gridLoad();
+		main.init();
+	});
+	
+});
+</script>
+#end
+
+#override("toolbarButton")#end
+#override("conditions")
+		<input type="text" class="txtc" id="userCreateDateGt"  style="width:100px;"
+		name="conditions['createDate_date_gt'].value" value="$!{conditions['createDate_date_gt'].value}" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'userCreateDateLt\')}'})"/>
+		<label>至</label>
+		<input type="text" class="txtc" id="userCreateDateLt" style="width:100px;"
+		name="conditions['createDate_date_lt'].value" value="$!{conditions['createDate_date_lt'].value}" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'userCreateDateGt\')}'})"/>
+#end
+
+#extends("/template/listDataGrid.vm")

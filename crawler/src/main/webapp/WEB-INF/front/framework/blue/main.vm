@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head> 
+   <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8"/>
+   <title>软件工程管理系统</title>
+   #parse("../../common/common.vm")
+   <link rel="stylesheet" href="$skinsPath/blue/css/header.css" type="text/css" />
+   <link rel="shortcut icon" href="$skinsPath/blue/img/favicon.png" type="image/x-icon" />
+   <link rel="bookmark" href="$skinsPath/blue/img/favicon.png">
+  
+  <!--  <link href="$skinsPath/blue/css/common.css" rel="stylesheet">
+   <link href="$skinsPath/blue/css/comm.css" rel="stylesheet">
+   <link href="$skinsPath/blue/css/header.css" rel="stylesheet">
+   
+   <script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script src="../js/jquery.artDialog.js?skin=default" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/iframeTools.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="$skinsPath/blue/js/common.js"></script> -->
+</head>
+<body>
+<div class="wrap">
+   <div class="header">
+      <div class="header-row" >
+         <p class="msg-reminder left"><a href="javascript:void(0)">这里是消息提醒...某某型号试航成功......</a></p>
+         <div class="loginBar right">
+            <a href="javascript:void(0)" class="loginBar-user">$!{SUBJECT_UTIL.getPrincipal().username}<img alt="" src="$skinsPath/blue/img/border.png"></a>
+            <a href="javascript:void(0)" class="loginBar-msg">消息<span class="log-msg-noread" id="log-msg-noread">10</span><img alt="" src="$skinsPath/blue/img/border.png"></a>
+            <a href="javascript:void(0)" class="loginBar-set">设置<img alt="" src="$skinsPath/blue/img/border.png"></a>
+            <a href="javascript:void(0)" class="loginBar-help">帮助<img alt="" src="$skinsPath/blue/img/border.png"></a>
+            <a href="javascript:void(0)" class="loginBar-logout" id="logoutpage">注销<img alt="" src="$skinsPath/blue/img/border.png"></a>
+         </div>
+      </div>
+      <div class="navMain">
+         <div class="nav-row">
+            <a href="index.html" class="logo-a left">
+               <img src="$skinsPath/blue/img/logo.png" alt="软件工程管理系统">
+            </a>
+            <div class="right nav-content">
+            #if(${SUBJECT_UTIL.checkRoles("user")})
+				#set($list = ${SUBJECT_UTIL.getPrincipal().moduleList})
+				#if($list)
+					#foreach($v in $list) 
+					<a href="javascript:navsSelect('$!{v.path}','$!{v.id}');" id="m_$!{velocityCount}" moduleCode="$!{v.moduleCode}" name="$!{v.path}" class="$!{v.id}">$!{v.moduleName}</a>
+					#end
+				#end
+			#end
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="mainContent">
+     <iframe name="frame_main" id="frame_main" src="" height="100%" width="100%" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+   </div>
+   
+   
+   <!--  固定的模块 **************************** -->
+   <div class="footer">
+      <p>版本所有&copy安世亚太科技股份有限公司</p>
+   </div>
+   <!-- <div class="rightBar">
+      <a href="../main/main.html">
+         <img src="$skinsPath/blue/img/home.png" alt="" class="active">
+      </a>
+      <a href="javascript:void(0)">
+         <img src="$skinsPath/blue/img/work.png" alt="">
+      </a>
+      <a href="javascript:navsSelect('main/toSystemProject.html','10000')">
+         <img src="$skinsPath/blue/img/set.png" alt="">
+      </a>
+      <a href="javascript:void(0)">
+         <img src="$skinsPath/blue/img/help.png" alt="">
+      </a>
+   </div> -->
+    <!-- 固定的模块 **************************** -->
+</div>
+<script type="text/javascript">
+   jQuery(function(){
+	    //登陆跳转到第一个导航
+		navsSelect($("#m_1")[0].name,$("#m_1")[0].className);
+	    
+    	//注销
+		$("#logoutpage").on('click',function(){
+			logout();
+		});
+      });
+   
+  var navsSelect = function(href,moduleId) {
+	   var url = href;
+		var patt1 = /^[a-m|A-M]:[/|\\].*$/;
+      
+		//如果是本地路径则调用函数打开
+		if(url && patt1.test(url)){
+			seajs.use(['$SERVER_CONTEXT/js/common/clientRun'], function(run) {
+				run.runCmd(url);
+			});
+			return ;
+		}
+		if(url && url.indexOf("http:")==-1){
+			url="${SERVER_CONTEXT}"+"/"+url;
+		}
+		if(url && url.lastIndexOf("?")!=-1){
+			url+="&moduleId="+moduleId;
+		}else{
+			url+="?moduleId="+moduleId;
+		}
+		
+		$("iframe").hide();
+        $("#frame_main").attr("src",url).show();
+
+
+
+}
+   
+   /**
+	*	注销
+	*/
+	function logout() {
+		window.location.href = '${SERVER_CONTEXT}/login/logout.html';
+   }
+</script>
+<script type="text/javascript" src="../static/modules/spm/header/header.js"></script>
+</body>
+</html>

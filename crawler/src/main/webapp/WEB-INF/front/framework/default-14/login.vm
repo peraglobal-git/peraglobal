@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>系统登录</title>
+		#parse("../../common/common.vm")
+		<script type="text/javascript">
+			jQuery(function($){
+ 				if(window.top!=window.self){
+					window.top.location.href="$SERVER_CONTEXT/";
+				}
+				$("#submitButton").bind("click",function (){
+					var username = $("#username").val();
+					if(username.length == 0){
+						showWarningTip("用户名不能为空。");
+						return false;
+					}
+					var userPwd = $("#password").val();
+					if(userPwd.length == 0){
+						showWarningTip("用户密码不能为空。");
+						return false;
+					}
+					$("#submitButton").submit();
+				});
+				var mes = "$!{message}";
+		 		if(mes != "null" && mes != "") {
+		 			//showWarningTip(mes);
+		 			showWarningTip(mes);
+		 		}
+			});
+		</script>	
+	</head>
+	<body>
+		<form method="post" action="$SERVER_CONTEXT/login/login.html" name="form1"  >
+			<div style="text-align: center;">
+			 #set($loginImg = $CODE_UTIL.getGlobalConfigValue('login_background_img'))
+				#if($!loginImg)
+				<div style="margin:0px auto;margin-top:120px;width:565px;height:257px;background-repeat: no-repeat; background-image:url($SERVER_CONTEXT/attachment/download.html?id=$loginImg) ;border:8px solid #60727E;">
+				#else
+				<div style="margin:0px auto;margin-top:120px;width:565px;height:257px;background-repeat: no-repeat; background-image:url($!skinsPath/default/images/loginBox_bg.png) ;border:8px solid #60727E;">
+				#end
+						<div style="position:relative;left:-100px;top:92px;">
+							<span style="color:#636363;font-weight:bold;font-family:Arial,sans-serif;font-size: 14px;">名称：</span>
+							<input type="text" name="username" id="username" style="border:1px solid #CCC;width:180px;height:23px;color: #444;font-size: 14px;font-weight: bold;line-height: 18px;" maxlength="50" />
+						</div>
+						<div style="position:relative;left:-100px;top:106px;">
+							<span style="color:#636363;font-weight:bold;font-family:Arial,sans-serif;font-size: 14px;">密码：</span>
+							<input type="password" name="password" id="password" style="border:1px solid #CCC;width:180px;height:23px;color: #444;font-size: 14px;font-weight: bold;line-height: 18px;" maxlength="50" />
+						</div>
+						<div style="position:relative;left:-65px;top:118px;">
+							<button name="pi" type="submit" title="登陆" style="width:55px;height:23px;border:1px solid #CCC;background-color:#EEF0F2;" id="submitButton">登录</button>
+						</div>
+						<div  style="position:relative;font-size:12px; color:#666; white-space:nowrap; left:-100px; top:132px" >Copyright &copy; 2015 PeraGlobal Inc. All rights reserved.</div>
+				</div>
+			</div>
+		</form>
+	</body>
+</html>

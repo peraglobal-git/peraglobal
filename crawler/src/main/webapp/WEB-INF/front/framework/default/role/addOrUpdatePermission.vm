@@ -1,0 +1,13 @@
+#override("inHeader")
+ 	<script type="text/javascript">
+			seajs.use(['framework/admin/rolePermission'], function(permission) {
+				$(function(){
+					permission.init('$!{id}');
+				});	
+			});
+	</script>
+#end
+#override("content")
+<ul id="tree"></ul>
+#end
+#extends("/template/infoDialog.vm")

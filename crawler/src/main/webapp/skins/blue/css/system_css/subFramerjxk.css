@@ -1,0 +1,83 @@
+table.forms {
+    empty-cells: show;
+    width: 100%;
+}
+table.forms {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+table.forms .left {
+    padding-left: 1em;
+    text-align: left;
+    width: 100%;
+}
+table.forms td {
+    color: #000000;
+    padding: 6px;
+    text-align: left;
+    font-family: "微软雅黑";
+}
+table.forms td i.require {
+    color: #f00;
+    padding-left: 5px;
+    padding-right: 5px;
+    position: relative;
+    top: 3px;
+}
+table.forms tr td {
+    empty-cells: show;
+    border: none !important;
+}
+table.forms .right {
+    float: left;
+    color: #333;
+    text-align: right;
+    white-space: nowrap;
+    text-indent: 30px;
+}
+table.forms input.txt {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: #fff url("../../images/css_img/txt_bg.png") no-repeat scroll 0 0;
+    border-color: #999 #bbb #bbb #999;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    font: 12px/20px arial;
+    height: 20px;
+    outline: medium none;
+    padding-left: 5px;
+    width: 241px;
+}
+.border-n {
+    border-top: 1px solid #dcdcdc;
+}
+.ftbutton {
+    background: #f0f0f0 none repeat scroll 0 0;
+    bottom: 1px;
+    height: 48px;
+    left: 1px;
+    position: absolute;
+    right: 1px;
+    text-align: right;
+}
+#submitBtn {
+    background: rgba(0, 0, 0, 0) url("../../img/btn_bg.png") repeat scroll 0 0;
+    border: 1px solid #dcdcdc;
+    border-radius: 1px;
+    font-family: "微软雅黑";
+    height: 26px;
+    line-height: 25px;
+    margin-left: 10px;
+    text-align: center;
+    margin: 0px;
+    /*text-indent: 1.5em;*/
+    width: 70px;
+}
+.rf{
+    margin-top: 10px;
+    margin-left: 0px;
+    margin-right: 10px;
+}

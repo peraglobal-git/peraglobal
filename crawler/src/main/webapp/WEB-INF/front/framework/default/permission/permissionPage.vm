@@ -1,0 +1,18 @@
+#set($model='Permission')
+#override("inHeader")
+		<script>
+			seajs.use(['framework/admin/permission','framework/admin/moduleTree'], function(permission,tree) {
+				$(function(){
+					permission.init();
+					var grid = permission.gridLoad();
+					tree.treeLoad(null,'../permission/getDataList.html',"permission");
+					//grid.datagrid("toolbarPermission",{toolbarDel:true});
+				});
+			});
+		</script>
+#end
+
+#override("conditions")	
+	<input id="search" type="text" class="txt" name="conditions['permissionName'].value" value="输入权限名称"> 
+#end
+#extends("/template/leftTreeCenterGrid.vm")

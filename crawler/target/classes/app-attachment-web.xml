@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="attachment-temp-directory">C:/upload-directory/attachment-temp-directory</entry>
+	<entry key="attachment-formal-directory">C:/upload-directory/attachment-formal-directory</entry>
+	<entry key="attachment-kindeditor-directory">C:/upload-directory/attachment-kindeditor-directory</entry>
+	<entry key="attachment-server-default-address">../attachment/download.html?path=</entry>
+	<entry key="attachment-extension-image">jpg,jpeg,png,bmp,gif</entry>
+	<entry key="attachment-extension-media">flv,swf,avi,rmvb</entry>
+	<entry key="attachment-extension-file">all</entry>
+	<entry key="attachment-content-type-jpg">image/jpg</entry>
+</properties>

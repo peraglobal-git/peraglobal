@@ -1,0 +1,100 @@
+#override("point")
+<h1 style="text-align: center;">编辑知识源</h1>
+ #end
+#override("hiddenInput")
+<input type="hidden" name="id" id="id" value="$!{id}"/>
+<input type="hidden" name="oldname" id="oldname" value="$!{name}"/>
+<input type="hidden" name="linkState" id="linkState" value="$!{state}"/>
+<input type="hidden" name="SelectType" id="SelectType" value="1"/>
+#end
+#override("formItem")
+
+<tr>
+	<td style="width:100px;"  class="right">知识源名称：<i class="require">*</i></td>
+	<td style="width:100%;">
+		<input type="text" class="txt" id="name" name="name" style="width: 100%;" value="$!{name}" #if($!hasTasks==1)readonly="readonly"#end>
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;"  class="right">知识源类型 ：<i class="require">*</i></td>
+	<td>
+		<input type="text" class="txt" id="linktype" name="linktype" readonly="readonly"  style="width: 100%;" value="互联网">
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;"  class="right">网站名称：<i class="require">*</i></td>
+	<td>
+		<input type="text" class="txt" id="webname" name="webname" style="width: 100%;" value="$!{webname}">
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;"  class="right">网站地址：<i class="require">*</i></td>
+	<td>
+		<input type="text" class="txt" id="weburl" name="weburl" style="width: 100%;" value="$!{weburl}">
+	</td>
+</tr>
+<tr>
+	<td style="width:100px;"  class="right">是否需要用户验证:</td>
+	<td>
+		<input type="radio" class="userradio" name="userradio" style='margin-left:20px'   value="1" #if($!radiotype==1) checked="checked" #end> &nbsp;&nbsp;是
+		<input type="radio" class="userradio" name="userradio" style='margin-left:60px'   value="0"   #if($!radiotype==0) checked="checked" #end> &nbsp;&nbsp;否
+	</td>
+</tr>
+	<tbody id="userdiv" name="userdiv"  #if($!radiotype==0) style="display:none;" #end>
+		<tr>
+			<td style="width:100px;"  class="right">登录请求：<i class="require">*</i></td>
+			<td>
+				<input type="text" class="txt" id="loginrequest" name="loginrequest" style="width: 100%;" value="$!{loginrequest}">
+			</td>
+		</tr>
+		<tr>
+			<td style="width:100px;" class="right">用户名：<i class="require">*</i></td>
+			<td>
+				<input type="text" class="txt" class="txt" style="color:'#000'" id="user_k"  name="user_k" #if($user_k) value="$!{user_k}" #else value="表单项名称" #end />
+				<input type="text" class="txt" id="username_v"  name="username_v" #if($username) value="$!{username}" #else value="表单值" #end  />
+			</td>
+		</tr>
+		<tr>
+			<td style="width:100px;"  class="right">密码：<i class="require">*</i></td>
+
+			<td>
+				<input type="text" class="txt" id="password_k" name="password_k" #if($password_k) value="$!{password_k}" #else value="表单项名称" #end  />
+				<input type="text" class="txt"  id="input_password"  name="password_v" style="width: 240px;"  #if($password) value="******"  #else value="表单值" #end>
+				<input type="hidden" id="password" name="password_v" value="$!{password}">
+			</td>
+		</tr>
+		<tr>
+			<td style="width:100px;"  class="right">登录提交：<i class="require">*</i></td>
+			<td>
+				<input type="text" class="txt" id="loginsubmit" name="loginsubmit" style="width: 100%;" value="$!{loginsubmit}">
+			</td>
+		</tr>
+		<tr>
+			<td style="width:100px;"  class="right">连接测试：</td>
+			<td>
+				<input type="button" name="loginButton" id="loginButton" value="连接测试">
+			</td>
+		</tr>
+	</tbody>
+#end
+#override("buttons")
+      <ul class="lists rf">
+             <li><button type="submit" class="button" id="saveBtn">保存</button></li>
+             <li><button type="button" class="button" onclick="window.close();">取消</button></li>
+      </ul>
+#end
+#override("inHeader")
+<script src="../static/framework/js/validate_plugin_m.js" type="text/javascript"></script>
+<script type="text/javascript"> 
+	seajs.use(['modules/km/js/source/saveDBsource'], function(main) {
+		$(function(){
+			
+			main.init({
+					groupId:'$!{groupId}',
+					oldname:'$!{name}',
+			});
+		});
+	});
+</script>
+#end
+#extends("/template/blue-km/editDialog.vm")

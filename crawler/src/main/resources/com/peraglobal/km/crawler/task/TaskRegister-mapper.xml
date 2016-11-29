@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.peraglobal.km.crawler.task.dao.TaskRegisterDao">
+	 <!--创建id -->
+	 <select id="createId" resultType="int">
+	 	SELECT TO_CHAR(SEQ_TASK.NEXTVAL) SEQ FROM DUAL
+	 </select>
+ <!--添加注册用户-->
+ 	<insert id="addRegister" parameterType="map">
+ 		insert into TASKREGISTER 
+ 		(
+ 		<trim suffixOverrides="," suffix=" ">
+ 			<if test="id!=null and id!=''">
+ 				id,
+ 			</if>
+ 			<if test="registerName!=null and registerName!=''">
+ 				registerName,
+ 			</if>
+ 			<if test="registerModel!=null and registerModel!=''">
+ 				registerModel,
+ 			</if>
+ 			<if test="registerType!=null and registerType!=''">
+ 				registerType,
+ 			</if>
+ 			<if test="rulePath!=null and rulePath!=''">
+ 				rulePath,
+ 			</if>
+ 			<if test="description!=null and description!=''">
+ 				description
+ 			</if>
+ 		</trim>
+ 		)
+		values
+		(
+			<trim suffixOverrides="," suffix=" ">
+ 			<if test="id!=null and id!=''">
+ 				#{id},
+ 			</if>
+ 			<if test="registerName!=null and registerName!=''">
+ 				#{registerName},
+ 			</if>
+ 			<if test="registerModel!=null and registerModel!=''">
+ 				#{registerModel},
+ 			</if>
+ 			<if test="registerType!=null and registerType!=''">
+ 				#{registerType},
+ 			</if>
+ 			<if test="rulePath!=null and rulePath!=''">
+ 				#{rulePath},
+ 			</if>
+ 			<if test="description!=null and description!=''">
+ 				#{description}
+ 			</if>
+ 		</trim>
+		)
+ 	</insert>
+ 	<!--编辑注册用户 -->
+ 	<update id="editRegister" parameterType="map">
+ 		update TASKREGISTER 
+ 		<set>
+ 			<if test="registerName!=null and registerName!=''">
+ 				registerName=#{registerName},
+ 			</if>
+ 			<if test="rulePath!=null and rulePath!=''">
+ 				rulePath=#{rulePath},
+ 			</if>
+ 			<if test="description!=null and description!=''">
+ 				description=#{description}
+ 			</if>
+ 		</set>
+ 		<where>
+ 			<if test="id!=null and id!=''">
+ 				id=#{id}
+ 			</if>
+ 		</where>
+ 	</update>
+ 	<!--删除注册用户 -->
+ 	<delete id="delRegister" parameterType="map">
+ 		delete TASKREGISTER where id =<if test="id!=null and id!=''">#{id}</if>
+ 	</delete>
+ 	<!--查询注册用户列表 -->
+ 	<select id="queryRegisterList" resultType="map">
+ 		select id,registerName,registerModel,registerType,rulePath,description from TASKREGISTER order by id
+ 	</select>
+ 	<!--根据id查询注册用户 -->
+ 	<select id="queryRegisterById" parameterType="map" resultType="map">
+ 		select id,registerName,registerModel,registerType,rulePath,description from TASKREGISTER t where 
+ 		t.registerType = <if test="registerType!=null and registerType!=''">#{registerType}</if>
+ 	</select>
+ </mapper>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<WebTaskConfig>
+	<row>
+		<label>起始网址</label>
+		<text size="60" name="seed_url" value="http://roll.news.sina.com.cn/news/gnxw/gdxw1/index_1.shtml"/>
+		<add>增加</add>
+		<del>删除</del>
+	</row>
+	<row>
+		<label>列表网址</label>
+		<text size="60" name="list_url" value="http://roll.news.sina.com.cn/news/gnxw/gdxw1/index_\d{1}.shtml"/>
+		<label>类型</label>
+		<select name="list_rule_type">
+			<option value="regex">正则表达式</option>
+			<option value="xpath">XPATH</option>
+			<option value="css">CSS</option>
+		</select>
+	</row>
+	<row>
+		<label>详情网址</label>
+		<text size="60" name="detail_url" value="http://news.sina.com.cn/o/\d{4}-\d{2}-\d{2}/doc-\w+.shtml"/>
+		<label>类型</label>
+		<select name="detail_rule_type">
+			<option value="regex">正则表达式</option>
+			<option value="xpath">XPATH</option>
+			<option value="css">CSS</option>
+		</select>
+	</row>
+	<row>
+		<label>列表区域</label>
+		<text size="20" name="list_content" value="listContent"/>
+		<text size="30" name="list_content_Val" value="//div[@class='listBlk']"/>
+		<label>类型</label>
+		<select name="list_content_type">
+			<option value="xpath">XPATH</option>
+			<option value="regex">正则表达式</option>
+			<option value="css">CSS</option>
+		</select>
+		<del>删除</del>
+	</row>
+	<row>
+		<label>内容规则</label>
+		<text size="20" name="detail_content" value="title"/>
+		<text size="30" name="detail_content_Val" value="//h1[@id='artibodyTitle']/text()"/>
+		<label>类型</label>
+		<select name="detail_content_type">
+			<option value="xpath">XPATH</option>
+			<option value="regex">正则表达式</option>
+			<option value="css">CSS</option>
+		</select>
+		<add>增加</add>
+		<del>删除</del>
+	</row>
+	<row>
+		<label>附件规则</label>
+		<text size="20" name="attachment_content" value="attachmenturl"/>
+		<text size="30" name="attachment_content_Val" value="//div[@class='fj_content']"/>
+		<label>类型</label>
+		<select name="attachment_content_type">
+			<option value="xpath">XPATH</option>
+			<option value="regex">正则表达式</option>
+			<option value="css">CSS</option>
+		</select>
+		<del>删除</del>
+	</row>
+	<!-- 
+	<row>
+		<label>登录请求地址</label>
+		<text size="60" name="login_url" value=""/>
+		<del>删除</del>
+	</row>
+	<row>
+		<label>用户名</label>
+		<text size="20" name="username_key" value=""/>
+		<text size="20" name="username_value" value=""/>
+		<del>删除</del>
+	</row>
+	<row>
+		<label>密码</label>
+		<text size="20" name="password_key" value=""/>
+		<text size="20" name="password_value" value=""/>
+		<del>删除</del>
+	</row>
+	<row>
+		<label>登录提交地址</label>
+		<text size="60" name="doLoginAction" value=""/>
+		<del>删除</del>
+	</row>
+	 -->
+	<row>
+		<label>线程数量</label>
+		<text size="8" name="threadNum" value="1"/>
+		<!--<label>设置多线程会提高采集效率，建议10个一下，线程数太多容易造成网址访问失败。</label>-->
+	</row>
+	<row>
+		<label>网站编码</label>
+		<select name="chartset">
+			<option value="utf-8">utf-8</option>
+			<option value="gb2312">gb2312</option>
+		</select>
+		<!--<label>国际标准为utf-8，大陆地区一般为gb2312。</label>-->
+	</row>
+</WebTaskConfig>

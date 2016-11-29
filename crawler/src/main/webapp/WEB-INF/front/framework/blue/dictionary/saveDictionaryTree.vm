@@ -1,0 +1,24 @@
+#override("hiddenInput")
+<input type="hidden" name="id" id="id" value="$!{id}"/>
+<input type="hidden" name="parentId" id="parentId" value="$!{parentId}">
+<input type="hidden" id="dicCategory" name="dicCategory" value="$!{dicCategory}">
+<input type="hidden" id="dictionaryType" name="dictionaryType" value="$!{dictionaryType}">
+#end
+#override("formItem")
+	<tr><td class="right"><i class="require">*</i>名称:</td><td><input type="text" class="txtw easyui-validatebox" name="dictionaryName" value="$!{obj.dictionaryName}" /></td></tr>
+	<tr><td class="right"><i class="require">*</i>类型:</td><td><input type="text" class="txtw easyui-validatebox" name="dictionaryType" value="$!{dictionaryType}" #if($id!='') style="background:#F4F4F4;"  readonly="readonly" #end /></td></tr>
+#end
+#override("inHeader")
+<script type="text/javascript">
+	seajs.use(['framework/admin/saveDictionary'], function(main) {
+		$(function(){
+			main.init({
+					dictionaryName:'$!{obj.dictionaryName}',
+					dictionaryId:'$!{obj.id}',
+					dictionaryParentId:'$!{parentId}'
+			});
+		});
+	});
+</script>
+#end
+#extends("/template/editDialog.vm")

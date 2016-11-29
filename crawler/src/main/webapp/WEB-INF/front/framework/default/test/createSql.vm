@@ -1,0 +1,22 @@
+#override("formItem") 
+<tr>
+	<td class="right"><i class="require">*</i>建表SQL：</td>
+	<td>
+		<textarea id="createSql" name="createSql" class="required createSql" style="margin: 0px; width: 721px; height: 150px;"></textarea>
+	</td>
+</tr>
+#end 
+#override("buttons")
+<ul class="lists rf">
+	<li><button type="submit" class="button" id="saveBtn">生成</button></li>
+</ul>
+#end #override("title") 自动生成 #end #override("inHeader")
+<script type="text/javascript" src="$!{staticPath}/framework/js/validate_plugin_m.js"></script>
+<script type="text/javascript">
+	seajs.use([ 'framework/test/createSql' ], function(test) {
+		$(function() {
+			test.init();
+		});
+	});
+</script>
+#end #extends("/template/editDialog.vm")

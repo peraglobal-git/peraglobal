@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+#set($systemName = $!{CODE_UTIL.getGlobalConfigValue('system_name')})
+#if($!systemName) $!systemName #else PDP快速开发平台 #end
+</title>
+#parse("../../common/common.vm")
+</head>
+<body class="mainbody">
+	<div class="header" id="header">
+		<h1 class="logo">
+		 #set($logoImg = $CODE_UTIL.getGlobalConfigValue('system_logo_img'))
+			#if($!logoImg)
+			<img src="$SERVER_CONTEXT/attachment/download.html?id=$logoImg" title="$!{CODE_UTIL.getGlobalConfigValue('system_name')}">
+			#else
+			<img src="$!skinsPath/default/images/css_img/logo.jpg" title="PDP快速开发平台">			
+			#end
+			</h1>
+		<div id="navs" style="position:absolute;left:280px;top:45px;width:1080px;">
+		#if(${SUBJECT_UTIL.checkRoles("user")})
+			#set($list = ${SUBJECT_UTIL.getPrincipal().moduleList})
+			#if($list)
+				#foreach($v in $list) 
+				<div title="$!{v.moduleName}" #if($default_index_page == $!{v.id}) selected #end >
+				</div>
+				<input type="hidden" value="${v.path}" id="pnav_$!{velocityCount}">
+				<input type="hidden" value="${v.id}" id="moduleId_$!{velocityCount}" data-open-win="$!{v.isOpenWin}">
+				#end
+			#end
+		#end
+		</div>
+		<div class="loginfo">
+			<ul>
+				<!-- <li>当前在线人数：113</li> -->
+				<li>$!{SUBJECT_UTIL.getPrincipal().username}</li>
+                <li><a href="javascript:;" id="js_password"><i class="sup_ico password">&nbsp;</i>修改密码</a></li>
+			    <li><button type="submit" class="ico logout" id="logoutpage">注销</button></li>
+			</ul>
+		</div>
+	</div>
+	<div class="main mainbg" id="main">
+		<iframe name="frame_main" id="frame_main" src=""
+			height="100%" width="100%" frameborder="0" scrolling="no"
+			allowtransparency="true"></iframe>
+	</div>
+<script type="text/javascript">
+	var state = "${msg}";
+	$(function(){
+	    $('#navs').tabs({
+	    	border:false,
+	    	plain:true,
+	    	onSelect:function(title,index) {
+	    		var url = $("#pnav_"+eval(index+1)).val();
+	    		var mtarget = $("#moduleId_"+eval(index+1));
+	    		var id = mtarget.val();
+	    		var patt1 = /^[a-m|A-M]:[/|\\].*$/;
+	    		//如果是本地路径则调用函数打开
+	    		if(url && patt1.test(url)){
+	    			seajs.use(['clientRun'], function(run) {
+	    				run.runCmd(url);
+	    			});
+	    			return ;
+	    		}
+	    		if(url && url.indexOf("http:")==-1){
+	    			url="${SERVER_CONTEXT}/"+url;
+	    		}
+	    		if(url && url.lastIndexOf("?")!=-1){
+	    			url+="&moduleId="+id;
+	    		}else{
+	    			url+="?moduleId="+id;
+	    		}
+	    		//如果是在新窗口打开则调用open方法打开
+	    		if(mtarget.data("openWin")=='Yes'){
+	    			window.open(url);
+	    			return ;
+	    		}
+	    		
+	    		$("iframe").hide();
+	 	        $("#frame_main").attr("src",url).show();
+	 	        
+	    	}
+	    });
+	    
+
+	//自适应窗口大小
+		winResize = function() {
+			var W = $(window);
+			var h = W.height();
+			var width = W.width();
+			$('#navs').css("width", width - 286);
+			$("#main").css("height", h - 95);
+			$("div.shade").css("height", h);
+			$("iframe").css("height", "100%");
+			if ($.support.boxModel && !$.support.leadingWhitespace) {
+				var iframes = window.frames;
+				for ( var l = iframes.length, i = 0; i < l; i++) {
+					var f = iframes[i].winResize;
+					if (f)
+						f();
+				}
+			}
+		}
+		$(window).wresize(winResize);
+		winResize();
+		//注销
+		$("#logoutpage").on('click',function(){
+			logout();
+		});
+
+		$("#js_password").on('click',function(){
+			changePassword();
+			return false;
+		});
+	});
+	
+	/**
+	*	注销
+	*/
+	function logout() {
+		window.location.href = '${SERVER_CONTEXT}/login/logout.html';
+	}
+	
+	
+	/**
+	 * 修改密码
+	 */
+	function changePassword() {
+		$.dialog.open('../user/toChangePasswordPage.html',{
+			title:'修改密码',
+			width:'500px',
+			height:'300px', 
+			lock:true,
+			close:function(){
+				var bValue = $.dialog.data('resetPwd'); // 读取页面返回的数据  
+				if (bValue == "success"){  
+					logout(); 
+				}  
+			}
+		}); 
+	}
+	
+</script>
+	
+</body>
+</html>

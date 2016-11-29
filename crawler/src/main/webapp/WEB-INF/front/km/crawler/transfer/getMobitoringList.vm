@@ -1,0 +1,11 @@
+#override("inHeader")
+<script type="text/javascript">
+seajs.use(['modules/km/js/taskTransfer/getMonitoringList'], function(dic) {
+	$(function(){
+		var grid = dic.gridLoad("$!{id}");
+		//grid.datagrid("toolbarPermission",{toolbarDel:true});
+	});
+});
+</script>
+#end
+#extends("/template/blue-km/listDataGrid.vm")

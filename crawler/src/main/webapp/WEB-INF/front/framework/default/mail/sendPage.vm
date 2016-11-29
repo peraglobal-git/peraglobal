@@ -1,0 +1,30 @@
+#override("form")
+		<div class="pad10" id="details_edit" data-options="region:'center'">
+			<form id="form" name="#" action="#" method="post">
+				<table class="forms">
+					<tbody>
+						#trTextArea('内容','mail.content',true,'你想和他说些什么呢')
+					</tbody>
+				</table>
+				<input type="hidden" id="mailConfigId" name="mailConfigId" value="$!{mailConfigId}" />
+				<input type="hidden" id="userId" name="userId" value="$!{userId}" />
+				<input type="hidden" id="sendTo" name="sendTo" value="$!{sendTo}" />
+			</form>
+		</div>
+#end
+#override("inHeader")
+<script type="text/javascript">
+	seajs.use(['framework/admin/sendMail.js'], function(sendMail) {
+        sendMail.init();
+	});
+
+</script>
+#end
+
+#override("buttons")
+<ul class="lists rf">
+    <li><button type="button" class="button" id="sendBtn">发送</button></li>
+    <li><button type="button" class="button" onclick="art.dialog.close();">取消</button></li>
+</ul>
+#end
+#extends("/template/editDialog.vm")

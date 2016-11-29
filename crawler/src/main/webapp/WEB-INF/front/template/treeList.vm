@@ -1,0 +1,11 @@
+<script type="text/javascript">
+	function treeload(){
+		$('#tree').tree({    
+			url:'../js/seaJS/tree/tree_data1.json',			//获取树的数据
+			checkbox:true
+		});  
+	}
+</script>
+<ul id="tree"></ul>
+
+

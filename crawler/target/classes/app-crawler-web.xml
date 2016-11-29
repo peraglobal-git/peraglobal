@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="conf.filePath">C:/sdc/fileDownload</entry>
+	<entry key="conf.imgPath">C:/sdc/imgDownload</entry>
+	<entry key="conf.excelPath">C:/sdc/excelDown/</entry>
+	<entry key="conf.extract.breakPage">C:/sdc/extractJob/</entry>
+	<entry key="conf.transfer.breakPage">C:/sdc/transferJob/</entry>
+	<!-- 文档抽取临时目录 -->
+	<entry key="conf.extract.document">C:/sdc/extractDocument/</entry>
+	<!-- 同时允许任务进行的最大数量 -->
+	<entry key="task.run.maxnum">10</entry>
+	<!-- 当前采集服务器ip地址 -->
+	<entry key="crawlerIp">192.168.50.237</entry>
+	<!-- 当前采集服务器访问端口-->
+	<entry key="crawlerPort">8989</entry>
+	<!-- 知识加工webservice地址 -->
+	<entry key="kmWebService">http://192.168.60.54/kmtools/services/KnowledgeWS</entry>
+	<!--采集服务器ID -->
+	<entry key="serverId">102</entry>
+	
+</properties>

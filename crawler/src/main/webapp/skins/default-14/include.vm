@@ -1,0 +1,9 @@
+<link rel="stylesheet" type="text/css" href="../skins/public/easyui14/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="../skins/public/easyui14/themes/icon.css">
+<link rel="stylesheet" href="../skins/default/css/com.css" type="text/css" />
+<link rel="stylesheet" href="../skins/default/css/common.css" type="text/css"/>
+<link rel="stylesheet" href="../skins/default/css/sys.css" type="text/css" />
+<link rel="stylesheet" href="../skins/default/css/main.css" type="text/css" />
+
+<script src="../skins/public/easyui14/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../skins/public/easyui14/locale/easyui-lang-zh_CN.js" type="text/javascript" charset="utf-8"></script>
