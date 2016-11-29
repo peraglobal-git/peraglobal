@@ -96,7 +96,8 @@ import com.peraglobal.pdp.core.utils.AppConfigUtils;
  * Copyright 安世亚太 2015 All right reserved.
  * 
  * @author 王晓鸣 时间 2015-12-17
- * @version 1.0 </br>最后修改人 无
+ * @version 1.0 </br>
+ * 			最后修改人 无
  */
 @Controller
 public class TaskJobController extends ExtendedMultiActionController {
@@ -135,6 +136,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	private MgKnowledgeMetadataBiz mgKnowledgeMetadataBiz;
 	@Resource
 	private TransferConfigBiz transferConfigBiz;
+
 	/**
 	 * 修改采集信息
 	 * 
@@ -142,8 +144,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param response
 	 * @author duanzheng
 	 */
-	public ModelAndView updateJobInfo(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView updateJobInfo(HttpServletRequest request, HttpServletResponse response) {
 		TaskJob job = new TaskJob();
 		job.setId(getStringValue(request, "id"));
 		job.setJobState(getStringValue(request, "jobState"));
@@ -163,8 +164,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param id
 	 * @return
 	 */
-	public ModelAndView toTaskTransformJobPage(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView toTaskTransformJobPage(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView();
 		String id = getStringValue(request, "id");
 		model.addObject("id", id);
@@ -178,8 +178,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param id
 	 * @return
 	 */
-	public ModelAndView toTaskTransmissionJobPage(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView toTaskTransmissionJobPage(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView();
 		String id = getStringValue(request, "id");
 		model.addObject("id", id);
@@ -194,16 +193,14 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param response
 	 * @return
 	 */
-	public ModelAndView getTaskJobListById(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView getTaskJobListById(HttpServletRequest request, HttpServletResponse response) {
 		String jobid = getStringValue(request, "id");
 		ListPageQuery list = new ListPageQuery();
 		new ServletRequestDataBinder(list).bind(request);
 		Condition con = Condition.parseCondition("jobid_string_eq");
 		con.setValue(jobid);
 		list.getConditions().getItems().add(con);
-		List<TaskJobMonitor> map = taskJobMonitorBiz.find(list.getPagination(),
-				con);
+		List<TaskJobMonitor> map = taskJobMonitorBiz.find(list.getPagination(), con);
 		return this.putToModelAndViewJson(map, list);
 	}
 
@@ -217,8 +214,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @return 上传页面
 	 */
 
-	public ModelAndView openUpload(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView openUpload(HttpServletRequest request, HttpServletResponse response) {
 		String groupId = getStringValue(request, "groupId");
 		String registerType = getStringValue(request, "registerType");
 		ModelAndView mav = new ModelAndView();
@@ -239,29 +235,28 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @throws SchedulerException
 	 */
 
-	public ModelAndView uploadExcel(HttpServletRequest request,
-			HttpServletResponse response) throws IOException,
-			SchedulerException {
+	public ModelAndView uploadExcel(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, SchedulerException {
 		ModelAndView mav = new ModelAndView();
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		String getId = IDGenerate.uuid(); // 随机生成任务ID
 		String sourceId = getStringValue(multipartRequest, "sourceId");
 		String sourceName = getStringValue(multipartRequest, "sourceName");
-//		String registerType = getStringValue(multipartRequest, "registerType");
-		
+		// String registerType = getStringValue(multipartRequest,
+		// "registerType");
+
 		String name = getStringValue(multipartRequest, "name");
-		
+
 		// 知识形态
 		String knowledgeType = getStringValue(request, "knowledgeType");
 		String knowledgeTypeName = getStringValue(request, "knowledgeTypeName");
 		// 知识模板
 		String knowledgeModel = getStringValue(request, "knowledgeModel");
-		String knowledgeModelName = getStringValue(request,
-				"knowledgeModelName");
+		String knowledgeModelName = getStringValue(request, "knowledgeModelName");
 		// 存储系统
 		String system = getStringValue(request, "system");
 		String systemName = getStringValue(request, "systemName");
-		
+
 		TaskJob taskJob = new TaskJob();
 		taskJob.setName(name);
 		taskJob.setGroupId(sourceId);
@@ -274,7 +269,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 		taskJob.setKnowledgeModelName(knowledgeModelName);
 		taskJob.setSystemId(system);
 		taskJob.setSystemName(systemName);
-		
+
 		// 得到上传的文件
 		MultipartFile mFile = multipartRequest.getFile("file");
 		String fileName = "";
@@ -284,8 +279,6 @@ public class TaskJobController extends ExtendedMultiActionController {
 			String path = AppConfigUtils.get("conf.excelPath");
 			// 得到上传的文件的文件名
 			fileName = mFile.getOriginalFilename();
-			/*String name = taskJobBiz.queryJobListByJobName(fileName);
-			taskJob.setName(name);*/
 			path += getId + "/";
 			File floder = new File(path);
 			if (!floder.exists()) {
@@ -297,8 +290,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		String excelProperties = multipartRequest
-				.getParameter("excelProperties");
+		String excelProperties = multipartRequest.getParameter("excelProperties");
 		String metaKey = multipartRequest.getParameter("metaKey");
 		LocalEntity local = new LocalEntity();
 		local.setExcelProperties(excelProperties);
@@ -307,8 +299,6 @@ public class TaskJobController extends ExtendedMultiActionController {
 
 		taskJob.setId(getId);
 		taskJobBiz.addJob(taskJob, local);
-		// 添加任务并开始任务
-//		this.saveExtractAndTransferJob(request, sourceId, taskJob, null);
 		mav.addObject("resultType", "close");
 		mav.setViewName("km/crawler/task/taskGroupBatchUpload");
 		return mav;// this.jobList(taskJob.getGroupId());
@@ -322,49 +312,35 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @return 任务列表页面
 	 */
 
-	public ModelAndView findJosnList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView findJosnList(HttpServletRequest request, HttpServletResponse response) {
 		String registermodel = getStringValue(request, "registermodel");
 		ListPageQuery parameters = new ListPageQuery();
 		new ServletRequestDataBinder(parameters).bind(request);
-		Condition condition = Condition
-				.parseCondition("registermodel_string_eq");
+		Condition condition = Condition.parseCondition("registermodel_string_eq");
 		condition.setValue(registermodel);
 		parameters.getConditions().getItems().add(condition);
-		List<TaskJob> tjs = taskJobBiz.find(parameters.getPagination(),
-				condition);
+		List<TaskJob> tjs = taskJobBiz.find(parameters.getPagination(), condition);
 		Map map = null;
 		for (int i = 0, n = tjs.size(); i < n; i++) {
-			if (tjs.get(i).getRegisterType() != null
-					&& tjs.get(i).getRegisterType() != "") {
+			if (tjs.get(i).getRegisterType() != null && tjs.get(i).getRegisterType() != "") {
 				map = new HashMap();
 				if (tjs.get(i).getRegisterType().equals("4")) {// 根据registerType判断从哪个表中获取数据
 					if (tjs.get(i).getId() != null && tjs.get(i).getId() != "") {
-						//map.put("taskId", tjs.get(i).getId());
 						tjs.get(i).setDatumCount(
-								/*knowledgeMetadataBiz.queryExtractNumberBytaskId(map)*/
-								mgKnowledgeMetadataBiz.findByTaskId(tjs.get(i).getId())
-								);
+								mgKnowledgeMetadataBiz.findByTaskId(tjs.get(i).getId()));
 					}
-				}else if(tjs.get(i).getRegisterType().equals(JobModel.TYPE_TRANSFER)){
-					tjs.get(i).setDatumCount(
-							taskJobMonitorBiz.countTransferNumber(tjs.get(i)
-									.getId()));
+				} else if (tjs.get(i).getRegisterType().equals(JobModel.TYPE_TRANSFER)) {
+					tjs.get(i).setDatumCount(taskJobMonitorBiz.countTransferNumber(tjs.get(i).getId()));
 				} else {
 					if (tjs.get(i).getId() != null && tjs.get(i).getId() != "") {
 						// 查询采集数量
-						//map.put("id", tjs.get(i).getId());
 						tjs.get(i).setDatumCount(
-								/*datumBiz.numberOfQueriesToCollect(map)*/
-								mgDatumBiz.findByTaskId(tjs.get(i).getId())
-								);
-								
+								mgDatumBiz.findByTaskId(tjs.get(i).getId()));
 					}
 				}
 			}
 		}
-		ModelAndView modelAndView = this.putToModelAndViewJson(tjs, parameters,
-				str);
+		ModelAndView modelAndView = this.putToModelAndViewJson(tjs, parameters, str);
 		return modelAndView;
 	}
 
@@ -372,8 +348,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * 点击树加载相应的列表
 	 * 
 	 */
-	public ModelAndView findTreeJosnList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView findTreeJosnList(HttpServletRequest request, HttpServletResponse response) {
 		String sourceId = getStringValue(request, "sourceId");
 		String registermodel = getStringValue(request, "registermodel");
 		ListPageQuery parameters = new ListPageQuery();
@@ -381,8 +356,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 		Map map = new HashMap();
 		map.put("sourceId", sourceId);
 		map.put("registermodel", registermodel);
-		List<TaskJob> tjs = taskJobBiz.dependingOnTheTypeOfIdAndQueryTasks(
-				parameters.getPagination(), map);
+		List<TaskJob> tjs = taskJobBiz.dependingOnTheTypeOfIdAndQueryTasks(parameters.getPagination(), map);
 		return this.putToModelAndViewJson(tjs, parameters, str);
 	}
 
@@ -394,13 +368,11 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @return 转换任务新建页面
 	 */
 
-	public ModelAndView showAddTransferJob(HttpServletRequest request,
-			HttpServletResponse response, JobForm taskJob) {
+	public ModelAndView showAddTransferJob(HttpServletRequest request, HttpServletResponse response, JobForm taskJob) {
 		ModelAndView mav = new ModelAndView();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", 2);
-		List<TaskJob> extractJobs = this.taskJobBiz
-				.queryJobListByInGroupId(map);
+		List<TaskJob> extractJobs = this.taskJobBiz.queryJobListByInGroupId(map);
 		mav.addObject("extractJobs", extractJobs);
 		mav.addObject("taskJob", taskJob);
 		mav.setViewName("transfer/transferJob");
@@ -416,13 +388,12 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param response
 	 * @return
 	 */
-	public ModelAndView toSaveTransferTaskPage(HttpServletRequest request,
-			HttpServletResponse response) {
-		
+	public ModelAndView toSaveTransferTaskPage(HttpServletRequest request, HttpServletResponse response) {
+
 		ModelAndView view = new ModelAndView("km/crawler/transfer/saveTransferTask");
 		// 增加查询知识源列表
-		List<KnowledgeSource> sourceList = knowledgeSourceBiz.findAll(); 
-		view.addObject("sourceList", sourceList); 
+		List<KnowledgeSource> sourceList = knowledgeSourceBiz.findAll();
+		view.addObject("sourceList", sourceList);
 		return view;
 	}
 
@@ -435,17 +406,14 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param response
 	 * @return
 	 */
-	public ModelAndView toSaveExtractTaskPage(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView toSaveExtractTaskPage(HttpServletRequest request, HttpServletResponse response) {
 		String id = getStringValue(request, "id");
 		String groupId = getStringValue(request, "groupId");
 		String name1 = getStringValue(request, "name");
-		Condition condition = Condition
-				.parseCondition("registermodel_string_eq");
+		Condition condition = Condition.parseCondition("registermodel_string_eq");
 		condition.setValue("1");
 		List<TaskJob> tjs = taskJobBiz.find(null, condition);
-		ModelAndView view = new ModelAndView(
-				"km/crawler/extract/saveExtractTask");
+		ModelAndView view = new ModelAndView("km/crawler/extract/saveExtractTask");
 		if (id != null && id != "") {
 			TaskJob jobbyId = taskJobBiz.findById(id);
 			String description = jobbyId.getDescription();
@@ -469,11 +437,9 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param response
 	 * @return
 	 */
-	public ModelAndView delTransferTaskJob(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView delTransferTaskJob(HttpServletRequest request, HttpServletResponse response) {
 		String ido = request.getParameter("id");
 		Map<String, String> result = new HashMap<String, String>();
-
 		try {
 			if (StringUtils.isNotEmpty(ido)) {
 				List<String> ids = CollectionUtil.toStringCollection(ido);
@@ -500,8 +466,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param response
 	 * @return
 	 */
-	public ModelAndView saveExtractTaskJob(HttpServletRequest request,
-			HttpServletResponse response, TaskJob taskJob) {
+	public ModelAndView saveExtractTaskJob(HttpServletRequest request, HttpServletResponse response, TaskJob taskJob) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		String connectId = request.getParameter("TaskSelect");
 		String groupId = getStringValue(request, "groupId");
@@ -519,7 +484,6 @@ public class TaskJobController extends ExtendedMultiActionController {
 			operateStr = "修改";
 			taskJob.setConnectId(connectId);
 			taskJob.setRegisterModel(JobModel.MODEL_EXTRACT);
-			// taskJob.setJobState(JobModel.STATE_READY);
 		}
 		try {
 			taskJobBiz.save(taskJob);
@@ -544,8 +508,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param response
 	 * @return
 	 */
-	public ModelAndView saveTransferTaskJob(HttpServletRequest request,
-			HttpServletResponse response, TaskJob taskJob) {
+	public ModelAndView saveTransferTaskJob(HttpServletRequest request, HttpServletResponse response, TaskJob taskJob) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		String TaskSelect = request.getParameter("TaskSelect");
 
@@ -553,65 +516,58 @@ public class TaskJobController extends ExtendedMultiActionController {
 		String sourceId = getStringValue(request, "sourceId");
 		String sourceName = getStringValue(request, "sourceName");
 		String systemname = request.getParameter("systemName");
-		
+
 		try {
 			if (systemname != null && systemname != "") {
-				// String systemnameutf = new
-				// String(systemname.getBytes("iso-8859-1"),"utf-8");
-				// taskJob.setSystemName(systemnameutf);
 				taskJob.setSystemName(systemname);
 			}
 			if (systemId != null && systemId != "") {
 				taskJob.setSystemId(systemId);
 			}
-			Dom4jXmlUtil dm=new Dom4jXmlUtil();
+			Dom4jXmlUtil dm = new Dom4jXmlUtil();
 			CrawlerMD5Utils md5Utils = new CrawlerMD5Utils();
-			String linktype=request.getParameter("SelectType");
-			String linkstate=getStringValue(request, "linkState");
-//			if ("2".equals(linktype)) {
+			String linktype = request.getParameter("SelectType");
+			String linkstate = getStringValue(request, "linkState");
 			TransferConfig tc = null;
 			if (true) {
 				tc = new TransferConfig();
-				String userName=getStringValue(request, "username");
-				String password=getStringValue(request, "password");
-				String insertSQL = getStringValue(request,"insertSQL");
+				String userName = getStringValue(request, "username");
+				String password = getStringValue(request, "password");
+				String insertSQL = getStringValue(request, "insertSQL");
 				tc.setUsername(userName);
-				String DBtype=request.getParameter("DBSelectType");
-				String driver=null;
+				String DBtype = request.getParameter("DBSelectType");
+				String driver = null;
 				if (DBtype.equals("oracle")) {
-					driver="oracle.jdbc.driver.OracleDriver";
-				}else if (DBtype.equals("mysql")) {
-					driver="com.mysql.jdbc.Driver";
-				}else if (DBtype.equals("sqlserver")) {
-					driver="com.microsoft.sqlserver.jdbc.SQLServerDriver";
-					//String url="jdbc:sqlserver://localhost:1433; DatabaseName=UniversityDB";
+					driver = "oracle.jdbc.driver.OracleDriver";
+				} else if (DBtype.equals("mysql")) {
+					driver = "com.mysql.jdbc.Driver";
+				} else if (DBtype.equals("sqlserver")) {
+					driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 				}
-				String name=getStringValue(request, "dataname");
-				String port=getStringValue(request, "port");
-				String dburl=getStringValue(request, "dburl");
-				String[] filedNames=new String[5];
-				String[] knowledgeKeys= new String[5];
-				filedNames[0]="name";
-				knowledgeKeys[0]=name;
-				filedNames[1]="type";
-				knowledgeKeys[1]=DBtype;
-				filedNames[2]="driver";
-				knowledgeKeys[2]=driver;
-				filedNames[3]="url";
-				knowledgeKeys[3]=dburl;
-				filedNames[4]="port";
-				knowledgeKeys[4]=port;
-				//再次进行数据库链接验证
-				String state=new JdbcConnectionUtil().LinkVerification(DBtype, dburl, port, name, userName, password);
-				String linkcontent=dm.extractMapping(filedNames, knowledgeKeys);
+				String name = getStringValue(request, "dataname");
+				String port = getStringValue(request, "port");
+				String dburl = getStringValue(request, "dburl");
+				String[] filedNames = new String[5];
+				String[] knowledgeKeys = new String[5];
+				filedNames[0] = "name";
+				knowledgeKeys[0] = name;
+				filedNames[1] = "type";
+				knowledgeKeys[1] = DBtype;
+				filedNames[2] = "driver";
+				knowledgeKeys[2] = driver;
+				filedNames[3] = "url";
+				knowledgeKeys[3] = dburl;
+				filedNames[4] = "port";
+				knowledgeKeys[4] = port;
+				// 再次进行数据库链接验证
+				String state = new JdbcConnectionUtil().LinkVerification(DBtype, dburl, port, name, userName, password);
+				String linkcontent = dm.extractMapping(filedNames, knowledgeKeys);
 				tc.setPassword(md5Utils.encrypt(password));
 				tc.setLinkContent(linkcontent);
 				tc.setLinkType(linktype);
 				tc.setLinkState(state);
 				tc.setInsertSQL(insertSQL);
 			}
-			
-			// String name=getStringValue(request, "name");
 			TaskTrigger taskTrigger = null;
 			String triggerchecked = getStringValue(request, "triggerchecked");
 			if ("0".equals(triggerchecked)) {
@@ -649,12 +605,10 @@ public class TaskJobController extends ExtendedMultiActionController {
 					taskTrigger.setId(trigger.getId());
 				}
 				operateStr = "修改";
-				// taskJob.setConnectId(connectId);
 				taskJob.setRegisterModel(JobModel.MODEL_TRANSFER);
-				//taskJob.setJobState(JobModel.STATE_READY);
 			}
 			try {
-				taskJobBiz.addTransfer(taskJob, taskTrigger,tc);
+				taskJobBiz.addTransfer(taskJob, taskTrigger, tc);
 				result.put("code", "ok");
 				operateStr += "成功！";
 			} catch (Exception e) {
@@ -664,7 +618,6 @@ public class TaskJobController extends ExtendedMultiActionController {
 			}
 			result.put("msg", operateStr);
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		result.put("id", taskJob.getId());
@@ -680,10 +633,10 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param request
 	 * @param response
 	 * @return
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
-	public ModelAndView saveDBTaskJob(HttpServletRequest request,
-			HttpServletResponse response, TaskJob taskJob) throws Exception {
+	public ModelAndView saveDBTaskJob(HttpServletRequest request, HttpServletResponse response, TaskJob taskJob)
+			throws Exception {
 		boolean updFlg = false;
 		String id = taskJob.getId();
 		if (id != null) {
@@ -700,17 +653,6 @@ public class TaskJobController extends ExtendedMultiActionController {
 		CrawlerMD5Utils md5Utils = new CrawlerMD5Utils();
 		String sourceId = getStringValue(request, "sourceId");
 		String sourceName = getStringValue(request, "sourceName");
-		/*List<Map<String, Object>> mapListJson = null;
-		List list = new ArrayList();
-		if (!updFlg) {
-			// 知识模板
-			String knowledgeModel = getStringValue(request, "knowledgeModel");
-			// 转换规则
-			String modelPros = externalRestBiz
-					.getModelProperties(knowledgeModel);
-			JSONArray jsonArray = JSONArray.fromObject(modelPros);
-			mapListJson = (List) jsonArray;
-		}*/
 		// 从页面获取数据库规则属性
 		String[] field = getArrayValue(request, "field");
 		String[] fieldName = new String[field.length];
@@ -719,37 +661,10 @@ public class TaskJobController extends ExtendedMultiActionController {
 		for (int i = 0; i < field.length; i++) {
 			String fieldArray[] = field[i].split(";");
 			fieldName[i] = fieldArray[0];
-			fieldAs[i] = URLDecoder.decode(fieldArray[2],"utf8");
+			fieldAs[i] = URLDecoder.decode(fieldArray[2], "utf8");
 			fieldType[i] = fieldArray[1];
-			/*if (!updFlg) {
-				if(fieldArray[2].indexOf("INHERENT")!=-1){
-					list.add(fieldArray[2]);
-					continue;
-				}
-				for (int j = 0; j < mapListJson.size(); j++) {
-					boolean ifBreak = false;
-					Map<String, Object> obj = mapListJson.get(j);
-					for (Entry<String, Object> entry : obj.entrySet()) {
-						String strkey = entry.getKey();
-						if (!strkey.equals("PROP_ID"))
-							continue;
-						if (entry.getValue().equals(fieldArray[2].split(":")[0])) {
-							list.add(fieldArray[2]);
-							ifBreak = true;
-							break;
-						}
-					}
-					if (ifBreak)
-						break;
-				}
-			}*/
 		}
 
-		// String dataname=getStringValue(request, "dataname");
-		// String url=getStringValue(request, "DBurl");
-		// String type=getStringValue(request, "type");
-		// String user=getStringValue(request, "user");
-		// String password=getStringValue(request, "password");
 		String entityname = request.getParameter("TaskSelect");
 		KnowledgeSource source = knowledgeSourceBiz.findById(sourceId);
 		Map<String, String> map = dm.generateMap(source.getLinkContent());
@@ -764,8 +679,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 		} else if (DBType.equals("mysql")) {
 			DBurl = "jdbc:mysql://" + url + ":" + port + "/" + dataname;
 		} else if (DBType.equals("sqlserver")) {
-			DBurl = "jdbc:sqlserver://" + url + ":" + port + ";DatabaseName="
-					+ dataname;
+			DBurl = "jdbc:sqlserver://" + url + ":" + port + ";DatabaseName=" + dataname;
 		}
 		String pkid = request.getParameter("pkid");
 		String attachmentAs = request.getParameter("attachmentAs");
@@ -791,7 +705,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 		jdbcEnity.setFieldType(fieldType);
 		// 附件抽取规则
 		String extractList = getStringValue(request, "extractList");
-		if(extractList!=null){
+		if (extractList != null) {
 			taskJob.setExtractList(extractList);
 		}
 		TaskTrigger taskTrigger = null;
@@ -820,37 +734,15 @@ public class TaskJobController extends ExtendedMultiActionController {
 			}
 			operateStr = "修改";
 			taskJob.setRegisterModel(JobModel.MODEL_CRAWLER);
-			// taskJob.setJobState(JobModel.STATE_READY);
 		}
-		/*// 知识形态
-		String knowledgeType = getStringValue(request, "knowledgeType");
-		String knowledgeTypeName = getStringValue(request, "knowledgeTypeName");
-		// 知识模板
-		String knowledgeModel = getStringValue(request, "knowledgeModel");
-		String knowledgeModelName = getStringValue(request,
-				"knowledgeModelName");
-		// 存储系统
-		String system = getStringValue(request, "system");
-		String systemName = getStringValue(request, "systemName");
-		taskJob.setKnowledgeType(knowledgeType);
-		taskJob.setKnowledgeTypeName(knowledgeTypeName);
-		taskJob.setKnowledgeModel(knowledgeModel);
-		taskJob.setKnowledgeModelName(knowledgeModelName);
-		taskJob.setSystemId(system);
-		taskJob.setSystemName(systemName);*/
 		try {
 			String jobId = taskJobBiz.addDbJob(taskJob, jdbcEnity, taskTrigger);
 			// taskJob.setId(jobId);
 			if (id == null) {
-				// 同时创建转换和传输任务
-//				this.saveExtractAndTransferJob(request, sourceId, taskJob, null);
 			} else {
 				// 需要修改转换和传输的任务名称
 				if (updName) {
-					// select * from taskjob t start with id = '' connect by
-					// prior t.id = t.connectid ;
-					List<TaskJob> listJob = taskJobBiz
-							.findAllTaskByCrawlerJobId(jobId);
+					List<TaskJob> listJob = taskJobBiz.findAllTaskByCrawlerJobId(jobId);
 					for (int i = 0; i < listJob.size(); i++) {
 						listJob.get(i).setName(taskJob.getName());
 					}
@@ -861,7 +753,6 @@ public class TaskJobController extends ExtendedMultiActionController {
 			String startTask = getStringValue(request, "startTask");
 			if (startTask.equals("1")) {
 				// 开始任务
-				// taskJob.setJobState(JobModel.STATE_STRAT);
 				quartzScheduleBiz.startJob(taskJob);
 			}
 			result.put("code", "ok");
@@ -884,8 +775,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param request
 	 * @param response
 	 */
-	public ModelAndView validateNameByAjax(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView validateNameByAjax(HttpServletRequest request, HttpServletResponse response) {
 		String name = getStringValue(request, "name");
 		String oldName = getStringValue(request, "oldName");
 		// 如果没有修改名称则直接返回
@@ -911,6 +801,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 		}
 		return JsonModelAndView.newSingle(true);
 	}
+
 	/**
 	 * 功能:验证本地采集任务名是否重复
 	 * <p>
@@ -919,8 +810,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param request
 	 * @param response
 	 */
-	public ModelAndView validateLocalNameByAjax(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView validateLocalNameByAjax(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		String name = getStringValue(request, "name");
 		String oldName = getStringValue(request, "oldName");
@@ -928,7 +818,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 		if (name.equals(oldName)) {
 			result.put("state", "0");
 			return this.putToModelAndViewJson(result);
-		}else if(!(name.matches("[a-zA-Z0-9._@\u4E00-\u9FA5]+$"))){
+		} else if (!(name.matches("[a-zA-Z0-9._@\u4E00-\u9FA5]+$"))) {
 			result.put("state", "2");
 			return this.putToModelAndViewJson(result);
 		}
@@ -944,15 +834,16 @@ public class TaskJobController extends ExtendedMultiActionController {
 		conList.add(condition);
 		conList.add(conditionGroupId);
 		conList.add(conditionModel);
-		
+
 		List<TaskJob> jobList = taskJobBiz.find(null, conList);
 		if (!CollectionUtil.isEmpty(jobList)) {
 			result.put("state", "1");
-		}else{
+		} else {
 			result.put("state", "0");
 		}
 		return this.putToModelAndViewJson(result);
 	}
+
 	/**
 	 * 功能:创建采集任务
 	 * <p>
@@ -961,20 +852,16 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param request
 	 * @param response
 	 */
-	public ModelAndView toCrawlerJobPage(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView toCrawlerJobPage(HttpServletRequest request, HttpServletResponse response) {
 		String groupId = getStringValue(request, "groupId");
 		KnowledgeSource source = knowledgeSourceBiz.findById(groupId);
 		String sourceType = source.getLinkType();
 		ModelAndView model = new ModelAndView();
 		Random rnd = new Random();
 		int num = 100 + rnd.nextInt(900);
-		String taskName = source.getName() + "_"
-				+ DateUtil.format(new Date(), "yyyyMMdd") + "_" + num;
+		String taskName = source.getName() + "_" + DateUtil.format(new Date(), "yyyyMMdd") + "_" + num;
 		model.addObject("taskName", taskName);
 		// 获取知识形态
-		/*String typeList = extenalRestBiz.getTypeList();
-		model.addObject("typeList", JSONArray.fromObject(typeList));*/
 		// 获取xml解析对象
 		Dom4jXmlUtil dm = new Dom4jXmlUtil();
 		// 获取MD5加密对象
@@ -983,12 +870,8 @@ public class TaskJobController extends ExtendedMultiActionController {
 		model.addObject("sourceType", sourceType);
 		if (sourceType.equals(JobModel.TYPE_WEB)) {
 			// 知识源是网站，打开web采集创建页面
-			List<List<TaskConfig>> tcs = taskRegisterBiz
-					.getTaskConfigByType(JobModel.TYPE_WEB);
+			List<List<TaskConfig>> tcs = taskRegisterBiz.getTaskConfigByType(JobModel.TYPE_WEB);
 			// 获取km字段规则
-			/*String properties = externalRestBiz.getModelProperties();
-			properties = exchangeJsonPros(properties);
-			model.addObject("properties", JSONArray.fromObject(properties));*/
 			model.addObject("tcs", tcs);
 			model.addObject("ruleArrayLength", 2);
 			model.setViewName("km/crawler/task/saveWebTask");
@@ -1007,8 +890,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 			} else if (DBType.equals("mysql")) {
 				DBurl = "jdbc:mysql://" + url + ":" + port + "/" + name;
 			} else if (DBType.equals("sqlserver")) {
-				DBurl = "jdbc:sqlserver://" + url + ":" + port
-						+ ";DatabaseName=" + name;
+				DBurl = "jdbc:sqlserver://" + url + ":" + port + ";DatabaseName=" + name;
 			}
 			jdbcEnity.setUrl(DBurl);
 			jdbcEnity.setType(type);
@@ -1016,11 +898,8 @@ public class TaskJobController extends ExtendedMultiActionController {
 			jdbcEnity.setPassword(md5Utils.Decryption(source.getPassword()));
 			jdbcEnity.setDriver(map.get("driver"));
 			List<String> tables = taskJobBiz.getTables(jdbcEnity, DBType);
-			/*String properties = externalRestBiz.getModelProperties();
-			properties = exchangeJsonPros(properties);*/
 			// 知识源是数据库，打开DB采集创建页面
 			model.addObject("tables", tables);
-//			model.addObject("properties", properties);
 			model.setViewName("km/crawler/task/saveDBTask");
 		} else if (sourceType.equals(JobModel.TYPE_LOCAL)) {
 			// 跳转本地采集页面
@@ -1032,20 +911,17 @@ public class TaskJobController extends ExtendedMultiActionController {
 		}
 		return model;
 	}
-	
-	public ModelAndView toCrawlerJob(HttpServletRequest request,
-			HttpServletResponse response) {
+
+	public ModelAndView toCrawlerJob(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView();
 		// 获取所有知识源
 		List<KnowledgeSource> sourceList = this.knowledgeSourceBiz.queryKnowledgeSourceList();
 		// 获取知识形态
-		/*String typeList = extenalRestBiz.getTypeList();
-		model.addObject("typeList", JSONArray.fromObject(typeList));*/
 		model.addObject("sourceList", sourceList);
 		model.setViewName("km/crawler/task/createCrawlerTask");
 		return model;
 	}
-	
+
 	/**
 	 * 功能:创建采集任务(web类)
 	 * <p>
@@ -1054,45 +930,31 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param request
 	 * @param response
 	 */
-	public ModelAndView toCrawlerWebJobPage(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView toCrawlerWebJobPage(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView();
 		// 获取所有知识源
 		List<KnowledgeSource> sourceList = this.knowledgeSourceBiz.queryKnowledgeSourceList();
 		String sourceId = getStringValue(request, "sourceId");
-		sourceId = sourceId == null ? "" :sourceId;
+		sourceId = sourceId == null ? "" : sourceId;
 		String sourceName = getStringValue(request, "sourceName");
-		if(sourceName != null){
+		if (sourceName != null) {
 			try {
-				sourceName=URLDecoder.decode(sourceName,"utf8");
+				sourceName = URLDecoder.decode(sourceName, "utf8");
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			Random rnd = new Random();
 			int num = 100 + rnd.nextInt(900);
-			String taskName = sourceName + "_"
-					+ DateUtil.format(new Date(), "yyyyMMdd") + "_" + num;
+			String taskName = sourceName + "_" + DateUtil.format(new Date(), "yyyyMMdd") + "_" + num;
 			model.addObject("taskName", taskName);
 		}
-		
-		// 获取知识形态
-		/*String typeList = extenalRestBiz.getTypeList();
-		model.addObject("typeList", JSONArray.fromObject(typeList));
-		// 获取知识固有属性
-		String inherentProp = extenalRestBiz.getInherentProp();
-		JSONArray inherentPropArray = JSONArray.fromObject(inherentProp);
-		model.addObject("inherentProp", inherentPropArray);
-		model.addObject("inherentPropSize", inherentPropArray.size()+1);*/
+
 		// 知识源是网站，打开web采集创建页面
-		List<List<TaskConfig>> tcs = taskRegisterBiz
-				.getTaskConfigByType(JobModel.TYPE_WEB);
-		// 获取km字段规则
-		/*String properties = externalRestBiz.getModelProperties();
-		properties = exchangeJsonPros(properties);*/
+		List<List<TaskConfig>> tcs = taskRegisterBiz.getTaskConfigByType(JobModel.TYPE_WEB);
 		model.addObject("inherentPropSize", 1);
 		model.addObject("tcs", tcs);
-//		model.addObject("properties", JSONArray.fromObject(properties));
+		// model.addObject("properties", JSONArray.fromObject(properties));
 		model.addObject("ruleArrayLength", 2);
 		model.addObject("sourceId", sourceId);
 		model.addObject("sourceName", sourceName);
@@ -1100,6 +962,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 		model.setViewName("km/crawler/task/saveWebTask");
 		return model;
 	}
+
 	/**
 	 * 功能:创建采集任务
 	 * <p>
@@ -1108,34 +971,26 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param request
 	 * @param response
 	 */
-	public ModelAndView toCrawlerDBJobPage(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView toCrawlerDBJobPage(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView();
 		// 获取所有知识源
 		List<KnowledgeSource> sourceList = this.knowledgeSourceBiz.queryKnowledgeSourceList();
-		/*// 获取知识形态
-		String typeList = extenalRestBiz.getTypeList();
-		//获取知识模板固有属性
-		String inherentProp = extenalRestBiz.getInherentProp();
-		model.addObject("inherentProp", JSONArray.fromObject(inherentProp));
-		model.addObject("typeList", JSONArray.fromObject(typeList));*/
 		// 获取xml解析对象
 		Dom4jXmlUtil dm = new Dom4jXmlUtil();
 		// 获取MD5加密对象
 		CrawlerMD5Utils md5Utils = new CrawlerMD5Utils();
 		String sourceId = getStringValue(request, "sourceId");
 		String sourceName = getStringValue(request, "sourceName");
-		if(sourceName != null){
+		if (sourceName != null) {
 			try {
-				sourceName=URLDecoder.decode(sourceName,"utf8");
+				sourceName = URLDecoder.decode(sourceName, "utf8");
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			Random rnd = new Random();
 			int num = 100 + rnd.nextInt(900);
-			String taskName = sourceName + "_"
-					+ DateUtil.format(new Date(), "yyyyMMdd") + "_" + num;
+			String taskName = sourceName + "_" + DateUtil.format(new Date(), "yyyyMMdd") + "_" + num;
 			model.addObject("taskName", taskName);
 		}
 		KnowledgeSource source = knowledgeSourceBiz.findById(sourceId);
@@ -1153,8 +1008,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 		} else if (DBType.equals("mysql")) {
 			DBurl = "jdbc:mysql://" + url + ":" + port + "/" + name;
 		} else if (DBType.equals("sqlserver")) {
-			DBurl = "jdbc:sqlserver://" + url + ":" + port
-					+ ";DatabaseName=" + name;
+			DBurl = "jdbc:sqlserver://" + url + ":" + port + ";DatabaseName=" + name;
 		}
 		jdbcEnity.setUrl(DBurl);
 		jdbcEnity.setType(type);
@@ -1162,17 +1016,16 @@ public class TaskJobController extends ExtendedMultiActionController {
 		jdbcEnity.setPassword(md5Utils.Decryption(source.getPassword()));
 		jdbcEnity.setDriver(map.get("driver"));
 		List<String> tables = taskJobBiz.getTables(jdbcEnity, DBType);
-		/*String properties = externalRestBiz.getModelProperties();
-		properties = exchangeJsonPros(properties);*/
 		// 知识源是数据库，打开DB采集创建页面
 		model.addObject("tables", tables);
-//		model.addObject("properties", properties);
+		// model.addObject("properties", properties);
 		model.addObject("sourceId", sourceId);
 		model.addObject("sourceName", sourceName);
 		model.addObject("sourceList", sourceList);
 		model.setViewName("km/crawler/task/saveDBTask");
 		return model;
 	}
+
 	/**
 	 * 功能:创建采集任务(本地类)
 	 * <p>
@@ -1181,32 +1034,28 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param request
 	 * @param response
 	 */
-	public ModelAndView toCrawlerLocalJobPage(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView toCrawlerLocalJobPage(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView();
 		// 跳转本地采集页面
 		String sourceId = getStringValue(request, "sourceId");
 		String sourceName = getStringValue(request, "sourceName");
-		if(sourceName != null){
+		if (sourceName != null) {
 			try {
-				sourceName=URLDecoder.decode(sourceName,"utf8");
+				sourceName = URLDecoder.decode(sourceName, "utf8");
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			Random rnd = new Random();
 			int num = 100 + rnd.nextInt(900);
-			String taskName = sourceName + "_"
-					+ DateUtil.format(new Date(), "yyyyMMdd") + "_" + num;
+			String taskName = sourceName + "_" + DateUtil.format(new Date(), "yyyyMMdd") + "_" + num;
 			model.addObject("taskName", taskName);
 		}
 		String registerType = getStringValue(request, "registerType");
-		
+
 		// 获取所有知识源
 		List<KnowledgeSource> sourceList = this.knowledgeSourceBiz.queryKnowledgeSourceList();
 		// 获取知识形态
-		/*String typeList = extenalRestBiz.getTypeList();
-		model.addObject("typeList", JSONArray.fromObject(typeList));*/
 		model.addObject("sourceId", sourceId);
 		model.addObject("sourceName", sourceName);
 		model.addObject("registerType", registerType);
@@ -1223,39 +1072,25 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param request
 	 * @param response
 	 */
-	public ModelAndView toExtractJobPage(HttpServletRequest request,
-			HttpServletResponse response) {
-		
-		/* 修改备注（yongqian.liu）：删除 sourceId，propertyId 属性
-		String propertyId = getStringValue(request, "propertyId"); // 模板id
-		String registermodel = getStringValue(request, "registermodel"); // 模块（1：采集；2：转换；3：传输）
-		String sourceId = getStringValue(request, "sourceId");// 资源id
-		if (sourceId == null || sourceId == "" || sourceId.equals("0")) {
-			sourceId = tj.getSourceId();
-		}
-		*/
-		
+	public ModelAndView toExtractJobPage(HttpServletRequest request, HttpServletResponse response) {
 		List<Map> resultMap = new ArrayList<Map>();
 		ModelAndView model = new ModelAndView();
 		String id = getStringValue(request, "id");// 转换任务的id，修改时使用
 		String operationType = getStringValue(request, "operationType"); // 操作类型，判断此操作是添加还是编辑
-		
-		// 获取知识形态
-		/*String typeList = extenalRestBiz.getTypeList();
-		model.addObject("typeList", JSONArray.fromObject(typeList));*/
+
 		model.addObject("operationType", operationType);
 		Map map = new HashMap();
-		
+
 		// 编辑转换任务
 		if (operationType.equals("update")) {
 			TaskJob tj = taskJobBiz.findById(id);
 			// 修改备注（yongqian.liu）：根据知识源ID获得知识源对象
 			KnowledgeSource knowledgeSource = knowledgeSourceBiz.findById(tj.getSourceId());
-			//抽取规则
-			String extractList=tj.getExtractList();
-			if(extractList!=null&&extractList!=""){
-				List exList=Arrays.asList(extractList.split(","));
-				model.addObject("extractList",exList);
+			// 抽取规则
+			String extractList = tj.getExtractList();
+			if (extractList != null && extractList != "") {
+				List exList = Arrays.asList(extractList.split(","));
+				model.addObject("extractList", exList);
 			}
 			model.addObject("sourceId", tj.getSourceId());
 			model.addObject("sourceName", knowledgeSource.getName());
@@ -1270,45 +1105,34 @@ public class TaskJobController extends ExtendedMultiActionController {
 					model.addObject("jobState", tj.getJobState());
 					model.addObject("knowledgeType", tj.getKnowledgeType());
 					// 调用webService接口获取知识形态下模板集合
-					/*String models = externalRestBiz.getModelListByTypeId(tj
-							.getKnowledgeType());
-					JSONArray jsonArr = JSONArray.fromObject(models);
-					model.addObject("knowledgeTypeList", jsonArr);*/
-
 					model.addObject("knowledgeModel", tj.getKnowledgeModel());
-
 					model.addObject("systemId", tj.getSystemId());
 					String jsonString = null;
 					// 判断是web，db还是local
-					if (crawlerJob.getRegisterType() != null
-							&& crawlerJob.getRegisterType() != "") {
+					if (crawlerJob.getRegisterType() != null && crawlerJob.getRegisterType() != "") {
 						if (crawlerJob.getRegisterType().equals("1")) {
 							Map map1 = new HashMap();
 							map1.put("id", connectId);
 							List<Rule> ruleList = ruleBiz.queryTaskRuleById(map1);
 							resultMap = getRule(null, null, ruleList);
 						} else {
-							List<TaskRule> tr = taskRuleBiz
-									.queryTaskRuleByjobId(connectId);
+							List<TaskRule> tr = taskRuleBiz.queryTaskRuleByjobId(connectId);
 							resultMap = getRule(null, tr, null);
 						}
 					}
 					if (resultMap.size() > 0) {
 						// 获取km字段规则
-						List<Map> list = queryRuleTaskRulesAndParsing(tj.getKnowledgeModel());//获取模板下的属性
-						if(list.size()>0){//如果模板有属性执行一下代码，否则就全部置灰
-							for (int i = 0,n=resultMap.size(); i <n; i++) {// 从数据库中获取到的属性
-								if(!StringUtils.isNumeric(resultMap.get(i).get("key").toString())){
+						List<Map> list = queryRuleTaskRulesAndParsing(tj.getKnowledgeModel());// 获取模板下的属性
+						if (list.size() > 0) {// 如果模板有属性执行一下代码，否则就全部置灰
+							for (int i = 0, n = resultMap.size(); i < n; i++) {// 从数据库中获取到的属性
+								if (!StringUtils.isNumeric(resultMap.get(i).get("key").toString())) {
 									resultMap.get(i).put("hide", "false");
 									continue;
 								}
-								for (int j = 0,c=list.size(); j <c; j++) {// 模板的属性
-									String resultMapKey = ""
-											+ resultMap.get(i).get("key");
-									String listKey = ""
-											+ list.get(j).get("PROP_ID");
-									if (resultMapKey.equals(listKey)
-											|| listKey.equals(resultMapKey)) {
+								for (int j = 0, c = list.size(); j < c; j++) {// 模板的属性
+									String resultMapKey = "" + resultMap.get(i).get("key");
+									String listKey = "" + list.get(j).get("PROP_ID");
+									if (resultMapKey.equals(listKey) || listKey.equals(resultMapKey)) {
 										resultMap.get(i).put("hide", "false");
 										break;
 									} else {
@@ -1316,25 +1140,25 @@ public class TaskJobController extends ExtendedMultiActionController {
 									}
 								}
 							}
-						}else{
-							for (int i = 0,n=resultMap.size(); i <n; i++) {
+						} else {
+							for (int i = 0, n = resultMap.size(); i < n; i++) {
 								resultMap.get(i).put("hide", "true");
 							}
 						}
 
 						List<Map> listMap = new ArrayList<Map>();
 						// 判断是web，db还是local
-						List<TaskRule> tr = taskRuleBiz.queryTaskRuleByjobId(id);//查询自己的规则
-						listMap = getRule(null, tr, null);//解析规则
+						List<TaskRule> tr = taskRuleBiz.queryTaskRuleByjobId(id);// 查询自己的规则
+						listMap = getRule(null, tr, null);// 解析规则
 						if (listMap.size() > 0) {
-							for (int i = 0,n=resultMap.size(); i <n ; i++) {
-								String hide = ""+ resultMap.get(i).get("hide");
+							for (int i = 0, n = resultMap.size(); i < n; i++) {
+								String hide = "" + resultMap.get(i).get("hide");
 								if (hide != null && hide.equals("false")) {
-									for (int j2 = 0,c=listMap.size(); j2 < c; j2++) {
-										String key = ""+ resultMap.get(i).get("key");
-										String PROP_ID = ""+ listMap.get(j2).get("key");
-										if (key.equals(PROP_ID)|| PROP_ID.equals(key)) {
-											resultMap.get(i).put("checked","true");
+									for (int j2 = 0, c = listMap.size(); j2 < c; j2++) {
+										String key = "" + resultMap.get(i).get("key");
+										String PROP_ID = "" + listMap.get(j2).get("key");
+										if (key.equals(PROP_ID) || PROP_ID.equals(key)) {
+											resultMap.get(i).put("checked", "true");
 											break;
 										}
 									}
@@ -1349,32 +1173,17 @@ public class TaskJobController extends ExtendedMultiActionController {
 				}
 			}
 			model.setViewName("km/crawler/extract/editExtractTask");
-			
-		// 创建转换任务	
-		}else{
-			// 修改备注（yongqian.liu）：增加查询知识源列表集合
+
+			// 创建转换任务
+		} else {
+			// 增加查询知识源列表集合
 			List<KnowledgeSource> sourceList = knowledgeSourceBiz.findAll();
 			model.addObject("sourceList", sourceList);
-			
-			/* 修改备注（yongqian.liu）：删除 sourceId 属性
-			map.put("sourceId", sourceId);
-			model.addObject("sourceId", sourceId);
-			map.put("registermodel", registermodel);
-			// 获取采集任务列表（需要转换的任务）
-			List<TaskJob> taskJobList = taskJobBiz
-					.dependingOnTheTypeOfIdAndQueryTasks(map);
-			if (taskJobList.size() > 0) {
-				model.addObject("taskJobList", taskJobList);
-			// 获取km字段规则
-			List<Map> list = queryRuleTaskRulesAndParsing(propertyId);
-			model.addObject("listProperties", list);
-			}*/
-			
 			model.setViewName("km/crawler/extract/saveExtractTask");
 		}
 		return model;
 	}
-	
+
 	/**
 	 * 功能:根据知识源 ID 获取采集任务列表
 	 * <p>
@@ -1384,16 +1193,15 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param response
 	 * @return
 	 */
-	public ModelAndView getJobListBysouceId(HttpServletRequest request,
-			HttpServletResponse response) {
-		
+	public ModelAndView getJobListBysouceId(HttpServletRequest request, HttpServletResponse response) {
+
 		String sourceId = getStringValue(request, "sourceId");
 		String registermodel = getStringValue(request, "registermodel");
-		
+
 		Map map = new HashMap();
 		map.put("sourceId", sourceId); // 知识源 ID
 		map.put("registermodel", registermodel); // 模块类型
-		
+
 		// 获取采集任务列表（需要转换的任务）
 		List<TaskJob> taskJobList = taskJobBiz.dependingOnTheTypeOfIdAndQueryTasks(map);
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -1410,8 +1218,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param response
 	 * @return
 	 */
-	public ModelAndView getTablesAndViews(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView getTablesAndViews(HttpServletRequest request, HttpServletResponse response) {
 		String url = getStringValue(request, "url");
 		String type = getStringValue(request, "type");
 		String user = getStringValue(request, "user");
@@ -1437,8 +1244,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param response
 	 * @return
 	 */
-	public ModelAndView validateforTansfer(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView validateforTansfer(HttpServletRequest request, HttpServletResponse response) {
 		String connectId = getStringValue(request, "connectId");
 		String systemId = getStringValue(request, "systemId");
 		String editOrsave = getStringValue(request, "editOrsave");
@@ -1447,8 +1253,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 		if ("0".equals(editOrsave)) {
 			transferState = "1";
 		} else {
-			Condition condition = Condition
-					.parseCondition("connectid_string_eq");
+			Condition condition = Condition.parseCondition("connectid_string_eq");
 			condition.setValue(connectId);
 			List<TaskJob> taskJoblist = taskJobBiz.find(condition);
 
@@ -1472,8 +1277,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param response
 	 * @return
 	 */
-	public ModelAndView getFields(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView getFields(HttpServletRequest request, HttpServletResponse response) {
 		CrawlerMD5Utils md5Utils = new CrawlerMD5Utils();
 		Dom4jXmlUtil dm = new Dom4jXmlUtil();
 		String entityname = getStringValue(request, "entityname");
@@ -1491,8 +1295,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 		} else if (DBType.equals("mysql")) {
 			DBurl = "jdbc:mysql://" + url + ":" + port + "/" + name;
 		} else if (DBType.equals("sqlserver")) {
-			DBurl = "jdbc:sqlserver://" + url + ":" + port + ";DatabaseName="
-					+ name;
+			DBurl = "jdbc:sqlserver://" + url + ":" + port + ";DatabaseName=" + name;
 		}
 		JdbcEnity jdbcEnity = new JdbcEnity();
 		jdbcEnity.setUrl(DBurl);
@@ -1504,17 +1307,15 @@ public class TaskJobController extends ExtendedMultiActionController {
 		// 获取字段集合
 		List<JdbcField> fields = taskJobBiz.getFields(jdbcEnity);
 		// 获取km字段规则
-		/*String properties = externalRestBiz.getModelProperties();
-		properties = exchangeJsonPros(properties);
-		result.put("properties", properties);*/
-		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("fields", fields);
 		return this.putToModelAndViewJson(result);
 
 	}
+
 	/**
 	 * 转换全局属性字段存储
+	 * 
 	 * @param properties
 	 * @return
 	 */
@@ -1522,14 +1323,16 @@ public class TaskJobController extends ExtendedMultiActionController {
 		// PROP_ID=13641 PROP_NAME=知识文本 TEPT_ID=1 TEPT_NAME=知识采集模板
 		JSONArray exchangedArray = new JSONArray();
 		JSONObject exchangeObj = null;
-		JSONArray json = JSONArray.fromObject(properties); // 首先把字符串转成 JSONArray  对象
+		JSONArray json = JSONArray.fromObject(properties); // 首先把字符串转成 JSONArray
+															// 对象
 		String teptName = "";
-		for(int i=0;i<json.size();i++){
-			JSONObject job = json.getJSONObject(i);  // 遍历 jsonarray 数组，把每一个对象转成 json 对象
+		for (int i = 0; i < json.size(); i++) {
+			JSONObject job = json.getJSONObject(i); // 遍历 jsonarray 数组，把每一个对象转成
+													// json 对象
 			exchangeObj = new JSONObject();
-			exchangeObj.put("PROP_ID", job.get("PROP_ID")+":"+job.get("TEPT_ID"));
+			exchangeObj.put("PROP_ID", job.get("PROP_ID") + ":" + job.get("TEPT_ID"));
 			teptName = job.get("TEPT_NAME") == null ? "" : job.get("TEPT_NAME").toString();
-			exchangeObj.put("PROP_NAME", job.get("PROP_NAME")+"("+teptName+")");
+			exchangeObj.put("PROP_NAME", job.get("PROP_NAME") + "(" + teptName + ")");
 			exchangedArray.add(exchangeObj);
 		}
 		return exchangedArray.toString();
@@ -1543,10 +1346,10 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param request
 	 * @param response
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
-	public ModelAndView saveWebTaskJob(HttpServletRequest request,
-			HttpServletResponse response, JobForm jobForm) throws Exception {
+	public ModelAndView saveWebTaskJob(HttpServletRequest request, HttpServletResponse response, JobForm jobForm)
+			throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
 		String sourceId = getStringValue(request, "sourceId");
 		String sourceName = getStringValue(request, "sourceName");
@@ -1593,8 +1396,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 				ipAddressPort += ipAddress[i] + ":" + ipPort[i] + ";";
 			}
 			if (!ipAddressPort.equals("")) {
-				ipAddressPort = ipAddressPort.substring(0,
-						ipAddressPort.length() - 1);
+				ipAddressPort = ipAddressPort.substring(0, ipAddressPort.length() - 1);
 				attachProperty.setIpAddressPort(ipAddressPort);
 			}
 		}
@@ -1623,8 +1425,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 		rules.add(detailUrl);
 
 		// 详情页多页正则 规则
-		if (jobForm.getDetail_more_url() != null
-				&& !jobForm.getDetail_more_url().equals("")) {
+		if (jobForm.getDetail_more_url() != null && !jobForm.getDetail_more_url().equals("")) {
 			Rule detaiMorelUrl = new Rule();
 			detaiMorelUrl.setName("detailMore");
 			detaiMorelUrl.setOptFlag(Rule.DETAIL_MORE_URL_OPT);
@@ -1634,8 +1435,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 		}
 		// 列表页区域规则
 		Rule listContent = null;
-		if (jobForm.getList_content_Val() != null
-				&& !jobForm.getList_content_Val().equals("")) {
+		if (jobForm.getList_content_Val() != null && !jobForm.getList_content_Val().equals("")) {
 			listContent = new Rule();
 			listContent.setName(jobForm.getList_content());
 			listContent.setOptFlag(Rule.LIST_CONTENT_OPT);
@@ -1644,61 +1444,28 @@ public class TaskJobController extends ExtendedMultiActionController {
 			rules.add(listContent);
 		}
 		List<Map<String, Object>> mapListJson = null;
-		
-		/*if (!updFlg) {
-			// 知识模板
-			String knowledgeModel = getStringValue(request, "knowledgeModel");
-			// 转换规则
-			String modelPros = externalRestBiz
-					.getModelProperties(knowledgeModel);
-			JSONArray jsonArray = JSONArray.fromObject(modelPros);
-			mapListJson = (List) jsonArray;
-		}*/
+
 		// 内容提取 规则
 		String[] detailContents = getArrayValue(request, "detail_content");
-		String[] detailContentVals = getArrayValue(request,
-				"detail_content_Val");
-		String[] detailContentTypes = getArrayValue(request,
-				"detail_content_type");
+		String[] detailContentVals = getArrayValue(request, "detail_content_Val");
+		String[] detailContentTypes = getArrayValue(request, "detail_content_type");
 		Rule detailContent = null;
-//		List list = new ArrayList();
+		// List list = new ArrayList();
 		for (int i = 0; i < detailContents.length; i++) {
 			detailContent = new Rule();
-			detailContent.setName(URLDecoder.decode(detailContents[i],"utf8"));
+			detailContent.setName(URLDecoder.decode(detailContents[i], "utf8"));
 			detailContent.setOptFlag(Rule.DETAIL_CONTENT_OPT);
-			detailContent.setRule(detailContentVals[i].trim().equals("null") ? "" : URLDecoder.decode(detailContentVals[i],"utf8"));
+			detailContent.setRule(
+					detailContentVals[i].trim().equals("null") ? "" : URLDecoder.decode(detailContentVals[i], "utf8"));
 			detailContent.setType(detailContentTypes[i]);
 			rules.add(detailContent);
-			/*if (!updFlg) {
-				if(detailContents[i].indexOf("INHERENT")!=-1){
-					list.add(detailContents[i]);
-					continue;
-				}
-				for (int j = 0; j < mapListJson.size(); j++) {
-					boolean ifBreak = false;
-					Map<String, Object> obj = mapListJson.get(j);
-					for (Entry<String, Object> entry : obj.entrySet()) {
-						String strkey = entry.getKey();
-						if (!strkey.equals("PROP_ID"))
-							continue;
-						if (entry.getValue().equals(detailContents[i].split(":")[0])) {
-							list.add(detailContents[i]);
-							ifBreak = true;
-							break;
-						}
-					}
-					if (ifBreak)
-						break;
-				}
-			}*/
 		}
 
 		// 附件规则
 		String downloadAttachment = getStringValue(request, "downloadAttachment");
-		if ("on".equals(downloadAttachment)) { //下载附件
+		if ("on".equals(downloadAttachment)) { // 下载附件
 			Rule attachmentContent = null;
-			if (jobForm.getAttachment_content_Val() != null
-					&& !jobForm.getAttachment_content_Val().equals("")) {
+			if (jobForm.getAttachment_content_Val() != null && !jobForm.getAttachment_content_Val().equals("")) {
 				attachmentContent = new Rule();
 				attachmentContent.setName(jobForm.getAttachment_content());
 				attachmentContent.setOptFlag(Rule.ATTACHMENT_URL_OPT);
@@ -1709,7 +1476,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 		}
 		// 附件抽取规则
 		String extractList = getStringValue(request, "extractList");
-		if(extractList!=null&&extractList!=""){
+		if (extractList != null && extractList != "") {
 			taskJob.setExtractList(extractList);
 		}
 		// 任务定时
@@ -1723,8 +1490,6 @@ public class TaskJobController extends ExtendedMultiActionController {
 		}
 
 		if (id == null || id.equals("")) {
-			// String taskId = IDGenerate.uuid();
-			// taskJob.setId(taskId);
 			operateStr = "添加";
 			taskJob.setSourceId(sourceId);
 			taskJob.setSourceName(sourceName);
@@ -1732,22 +1497,6 @@ public class TaskJobController extends ExtendedMultiActionController {
 			taskJob.setJobState(JobModel.STATE_READY);
 			taskJob.setRegisterType(JobModel.TYPE_WEB);
 			taskJob.setPriority(0);
-			/*// 知识形态
-			String knowledgeType = getStringValue(request, "knowledgeType");
-			String knowledgeTypeName = getStringValue(request, "knowledgeTypeName");
-			// 知识模板
-			String knowledgeModel = getStringValue(request, "knowledgeModel");
-			String knowledgeModelName = getStringValue(request,
-					"knowledgeModelName");
-			// 存储系统
-			String system = getStringValue(request, "system");
-			String systemName = getStringValue(request, "systemName");
-			taskJob.setKnowledgeType(knowledgeType);
-			taskJob.setKnowledgeTypeName(knowledgeTypeName);
-			taskJob.setKnowledgeModel(knowledgeModel);
-			taskJob.setKnowledgeModelName(knowledgeModelName);
-			taskJob.setSystemId(system);
-			taskJob.setSystemName(systemName);*/
 		} else {
 			TaskTrigger trigger = taskTriggerBiz.queryTriggerByJobId(id);
 			if (taskTrigger != null && trigger != null) {
@@ -1757,19 +1506,13 @@ public class TaskJobController extends ExtendedMultiActionController {
 		}
 		try {
 			// 新增
-			String taskId = taskJobBiz.addWebJob(taskJob, rules,
-					attachProperty, taskTrigger);
+			String taskId = taskJobBiz.addWebJob(taskJob, rules, attachProperty, taskTrigger);
 			taskJob.setId(taskId);
 			if (id == null || id.equals("")) {
-				// 生成转换任务和传输任务
-//				saveExtractAndTransferJob(request, sourceId, taskJob, null);
 			} else {
 				// 需要修改转换和传输的任务名称
 				if (updName) {
-					// select * from taskjob t start with id = '' connect by
-					// prior t.id = t.connectid ;
-					List<TaskJob> listJob = taskJobBiz
-							.findAllTaskByCrawlerJobId(taskId);
+					List<TaskJob> listJob = taskJobBiz.findAllTaskByCrawlerJobId(taskId);
 					for (int i = 0; i < listJob.size(); i++) {
 						listJob.get(i).setName(jobForm.getName());
 					}
@@ -1780,7 +1523,6 @@ public class TaskJobController extends ExtendedMultiActionController {
 			String startTask = getStringValue(request, "startTask");
 			if (startTask.equals("1")) {
 				// 开始任务
-				// taskJob.setJobState(JobModel.STATE_STRAT);
 				quartzScheduleBiz.startJob(taskJob);
 			}
 			result.put("code", "ok");
@@ -1802,50 +1544,11 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param sourceId
 	 * @param taskJob
 	 */
-	private void saveExtractAndTransferJob(HttpServletRequest request,
-			String sourceId, TaskJob taskJob, List list) {
-		/*// 知识形态
-		String knowledgeType = getStringValue(request, "knowledgeType");
-		String knowledgeTypeName = getStringValue(request, "knowledgeTypeName");
-		// 知识模板
-		String knowledgeModel = getStringValue(request, "knowledgeModel");
-		String knowledgeModelName = getStringValue(request,
-				"knowledgeModelName");*/
+	private void saveExtractAndTransferJob(HttpServletRequest request, String sourceId, TaskJob taskJob, List list) {
 		// 存储系统
 		String system = getStringValue(request, "system");
 		String systemName = getStringValue(request, "systemName");
-		/*// 如果选择了知识形态，要生成转换任务
-		if (knowledgeType != null) {
-			TaskJob extractJob = new TaskJob();
-			extractJob.setId(IDGenerate.uuid());
-			extractJob.setSourceId(sourceId);
-			extractJob.setSourceName(taskJob.getSourceName());
-			extractJob.setName(taskJob.getName());
-			// 设置转换任务关联采集任务
-			extractJob.setConnectId(taskJob.getId());
-			extractJob.setRegisterModel(JobModel.MODEL_EXTRACT);
-			extractJob.setRegisterType(JobModel.TYPE_EXTRACT);
-			extractJob.setJobState(JobModel.STATE_READY);
-			extractJob.setKnowledgeType(knowledgeType);
-			extractJob.setKnowledgeTypeName(knowledgeTypeName);
-			extractJob.setKnowledgeModel(knowledgeModel);
-			extractJob.setKnowledgeModelName(knowledgeModelName);
-			// 附件抽取规则
-			String extractList = taskJob.getExtractList();
-			if(extractList!=null&&extractList!=""){
-				extractJob.setExtractList(extractList);
-			}
-			taskJobBiz.add(extractJob);
-			if (list != null) {
-				String extractXml = Dom4jXmlUtil.extractXMLMapping(list);
-				TaskRule taskRule = new TaskRule();
-				taskRule.setJobId(extractJob.getId());
-				taskRule.setRuleType(extractJob.getRegisterType());
-				taskRule.setRuleContent(extractXml.getBytes());
-				taskRuleBiz.save(taskRule);
-			}
-			
-		}*/
+		
 		// 如果选择了存储系统，要生成传输任务
 		if (system != null) {
 			TaskJob transferJob = new TaskJob();
@@ -1859,10 +1562,6 @@ public class TaskJobController extends ExtendedMultiActionController {
 			transferJob.setJobState(JobModel.STATE_READY);
 			transferJob.setSystemId(system);
 			transferJob.setSystemName(systemName);
-			/*transferJob.setKnowledgeType(knowledgeType);
-			transferJob.setKnowledgeTypeName(knowledgeTypeName);
-			transferJob.setKnowledgeModel(knowledgeModel);
-			transferJob.setKnowledgeModelName(knowledgeModelName);*/
 			taskJobBiz.save(transferJob);
 		}
 	}
@@ -1874,8 +1573,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param map
 	 * @return List<TaskJob> author duanzheng
 	 */
-	public ModelAndView positiveSequenceOrReverseSwitchTasks(
-			HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView positiveSequenceOrReverseSwitchTasks(HttpServletRequest request, HttpServletResponse response) {
 		ListPageQuery parameters = new ListPageQuery();
 		new ServletRequestDataBinder(parameters).bind(request);
 		List<TaskJob> listJob = null;
@@ -1888,8 +1586,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 				map.put("id", getStringValue(request, "id"));
 			}
 			map.put("registermodel", getStringValue(request, "registermodel"));
-			listJob = taskJobBiz.positiveSequenceOrReverseSwitchTasks(
-					parameters.getPagination(), map);
+			listJob = taskJobBiz.positiveSequenceOrReverseSwitchTasks(parameters.getPagination(), map);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -1903,27 +1600,23 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param map
 	 * @return List<TaskJob> author duanzheng
 	 */
-	public ModelAndView fuzzyQueryTaskList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView fuzzyQueryTaskList(HttpServletRequest request, HttpServletResponse response) {
 		ListPageQuery parameters = new ListPageQuery();
 		List<TaskJob> tjs = null;
 		try {
 			ModelAndView h = new ModelAndView();
 			String type = getStringValue(request, "registerType");// 任务类型（供转换和传输使用）
-			String PriorityToCollectVal = getStringValue(request,
-					"PriorityToCollectVal");// 优先级筛选
+			String PriorityToCollectVal = getStringValue(request, "PriorityToCollectVal");// 优先级筛选
 			String collectStateVal = getStringValue(request, "collectStateVal"); // 状态筛选
-			String knowledgeSourceVal = getStringValue(request,
-					"knowledgeSourceVal");// 知识源筛选
-			//String collectTasknameVal=getStringValue(request, "collectTasknameVal");//任务名称筛选
-			String  Namesearch=getStringValue(request, "Namesearch");
-			String  collectRegisterVal=getStringValue(request, "collectRegisterVal");
+			String knowledgeSourceVal = getStringValue(request, "knowledgeSourceVal");// 知识源筛选
+			String Namesearch = getStringValue(request, "Namesearch");
+			String collectRegisterVal = getStringValue(request, "collectRegisterVal");
 			String collectWayVal = getStringValue(request, "collectWayVal"); // 方式筛选
-			String collectDateVal=getStringValue(request, "collectDateVal");
-			String strtTime=getStringValue(request, "startTime");
-			String stopTime=getStringValue(request, "stopTime")+" 23:59:59";
-			if (collectStateVal == null || knowledgeSourceVal == null
-					|| PriorityToCollectVal == null || collectWayVal == null) {
+			String collectDateVal = getStringValue(request, "collectDateVal");
+			String strtTime = getStringValue(request, "startTime");
+			String stopTime = getStringValue(request, "stopTime") + " 23:59:59";
+			if (collectStateVal == null || knowledgeSourceVal == null || PriorityToCollectVal == null
+					|| collectWayVal == null) {
 
 			}
 			if (collectStateVal != null) {
@@ -1957,18 +1650,16 @@ public class TaskJobController extends ExtendedMultiActionController {
 																			// 3：传输）
 			String search = getStringValue(request, "search"); // 要搜索的值
 			String sourceId = getStringValue(request, "id");// 知识源id
-			if (registermodel == null && search == null && sourceId == null
-					&& collectStateVal == null && knowledgeSourceVal == null
-					&& collectWayVal == null) {
+			if (registermodel == null && search == null && sourceId == null && collectStateVal == null
+					&& knowledgeSourceVal == null && collectWayVal == null) {
 				return this.putToModelAndViewJson(tjs, parameters);
 			}
 			if (search == null) {
 				search = "请输入知识源筛选任务……";
 			}
 			search = search.trim();
-			if (search.equals("请输入知识源筛选任务……") || search.equals("")
-					|| search.equals(null) || search.equals("请输入知识源筛选任务……")
-					|| search.equals("请输入知识源筛选任务……")) {
+			if (search.equals("请输入知识源筛选任务……") || search.equals("") || search.equals(null)
+					|| search.equals("请输入知识源筛选任务……") || search.equals("请输入知识源筛选任务……")) {
 				search = null;
 			}
 
@@ -1990,14 +1681,12 @@ public class TaskJobController extends ExtendedMultiActionController {
 			map.put("stopTime", stopTime);
 			map.put("registertype", collectRegisterVal);
 			new ServletRequestDataBinder(parameters).bind(request);
-			if(collectDateVal!=null){
-				tjs=taskJobBiz.queryTaskjobByCreatedate(parameters.getPagination(), map);
-			}else{
-				tjs = taskJobBiz.specialFilterTransformationAndTransportTask(
-						parameters.getPagination(), map, type);
+			if (collectDateVal != null) {
+				tjs = taskJobBiz.queryTaskjobByCreatedate(parameters.getPagination(), map);
+			} else {
+				tjs = taskJobBiz.specialFilterTransformationAndTransportTask(parameters.getPagination(), map, type);
 			}
-			
-			
+
 		} catch (Exception e) {
 			throw e;
 		}
@@ -2014,23 +1703,21 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param response
 	 * @return
 	 */
-	public ModelAndView knowledgeLinkstate(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView knowledgeLinkstate(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		String sourceId = getStringValue(request, "sourceId");
 		String state = knowledgeSourceBiz.findById(sourceId).getLinkState();
 		result.put("state", state);
 		return this.putToModelAndViewJson(result);
 	}
-	
+
 	/**
-	 * 功能：根据批量id删除任务（单条删除或多条删除）
-	 * 作者： 段政
+	 * 功能：根据批量id删除任务（单条删除或多条删除） 作者： 段政
+	 * 
 	 * @param id
 	 *            return ModelAndView author duanzheng
 	 */
-	public ModelAndView deleteTaskJob(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView deleteTaskJob(HttpServletRequest request, HttpServletResponse response) {
 		Map map = new HashMap();
 		try {
 			String[] array = request.getParameterValues("listId"); // 获取所有的
@@ -2038,7 +1725,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 			List list = new ArrayList();
 			Map mapParams = null;
 			if (array != null) {
-				for (int i = 0,n=array.length; i <n; i++) {
+				for (int i = 0, n = array.length; i < n; i++) {
 					String id = array[i];
 					String jobState = null;
 					if (!(id.equals(""))) {
@@ -2052,29 +1739,25 @@ public class TaskJobController extends ExtendedMultiActionController {
 								TaskJob job = taskJobBiz.findById(id);
 								map.put("msg", "任务正在进行中不能删除！");
 								if (job != null) {
-									map.put("msg", job.getName()
-											+ "任务正在进行中不能删除！");
+									map.put("msg", job.getName() + "任务正在进行中不能删除！");
 								}
 								return this.putToModelAndViewJson(map);
 							} else if (jobState.equals("4")) {
 								TaskJob job = taskJobBiz.findById(id);
 								map.put("msg", "任务正在等待中不能删除！");
 								if (job != null) {
-									map.put("msg", job.getName()
-											+ "任务正在等待中不能删除！");
+									map.put("msg", job.getName() + "任务正在等待中不能删除！");
 								}
 								return this.putToModelAndViewJson(map);
 							} else if (jobState.equals("0")) {
 								mapParams = new HashMap();
 								mapParams.put("connectid", id);
 								mapParams.put("registerModel", type);
-								list.addAll(this
-										.queryDeleteJobRelationId(mapParams));
+								list.addAll(this.queryDeleteJobRelationId(mapParams));
 							} else {
 								mapParams = new HashMap();
 								mapParams.put("connectid", id);
-								List<TaskJob> job = taskJobBiz
-										.accordingToTheConditionsQueryJobCollection(mapParams);
+								List<TaskJob> job = taskJobBiz.accordingToTheConditionsQueryJobCollection(mapParams);
 								if (job.size() > 0) {
 									String name = job.get(0).getName();
 									map.put("msg", name + "在任务中被关联不能删除！");
@@ -2131,7 +1814,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * 
 	 */
 	public List queryDeleteJobRelationId(Map map) {
-		List listArr=null;
+		List listArr = null;
 		List<TaskJob> list = null;
 		try {
 			Map mapParams = null;
@@ -2139,8 +1822,8 @@ public class TaskJobController extends ExtendedMultiActionController {
 			String type = "" + map.get("registerModel");
 			if (id != null && id != "") {
 				list = taskJobBiz.findAllTaskByCrawlerJobId(id);// 递归查询
-				if(list.size()>0){
-					listArr=new ArrayList();
+				if (list.size() > 0) {
+					listArr = new ArrayList();
 					for (int j = 0; j < list.size(); j++) {
 						listArr.add(list.get(j).getId());
 					}
@@ -2160,55 +1843,40 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param request
 	 * @param response
 	 */
-	public ModelAndView toTaskjobEditPage(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView toTaskjobEditPage(HttpServletRequest request, HttpServletResponse response) {
 		String id = getStringValue(request, "id");
 		Dom4jXmlUtil dm = new Dom4jXmlUtil();
 		ModelAndView model = new ModelAndView();
 		TaskJob taskJob = taskJobBiz.findById(id);
 		String sourceId = taskJob.getSourceId();
-		//抽取规则
-		String extractList=taskJob.getExtractList();
-		if(extractList!=null&&extractList!=""){
-			List exList=Arrays.asList(extractList.split(","));
-			model.addObject("extractList",exList);
+		// 抽取规则
+		String extractList = taskJob.getExtractList();
+		if (extractList != null && extractList != "") {
+			List exList = Arrays.asList(extractList.split(","));
+			model.addObject("extractList", exList);
 		}
-		model.addObject("sourceName",taskJob.getSourceName());
+		model.addObject("sourceName", taskJob.getSourceName());
 		model.addObject("name", taskJob.getName());
 		model.addObject("sourceId", sourceId);
 		model.addObject("id", id);
 		model.addObject("jobstate", taskJob.getJobState());
 		model.addObject("knowledgeModel", taskJob.getKnowledgeModel());
-		model.addObject("knowledgeModelName",
-				taskJob.getKnowledgeModelName());
+		model.addObject("knowledgeModelName", taskJob.getKnowledgeModelName());
 		model.addObject("knowledgeType", taskJob.getKnowledgeType());
 		model.addObject("knowledgeTypeName", taskJob.getKnowledgeTypeName());
 		model.addObject("systemId", taskJob.getSystemId());
 		model.addObject("systemName", taskJob.getSystemName());
-		
-		// KnowledgeSource source = knowledgeSourceBiz.findById(sourceId);
-		// 获取km字段规则
-		
-		/*// 获取知识固有属性
-		String inherentProp = extenalRestBiz.getInherentProp();
-		model.addObject("inherentProp", JSONArray.fromObject(inherentProp));
-		//获取模板扩展属性
-		String properties_model = externalRestBiz.getModelProperties(taskJob.getKnowledgeModel());
-		model.addObject("properties_model", JSONArray.fromObject(properties_model));
-		String properties = externalRestBiz.getModelProperties();
-		properties = exchangeJsonPros(properties);*/
+
 		String registerType = taskJob.getRegisterType();
 		queryTrigger(id, model);
 		if ("1".equals(registerType)) {
-//			model.addObject("properties", JSONArray.fromObject(properties));
+			// model.addObject("properties", JSONArray.fromObject(properties));
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("taskId", id);
-			Map<String, Map<String, List<Map<String, Object>>>> ruleMap = ruleBiz
-					.getTaskRules(map);
+			Map<String, Map<String, List<Map<String, Object>>>> ruleMap = ruleBiz.getTaskRules(map);
 			// 起始网址
 			String seedUrl = "";
-			List<Map<String, Object>> seedList = ruleMap.get(Rule.SEED_URL)
-					.get(Rule.RULE_TYPE_URL);
+			List<Map<String, Object>> seedList = ruleMap.get(Rule.SEED_URL).get(Rule.RULE_TYPE_URL);
 			if (seedList != null && seedList.size() > 0) {
 				Map<String, Object> seed = seedList.get(0);
 				seedUrl = seed.get("rule").toString().replace("\"", "&quot;");
@@ -2216,44 +1884,36 @@ public class TaskJobController extends ExtendedMultiActionController {
 			}
 			// 列表网址
 			String listUrl = "";
-			Map<String, List<Map<String, Object>>> listurls = ruleMap
-					.get(Rule.LIST_URL_OPT);
-			listUrl = listurls != null ? listurls.get(Rule.RULE_TYPE_REGEX)
-					.get(0).get("rule").toString().replace("\"", "&quot;") : "";
+			Map<String, List<Map<String, Object>>> listurls = ruleMap.get(Rule.LIST_URL_OPT);
+			listUrl = listurls != null
+					? listurls.get(Rule.RULE_TYPE_REGEX).get(0).get("rule").toString().replace("\"", "&quot;") : "";
 			model.addObject("listUrl", listUrl);
 			// 列表区域
 			String listContent = "";
-			Map<String, List<Map<String, Object>>> listcontents = ruleMap
-					.get(Rule.LIST_CONTENT_OPT);
+			Map<String, List<Map<String, Object>>> listcontents = ruleMap.get(Rule.LIST_CONTENT_OPT);
 			if (listcontents != null) {
-				listContent = listcontents.get(Rule.RULE_TYPE_XPATH).get(0)
-						.get("rule") != null ? listcontents
-						.get(Rule.RULE_TYPE_XPATH).get(0).get("rule")
-						.toString().replace("\"", "&quot;") : "";
+				listContent = listcontents.get(Rule.RULE_TYPE_XPATH).get(0).get("rule") != null
+						? listcontents.get(Rule.RULE_TYPE_XPATH).get(0).get("rule").toString().replace("\"", "&quot;")
+						: "";
 			}
 			model.addObject("listContent", listContent);
 			// 详情网址
 			String detailUrl = "";
-			Map<String, List<Map<String, Object>>> detailurls = ruleMap
-					.get(Rule.DETAIL_URL_OPT);
-			detailUrl = detailurls != null ? detailurls
-					.get(Rule.RULE_TYPE_REGEX).get(0).get("rule").toString()
-					.replace("\"", "&quot;") : "";
+			Map<String, List<Map<String, Object>>> detailurls = ruleMap.get(Rule.DETAIL_URL_OPT);
+			detailUrl = detailurls != null
+					? detailurls.get(Rule.RULE_TYPE_REGEX).get(0).get("rule").toString().replace("\"", "&quot;") : "";
 			model.addObject("detailUrl", detailUrl);
 			// 详情多页
 			String detailMoreUrl = "";
-			Map<String, List<Map<String, Object>>> detailmoreurls = ruleMap
-					.get(Rule.DETAIL_MORE_URL_OPT);
+			Map<String, List<Map<String, Object>>> detailmoreurls = ruleMap.get(Rule.DETAIL_MORE_URL_OPT);
 			if (detailmoreurls != null) {
-				detailMoreUrl = detailmoreurls.get(Rule.RULE_TYPE_REGEX).get(0)
-						.get("rule") != null ? detailmoreurls
-						.get(Rule.RULE_TYPE_REGEX).get(0).get("rule")
-						.toString().replace("\"", "&quot;") : "";
+				detailMoreUrl = detailmoreurls.get(Rule.RULE_TYPE_REGEX).get(0).get("rule") != null
+						? detailmoreurls.get(Rule.RULE_TYPE_REGEX).get(0).get("rule").toString().replace("\"", "&quot;")
+						: "";
 			}
 			model.addObject("detailMoreUrl", detailMoreUrl);
 			// 采集内容
-			Map<String, List<Map<String, Object>>> detailcontents = ruleMap
-					.get(Rule.DETAIL_CONTENT_OPT);
+			Map<String, List<Map<String, Object>>> detailcontents = ruleMap.get(Rule.DETAIL_CONTENT_OPT);
 			String[] detail_content = new String[detailcontents.size()]; // WEB采集
 																			// 内容项
 																			// 名称
@@ -2271,7 +1931,8 @@ public class TaskJobController extends ExtendedMultiActionController {
 						rule = new Rule();
 						rule.setName(mapDetail.get("name").toString());
 						rule.setType(mapDetail.get("type").toString());
-						rule.setRule(mapDetail.get("rule")!=null ? mapDetail.get("rule").toString().replace("\"", "&quot;") : "");
+						rule.setRule(mapDetail.get("rule") != null
+								? mapDetail.get("rule").toString().replace("\"", "&quot;") : "");
 						detailRuleList.add(rule);
 					}
 				}
@@ -2280,23 +1941,19 @@ public class TaskJobController extends ExtendedMultiActionController {
 			model.addObject("detailRuleList", detailRuleList);
 			// 附件规则
 			String attachmentUrl = "";
-			Map<String, List<Map<String, Object>>> attclurls = ruleMap
-					.get(Rule.ATTACHMENT_URL_OPT);
+			Map<String, List<Map<String, Object>>> attclurls = ruleMap.get(Rule.ATTACHMENT_URL_OPT);
 			if (attclurls != null) {
-				attachmentUrl = attclurls.get(Rule.RULE_TYPE_XPATH).get(0)
-						.get("rule") != null ? attclurls
-						.get(Rule.RULE_TYPE_XPATH).get(0).get("rule")
-						.toString().replace("\"", "&quot;") : "";
+				attachmentUrl = attclurls.get(Rule.RULE_TYPE_XPATH).get(0).get("rule") != null
+						? attclurls.get(Rule.RULE_TYPE_XPATH).get(0).get("rule").toString().replace("\"", "&quot;")
+						: "";
 			}
 			model.addObject("attachmentUrl", attachmentUrl);
 
-			AttachProperty attachProperty = this.attachPropertyBiz
-					.getAttachPropertyByTaskId(map);
+			AttachProperty attachProperty = this.attachPropertyBiz.getAttachPropertyByTaskId(map);
 			model.addObject("attachProperty", attachProperty);
 			List<String[]> ipAddressPortList = new ArrayList<String[]>();
 			if (attachProperty.getIpAddressPort() != null) {
-				String[] ipAddressPorts = attachProperty.getIpAddressPort()
-						.split(";");
+				String[] ipAddressPorts = attachProperty.getIpAddressPort().split(";");
 				for (int i = 0; i < ipAddressPorts.length; i++) {
 					String[] ipAddressPort = ipAddressPorts[i].split(":");
 					ipAddressPortList.add(ipAddressPort);
@@ -2316,32 +1973,23 @@ public class TaskJobController extends ExtendedMultiActionController {
 			String entityname = map.get("entityname");
 			String selectJson = map.get("json");
 			// 获取jdbcEtity对象
-			JdbcEnity jdbc = knowledgeSourceBiz
-					.getJdbcEnityBysourceId(sourceId);
+			JdbcEnity jdbc = knowledgeSourceBiz.getJdbcEnityBysourceId(sourceId);
 			jdbc.setEntityName(entityname);
 			List<JdbcField> list = jdbcConnectionUtil.getFields(jdbc);
-
-			// json字符串转换list/map集合
-			/*JSONArray jsonArray = JSONArray.fromObject(properties);
-			List<Map<String, Object>> mapListJson = (List) jsonArray;*/
 			JSONArray jsonArray1 = JSONArray.fromObject(selectJson);
 			List<Map<String, Object>> mapListJson1 = (List) jsonArray1;
 			model.addObject("entityname", entityname);
 			model.addObject("list", list);
-//			model.addObject("properties", mapListJson);
 			model.addObject("selectlist", mapListJson1);
-//			model.addObject("typeList", properties);
 			model.addObject("filekey", map.get("filekey"));
 			model.addObject("filevalue", map.get("filevalue"));
 			model.addObject("filename", map.get("filename"));
 			model.addObject("filetype", map.get("filetype"));
-			
 			model.setViewName("km/crawler/task/editDBTask");
 		} else if ("3".equals(registerType)) {
 			model.setViewName("km/crawler/task/editLocalTask");
 		}
 		return model;
-
 	}
 
 	/**
@@ -2353,8 +2001,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param response
 	 * @return
 	 */
-	public ModelAndView getModelsByTypeId(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView getModelsByTypeId(HttpServletRequest request, HttpServletResponse response) {
 		String typeId = getStringValue(request, "typeId");
 		String id = getStringValue(request, "id");
 		String operationType = getStringValue(request, "operationType");
@@ -2365,8 +2012,6 @@ public class TaskJobController extends ExtendedMultiActionController {
 		if (typeId == null) {
 
 		} else {
-			// 调用webService接口获取知识形态下模板集合
-//			models = externalRestBiz.getModelListByTypeId(typeId);
 		}
 		// 模板id
 		String propertyId = getStringValue(request, "propertyId");
@@ -2389,7 +2034,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 				map.put("id", id);
 				List<Rule> listRule = ruleBiz.queryTaskRuleById(map);
 				if (listRule.size() > 0) {
-					for (int i = 0,n=listRule.size(); i <n ; i++) {
+					for (int i = 0, n = listRule.size(); i < n; i++) {
 						resultParamList.add(listRule.get(i).getName().trim());
 					}
 				}
@@ -2400,7 +2045,6 @@ public class TaskJobController extends ExtendedMultiActionController {
 					byte[] contentByte = tr.getRuleContent();
 					String str = new String(contentByte);
 					if (str != null) {
-//						resultParamList = Dom4jXmlUtil.parse(str);
 						resultParamList = Dom4jXmlUtil.getKeyFromXMl(str);
 					}
 				}
@@ -2413,12 +2057,12 @@ public class TaskJobController extends ExtendedMultiActionController {
 		result.put("listProperties", list);
 		result.put("models", models);
 		if (resultMap.size() > 0) {
-			for (int i = 0,n=resultMap.size(); i <n; i++) {// 从数据库中获取到的属性
-				if(!StringUtils.isNumeric(resultMap.get(i).get("key").toString())){
+			for (int i = 0, n = resultMap.size(); i < n; i++) {// 从数据库中获取到的属性
+				if (!StringUtils.isNumeric(resultMap.get(i).get("key").toString())) {
 					resultMap.get(i).put("hide", "false");
 					continue;
 				}
-				for (int j = 0,c=list.size(); j <c; j++) {// 模板的属性
+				for (int j = 0, c = list.size(); j < c; j++) {// 模板的属性
 					String resultMapKey = "" + resultMap.get(i).get("key");
 					String listKey = "" + list.get(j).get("PROP_ID");
 					if (resultMapKey.equals(listKey)) {
@@ -2440,24 +2084,20 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param list
 	 * @return
 	 */
-	public List<Map> getRule(List list, List<TaskRule> listTaskRule,
-			List<Rule> listRule) {
+	public List<Map> getRule(List list, List<TaskRule> listTaskRule, List<Rule> listRule) {
 		List<Map> resultList = new ArrayList<Map>();
 		Map resultMap = null;
 		// 获取json字符串进行匹配
 		String properties = "";
-//		String properties = externalRestBiz.getModelProperties();
 		JSONArray jsa = JSONArray.fromObject(properties);
-//		com.alibaba.fastjson.JSONArray jsa = (com.alibaba.fastjson.JSONArray) com.alibaba.fastjson.JSONArray
-//				.parse(properties);
 		if (list != null && list.size() > 0) {
-			for (int j = 0,n=list.size(); j <n ; j++) {
+			for (int j = 0, n = list.size(); j < n; j++) {
 				String param = list.get(j).toString();
-				param = param.indexOf(":")!=-1 ? param.split(":")[0] : param;
+				param = param.indexOf(":") != -1 ? param.split(":")[0] : param;
 				if (!(param.equals(null) && param.equals(""))) {
-					
+
 					int l = 0;
-					for (int k = 0,c=jsa.size(); k <c ; k++) {
+					for (int k = 0, c = jsa.size(); k < c; k++) {
 						if (l > 0) {
 							break;
 						}
@@ -2476,20 +2116,20 @@ public class TaskJobController extends ExtendedMultiActionController {
 			}
 		} else if (listTaskRule != null && listTaskRule.size() > 0) {
 
-			for (int i = 0,n=listTaskRule.size(); i <n ; i++) {
+			for (int i = 0, n = listTaskRule.size(); i < n; i++) {
 				byte[] byteArray = listTaskRule.get(i).getRuleContent();
-				List<Map> listMap = parseXMLFormat(byteArray,jsa);
+				List<Map> listMap = parseXMLFormat(byteArray, jsa);
 				if (listMap.size() > 0) {
 					resultList.addAll(listMap);
 				}
 			}
 		} else if (listRule != null && listRule.size() > 0) {
-			for (int i = 0,n=listRule.size(); i <n ; i++) {
+			for (int i = 0, n = listRule.size(); i < n; i++) {
 				String name = listRule.get(i).getName();
-				name = name.indexOf(":")!=-1 ? name.split(":")[0] : name;
+				name = name.indexOf(":") != -1 ? name.split(":")[0] : name;
 				if (name != null && name != "") {
 					int l = 0;
-					for (int k = 0,c=jsa.size(); k <c ; k++) {
+					for (int k = 0, c = jsa.size(); k < c; k++) {
 						if (l > 0) {
 							break;
 						}
@@ -2516,21 +2156,21 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param byteArray
 	 * @return
 	 */
-	public List<Map> parseXMLFormat(byte[] byteArray,JSONArray jsa) {
+	public List<Map> parseXMLFormat(byte[] byteArray, JSONArray jsa) {
 		List<Map> list = null;
 		Map resultMap = null;
 		if (byteArray.length > 0) {
 			String str = new String(byteArray);
 			// 解析xml格式字符串
-//			List listkey = Dom4jXmlUtil.parse(str);
+			// List listkey = Dom4jXmlUtil.parse(str);
 			List listkey = Dom4jXmlUtil.getKeyFromXMl(str);
 			list = new ArrayList<Map>();
-			for (int j = 0,n=listkey.size(); j <n ; j++) {
+			for (int j = 0, n = listkey.size(); j < n; j++) {
 				String param = "" + listkey.get(j);
-				param = param.indexOf(":")!=-1 ? param.split(":")[0] : param;
+				param = param.indexOf(":") != -1 ? param.split(":")[0] : param;
 				if (!(param.equals(null) && param.equals(""))) {
 					int l = 0;
-					for (int k = 0,c=jsa.size(); k <c ; k++) {
+					for (int k = 0, c = jsa.size(); k < c; k++) {
 						if (l > 0) {
 							break;
 						}
@@ -2560,12 +2200,8 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param response
 	 * @return
 	 */
-	public ModelAndView getproperties(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView getproperties(HttpServletRequest request, HttpServletResponse response) {
 		// 获取km字段规则
-		/*String properties = externalRestBiz.getModelProperties();
-		properties = exchangeJsonPros(properties);
-		result.put("properties", properties);*/
 		Map<String, Object> result = new HashMap<String, Object>();
 		return this.putToModelAndViewJson(result);
 	}
@@ -2579,20 +2215,15 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param response
 	 * @return
 	 */
-	public TaskTrigger getTrigger(HttpServletRequest request,
-			HttpServletResponse response) {
+	public TaskTrigger getTrigger(HttpServletRequest request, HttpServletResponse response) {
 		TaskTrigger taskTrigger = new TaskTrigger();
 		String startTime = getStringValue(request, "startTime");
 		String stopTime = getStringValue(request, "stopTime");
-		// int triggerType=Integer.parseInt(getStringValue(request,
-		// "triggerType"));
-		Integer triggerType = Integer.valueOf(getStringValue(request,
-				"triggerType"));
+		Integer triggerType = Integer.valueOf(getStringValue(request, "triggerType"));
 		// taskTrigger.setTriggerType(triggerType);
 		String triggerWeek = getStringValue(request, "checkWeek");
 		if (triggerWeek != null && triggerWeek != "") {
-			String trriggerWeek_sub = triggerWeek.substring(0,
-					triggerWeek.length() - 1);
+			String trriggerWeek_sub = triggerWeek.substring(0, triggerWeek.length() - 1);
 			taskTrigger.setTriggerWeek(trriggerWeek_sub);
 		}
 		String monthradio = getStringValue(request, "monthradio");
@@ -2646,22 +2277,18 @@ public class TaskJobController extends ExtendedMultiActionController {
 					model.addObject("weekList1", weekList);
 				} else if (triggerType == 3) {
 
-					List<String> monthList = Arrays.asList(taskTrigger
-							.getTriggerMonth().split(","));
+					List<String> monthList = Arrays.asList(taskTrigger.getTriggerMonth().split(","));
 
 					String triggerDay = taskTrigger.getTriggerDay();
 					if (triggerDay != "" && triggerDay != null) {
-						List<String> dayList = Arrays.asList(triggerDay
-								.split(","));
+						List<String> dayList = Arrays.asList(triggerDay.split(","));
 						model.addObject("monthType", "1");
 						model.addObject("dayList", dayList);
 					}
 					String triggerFew = taskTrigger.getTriggerFew();
 					if (triggerFew != "" && triggerFew != null) {
-						List<String> weekList = Arrays.asList(triggerFew
-								.split(","));
-						List<String> weekList2 = Arrays.asList(taskTrigger
-								.getTriggerWeek().split(","));
+						List<String> weekList = Arrays.asList(triggerFew.split(","));
+						List<String> weekList2 = Arrays.asList(taskTrigger.getTriggerWeek().split(","));
 						model.addObject("monthType", "2");
 						model.addObject("weekList", weekList);
 						model.addObject("weekList2", weekList2);
@@ -2683,8 +2310,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param id
 	 *            priority
 	 */
-	public ModelAndView updateTaskJobPriorityById(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView updateTaskJobPriorityById(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			String id = getStringValue(request, "id");
 			String priority = getStringValue(request, "priority");
@@ -2708,8 +2334,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param id
 	 *            priority
 	 */
-	public ModelAndView spiderTest(HttpServletRequest request,
-			HttpServletResponse response, JobForm jobForm) {
+	public ModelAndView spiderTest(HttpServletRequest request, HttpServletResponse response, JobForm jobForm) {
 		// 是否需要登录
 		AttachProperty attachProperty = null;
 		// 规则集合
@@ -2718,17 +2343,6 @@ public class TaskJobController extends ExtendedMultiActionController {
 		Map<String, Object> mapObj = null;
 		List<Map<String, Object>> listMap = null;
 		Map<String, List<Map<String, Object>>> mapRule = null;
-
-		// if (jobForm.getThreadNum() >= 0) {
-		// if (attachProperty == null)
-		// attachProperty = new AttachProperty();
-		// attachProperty.setThreadNum(jobForm.getThreadNum());
-		// }
-		// if (jobForm.getChartset() != null) {
-		// if (attachProperty == null)
-		// attachProperty = new AttachProperty();
-		// attachProperty.setCharSet(jobForm.getChartset());
-		// }
 		// 代理服务器设置
 		String[] ipAddress = getArrayValue(request, "ipAddress");
 		String[] ipPort = getArrayValue(request, "ipPort");
@@ -2741,13 +2355,12 @@ public class TaskJobController extends ExtendedMultiActionController {
 				ipAddressPort += ipAddress[i] + ":" + ipPort[i] + ";";
 			}
 			if (!ipAddressPort.equals("")) {
-				ipAddressPort = ipAddressPort.substring(0,
-						ipAddressPort.length() - 1);
+				ipAddressPort = ipAddressPort.substring(0, ipAddressPort.length() - 1);
 				attachProperty.setIpAddressPort(ipAddressPort);
 			}
 		}
 		String seedUrl = jobForm.getSeed_url();
-		if(seedUrl.indexOf(",") !=-1){
+		if (seedUrl.indexOf(",") != -1) {
 			seedUrl = seedUrl.split(",")[0];
 		}
 		// 种子地址
@@ -2778,8 +2391,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 		}
 
 		// 详情页正则 规则
-		if (jobForm.getDetail_url() != null
-				&& !jobForm.getDetail_url().equals("")) {
+		if (jobForm.getDetail_url() != null && !jobForm.getDetail_url().equals("")) {
 			mapObj = new HashMap<String, Object>();
 			listMap = new ArrayList<Map<String, Object>>();
 			mapRule = new HashMap<String, List<Map<String, Object>>>();
@@ -2806,8 +2418,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 			ruleMap.put("detailmoreurl", mapRule);
 		}
 		// 列表页区域规则
-		if (jobForm.getList_content() != null
-				&& !jobForm.getList_content().equals("")) {
+		if (jobForm.getList_content() != null && !jobForm.getList_content().equals("")) {
 			mapObj = new HashMap<String, Object>();
 			listMap = new ArrayList<Map<String, Object>>();
 			mapRule = new HashMap<String, List<Map<String, Object>>>();
@@ -2821,14 +2432,12 @@ public class TaskJobController extends ExtendedMultiActionController {
 		}
 		// 内容提取 规则
 		String[] detailContents = getArrayValue(request, "detail_content");
-		String[] detailContentVals = getArrayValue(request,
-				"detail_content_Val");
-		String[] detailContentTypes = getArrayValue(request,
-				"detail_content_type");
+		String[] detailContentVals = getArrayValue(request, "detail_content_Val");
+		String[] detailContentTypes = getArrayValue(request, "detail_content_type");
 		// 内容提取 规则
-		String[] detailContentNames={};
+		String[] detailContentNames = {};
 		try {
-			String detailContentNamesStr = URLDecoder.decode(getStringValue(request, "detail_content_Name"),"utf8");
+			String detailContentNamesStr = URLDecoder.decode(getStringValue(request, "detail_content_Name"), "utf8");
 			detailContentNames = detailContentNamesStr.split(",");
 		} catch (UnsupportedEncodingException e1) {
 			// TODO Auto-generated catch block
@@ -2847,28 +2456,11 @@ public class TaskJobController extends ExtendedMultiActionController {
 		}
 		mapRule.put("xpath", listMap);
 		ruleMap.put("detailcontent", mapRule);
-		// 附件规则
-		/*Rule attachmentContent = null;
-		if (jobForm.getAttachment_content() != null) {
-			mapObj = new HashMap<String, Object>();
-			listMap = new ArrayList<Map<String, Object>>();
-			mapRule = new HashMap<String, List<Map<String, Object>>>();
-			mapObj.put("RULE", jobForm.getAttachment_content_Val());
-			mapObj.put("TYPE", jobForm.getAttachment_content_type());
-			mapObj.put("NAME", jobForm.getAttachment_content());
-			mapObj.put("OPTFLAG", Rule.ATTACHMENT_URL_OPT);
-			listMap.add(mapObj);
-			mapRule.put(jobForm.getAttachment_content_type(), listMap);
-			ruleMap.put("attachementurl", mapRule);
-
-		}*/
 		ModelAndView model = new ModelAndView();
 		model.setViewName("km/crawler/task/testPage");
-	
-		WebSpider webSpider = WebSpider
-				.create(new GeneralTestProcessor(ruleMap))
-				.addPipeline(new FilePipeline("C:/Temp/files"))
-				.addUrl(seedUrl);
+
+		WebSpider webSpider = WebSpider.create(new GeneralTestProcessor(ruleMap))
+				.addPipeline(new FilePipeline("C:/Temp/files")).addUrl(seedUrl);
 		String uuid = webSpider.getUUID();
 		webSpider.start();
 		List<String> pages = new ArrayList<String>();
@@ -2883,76 +2475,58 @@ public class TaskJobController extends ExtendedMultiActionController {
 						String[] filelist = file.list();
 						File readfile = null;
 						FileInputStream in = null;
-						List<String> lines=null;
-						if(filelist.length>1){
-						    BufferedReader br = null;  
+						List<String> lines = null;
+						if (filelist.length > 1) {
+							BufferedReader br = null;
 							String line = "";
 							int tableWidth = detailContentNames.length * 200 + 40;
-							str.append("<table style=\"border:solid 1px #F2F2F2;width:"+ tableWidth +"px;\">");
+							str.append("<table style=\"border:solid 1px #F2F2F2;width:" + tableWidth + "px;\">");
 							str.append("<tr style=\"color:#0000FF;background-color:#F9F9F9;\">");
 							str.append("<td style=\"width:40px; \">序号</td>");
 							for (int i = 0; i < detailContentNames.length; i++) {
 								String thName = detailContentNames[i];
-								if(thName.length()>=12){
-									thName = thName.substring(0,12)+"…";
+								if (thName.length() >= 12) {
+									thName = thName.substring(0, 12) + "…";
 								}
-								str.append("<td style=\"width:200px; \">"+thName+"</td>");
+								str.append("<td style=\"width:200px; \">" + thName + "</td>");
 							}
 							str.append("</tr>");
 							int num = 1;
 							for (int i = 0; i < filelist.length; i++) {
 								String xmlContent = "";
-								br = new BufferedReader(new InputStreamReader(new FileInputStream(filepath + "\\" + filelist[i]),"UTF-8"));   
+								br = new BufferedReader(new InputStreamReader(
+										new FileInputStream(filepath + "\\" + filelist[i]), "UTF-8"));
 								while ((line = br.readLine()) != null) {
 									xmlContent += line;
 								}
 								Document document;
-								
+
 								try {
 									document = DocumentHelper.parseText(xmlContent);
 									List<Element> listField = document.selectNodes("metadata/fields/field");
 									str.append("<tr>");
-									str.append("<td>"+num+"</td>");
+									str.append("<td>" + num + "</td>");
 									for (int j = 0; j < detailContentNames.length; j++) {
-										for(Element ele:listField){ 
-											//System.out.println(ele.getTextTrim());
+										for (Element ele : listField) {
+											// System.out.println(ele.getTextTrim());
 											Element eleKey = ele.element("key");
 											Element eleValue = ele.element("value");
-											if(eleKey.getTextTrim().equals(detailContentNames[j].trim())){
+											if (eleKey.getTextTrim().equals(detailContentNames[j].trim())) {
 												String eleValueStr = eleValue.getTextTrim();
-												if(eleValueStr.length()>=12){
-													eleValueStr = eleValueStr.substring(0,12)+"…";
+												if (eleValueStr.length() >= 12) {
+													eleValueStr = eleValueStr.substring(0, 12) + "…";
 												}
-												if(eleValueStr.indexOf("<")!=-1){
+												if (eleValueStr.indexOf("<") != -1) {
 													eleValueStr = eleValueStr.replaceAll("<", "&lt;");
 													eleValueStr = eleValueStr.replaceAll(">", "&gt;");
 												}
-												str.append("<td>"+eleValueStr+"</td>");
+												str.append("<td>" + eleValueStr + "</td>");
 												break;
 											}
-								        }
+										}
 									}
 									str.append("</tr>");
 									num++;
-									/*str.append("<tr>");
-									str.append("<td>"+num+"</td>");
-									for(Element ele:listField){ 
-										//System.out.println(ele.getTextTrim());
-										Element eleKey = ele.element("key");
-										Element eleValue = ele.element("value");
-										str.append("<td>"+eleKey.getTextTrim()+"</td>");
-							        }
-									str.append("</tr>");
-									num++;
-									List<Element> list = document.selectNodes("metadata/fields/field/value");
-									str.append("<tr>");
-									str.append("<td>"+num+"</td>");
-									for(Element ele:list){
-										//System.out.println(ele.getTextTrim());
-										str.append("<td>"+ele.getTextTrim()+"</td>");
-							        }
-									str.append("</tr>");
-									num++;*/
 								} catch (Exception e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
@@ -2986,18 +2560,13 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * 
 	 * @param request
 	 */
-	public ModelAndView toEditTransferTaskPage(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView toEditTransferTaskPage(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView();
-		// 修改备注（yongqian.liu）：咱不使用 groupId 属性
-		//String sourceId = getStringValue(request, "groupId");
 		String id = getStringValue(request, "id");
 		TaskJob taskJob = taskJobBiz.findById(id);
 		String sourceId = taskJob.getSourceId();
 		// 根据知识源ID获得知识源对象
 		KnowledgeSource knowledgeSource = knowledgeSourceBiz.findById(sourceId);
-		// Condition condition = Condition.parseCondition("id_string_eq");
-		// condition.setValue(taskJob.getConnectId());
 		TaskJob tjs = taskJobBiz.findById(taskJob.getConnectId());
 		model.addObject("id", id);
 		model.addObject("sourceId", sourceId);
@@ -3019,15 +2588,13 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * 
 	 * @param request
 	 */
-	public ModelAndView getModelPropertiesById(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView getModelPropertiesById(HttpServletRequest request, HttpServletResponse response) {
 		String modelId = getStringValue(request, "modelId");
 		ModelAndView model = new ModelAndView();
 		model.setViewName("km/crawler/task/attributeField");
-		/*String properties = externalRestBiz.getModelProperties(modelId);
-		model.addObject("properties", JSONArray.fromObject(properties));*/
 		return model;
 	}
+
 	/**
 	 * 功能:根据知识模板获取模板属性字段(新增加的属性字段查看方法)
 	 * <p>
@@ -3035,18 +2602,12 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * 
 	 * @param request
 	 */
-	public ModelAndView getAttrubuteById(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView getAttrubuteById(HttpServletRequest request, HttpServletResponse response) {
 		String modelId = getStringValue(request, "modelId");
 		Map<String, Object> result = new HashMap<String, Object>();
-		/*String properties = externalRestBiz.getModelProperties(modelId);
-		//properties = exchangeJsonPros(properties);
-		result.put("properties", properties);*/
-		//ModelAndView model = new ModelAndView();
-		//model.setViewName("km/crawler/task/attributeField");
-		//model.addObject("properties", JSONArray.fromObject(properties));
 		return this.putToModelAndViewJson(result);
 	}
+
 	/**
 	 * 功能：添加转换任务
 	 * <p>
@@ -3056,8 +2617,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 *            ,response
 	 */
 
-	public ModelAndView addTransformTask(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView addTransformTask(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			TaskJob job = null;
 			// 判断是修改还是添加
@@ -3071,16 +2631,12 @@ public class TaskJobController extends ExtendedMultiActionController {
 			}
 			// 附件抽取规则
 			String extractList = getStringValue(request, "extractList");
-			if(extractList!=null){
+			if (extractList != null) {
 				job.setExtractList(extractList);
 			}
 			// 转换的名称
 			String taskJobName = getStringValue(request, "taskJobName");
-			// String transformDataVal= getStringValue(request,
-			// "transformDataVal");
 			if (taskJobName != null && taskJobName != "") {
-				// transformDataVal=new
-				// String(transformDataVal.getBytes("iso-8859-1"),"utf-8");
 				job.setName(taskJobName);
 			}
 			// 知识形态id
@@ -3089,11 +2645,8 @@ public class TaskJobController extends ExtendedMultiActionController {
 				job.setKnowledgeType(knowledgeTypeVal);
 			}
 			// 知识形态名称
-			String knowledgeTypeName = getStringValue(request,
-					"knowledgeTypeName");
+			String knowledgeTypeName = getStringValue(request, "knowledgeTypeName");
 			if (knowledgeTypeName != null && knowledgeTypeName != "") {
-				// knowledgeTypeName=new
-				// String(knowledgeTypeName.getBytes("iso-8859-1"),"utf-8");
 				job.setKnowledgeTypeName(knowledgeTypeName);
 			}
 			// 知识模板Id
@@ -3102,11 +2655,8 @@ public class TaskJobController extends ExtendedMultiActionController {
 				job.setKnowledgeModel(knowledgeModelVal);
 			}
 			// 知识模板名称
-			String knowledgeModelName = getStringValue(request,
-					"knowledgeModelName");
+			String knowledgeModelName = getStringValue(request, "knowledgeModelName");
 			if (knowledgeModelName != null && knowledgeModelName != "") {
-				// knowledgeModelName=new
-				// String(knowledgeModelName.getBytes("iso-8859-1"),"utf-8");
 				job.setKnowledgeModelName(knowledgeModelName);
 			}
 			// 储存系统Id
@@ -3131,13 +2681,11 @@ public class TaskJobController extends ExtendedMultiActionController {
 			// 根据id获取信息
 			TaskJob tj = taskJobBiz.findById(id);
 			String extractXml = null;
-			if (tj.getRegisterType().equals("1")
-					|| tj.getRegisterType().equals("2")
+			if (tj.getRegisterType().equals("1") || tj.getRegisterType().equals("2")
 					|| tj.getRegisterType().equals("4")) {
 				List list = null;
 				// 属性字符串
-				String[] propertyString = getArrayValue(request,
-						"propertyString");
+				String[] propertyString = getArrayValue(request, "propertyString");
 				if (propertyString.length > 0) {
 					list = new ArrayList();
 					for (int i = 0; i < propertyString.length; i++) {
@@ -3153,29 +2701,14 @@ public class TaskJobController extends ExtendedMultiActionController {
 			}
 			if (operationType.equals("update")) {// 修改
 				job.setId(id);
-				String jobId = taskJobBiz.addExtractJob(job, taskTrigger,
-						extractXml);
-				/*
-				 * taskJobBiz.editJob(job); //更新内容规则 TaskRule tr=
-				 * taskRuleBiz.queryTaskRuleById(id); if(tr!=null){
-				 * tr.setRuleContent(extractXml.getBytes());
-				 * taskRuleBiz.save(tr); }
-				 * 
-				 * //更新定时 TaskTrigger tt=
-				 * taskTriggerBiz.queryTriggerByJobId(id); if(tt!=null){
-				 * taskTrigger.setId(tt.getId());
-				 * taskTrigger.setJobName(transformDataVal);
-				 * taskTrigger.setTriggerState(JobModel.TRIGGER_ON); // 启用状态
-				 * taskTriggerBiz.save(taskTrigger); }
-				 */
+				String jobId = taskJobBiz.addExtractJob(job, taskTrigger, extractXml);
 			} else {// 添加
 					// 资源Id
 				String sourceId = getStringValue(request, "sourceId");
 				String sourceName = getStringValue(request, "sourceName");
 				job.setSourceId(sourceId);
 				job.setSourceName(sourceName);
-				String jobId = taskJobBiz.addExtractJob(job, taskTrigger,
-						extractXml);
+				String jobId = taskJobBiz.addExtractJob(job, taskTrigger, extractXml);
 				job.setId(jobId);
 				// 如果选择了存储系统，要生成传输任务
 				if (systemVal != null) {
@@ -3195,12 +2728,9 @@ public class TaskJobController extends ExtendedMultiActionController {
 					transferJob.setKnowledgeModelName(knowledgeModelName);
 					transferJob.setSourceName(sourceName);
 					transferJob.setSourceId(sourceId);
-					
 					taskJobBiz.save(transferJob);
 				}
-
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -3219,22 +2749,6 @@ public class TaskJobController extends ExtendedMultiActionController {
 	public List<Map> queryRuleTaskRulesAndParsing(String propertyId) {
 		ModelAndView model = new ModelAndView();
 		List<Map> list = new ArrayList<Map>();
-		/*try {
-
-			String ModelPropertiesJSON = extenalRestBiz
-					.getModelProperties(propertyId);
-			// 获取json字符串进行匹配
-			com.alibaba.fastjson.JSONArray jsa = (com.alibaba.fastjson.JSONArray) com.alibaba.fastjson.JSONArray
-					.parse(ModelPropertiesJSON);
-			for (int k = 0,n=jsa.size(); k <n ; k++) {
-				Map mapParam = (Map) jsa.get(k);
-				if (mapParam != null) {
-					list.add(mapParam);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
 		return list;
 	}
 
@@ -3244,8 +2758,7 @@ public class TaskJobController extends ExtendedMultiActionController {
 	 * @param map
 	 *            author duanzheng
 	 */
-	public ModelAndView verifyTheConversionTaskName(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView verifyTheConversionTaskName(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView();
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -3257,7 +2770,6 @@ public class TaskJobController extends ExtendedMultiActionController {
 			String knowledgeModel = getStringValue(request, "knowledgeModel");
 			// // 模块（1：采集 2：转换 3：传输）
 			String registerModel = getStringValue(request, "registerModel");
-
 			map.put("name", name);
 			map.put("sourceId", sourceId);
 			map.put("knowledgeModel", knowledgeModel);
@@ -3268,173 +2780,161 @@ public class TaskJobController extends ExtendedMultiActionController {
 			e.printStackTrace();
 		}
 		return this.putToModelAndViewJson(map);
-
 	}
+
 	/**
-	 * 功能:查询运行中任务总数
-	 * 作者 井晓丹2016-4-8
+	 * 功能:查询运行中任务总数 作者 井晓丹2016-4-8
 	 * 
 	 * @param request
 	 * @param response
 	 * @return
 	 */
-	public ModelAndView getRunTaskCount(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView getRunTaskCount(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		Map<String,String> map = new HashMap<String,String>();
-		map.put("jobState",JobModel.STATE_STRAT);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("jobState", JobModel.STATE_STRAT);
 		int count = taskJobBiz.queryJobStateCount(map);
 		result.put("count", count);
 		return this.putToModelAndViewJson(result);
 	}
+
 	/**
-	 * 功能：获取当前任务是否出错
-	 * 作者：井晓丹 2016-4-11
+	 * 功能：获取当前任务是否出错 作者：井晓丹 2016-4-11
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
 	 */
-	public ModelAndView getTaskErrorFlag(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView getTaskErrorFlag(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		String taskId = getStringValue(request, "taskId");
 		TaskJobMonitor tjm = this.taskJobMonitorBiz.queryJobMonitorByJobId(taskId);
-		if(tjm!=null){
-			result.put("errorFlag", tjm.getErrorFlag()==null ? "0" : tjm.getErrorFlag());
-		}else{
-			result.put("errorFlag","0");
+		if (tjm != null) {
+			result.put("errorFlag", tjm.getErrorFlag() == null ? "0" : tjm.getErrorFlag());
+		} else {
+			result.put("errorFlag", "0");
 		}
 		return this.putToModelAndViewJson(result);
 	}
+
 	/**
-	 * 功能：DB采集测试
-	 * 作者：王晓鸣 2016-4-112
+	 * 功能：DB采集测试 作者：王晓鸣 2016-4-112
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
 	 */
-	public ModelAndView DBSpiderTest(HttpServletRequest request,HttpServletResponse response){
-		Connection con = null;  
-        ResultSet rs = null;  
-        PreparedStatement stmt = null;
-        List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();  
-        List<List<String>> contentList=new ArrayList<List<String>>();
-        List<String> titleList = new ArrayList<String>();
-		String sourceId=getStringValue(request, "sourceId");
-		//获取数据库表名
+	public ModelAndView DBSpiderTest(HttpServletRequest request, HttpServletResponse response) {
+		Connection con = null;
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		List<List<String>> contentList = new ArrayList<List<String>>();
+		List<String> titleList = new ArrayList<String>();
+		String sourceId = getStringValue(request, "sourceId");
+		// 获取数据库表名
 		String entityname = request.getParameter("TaskSelect");
-		
-		//获取主键
+
+		// 获取主键
 		String pkid = request.getParameter("pkid");
-		//获取字段属性名
-		String AttributesNameArray=request.getParameter("AttributesNameArray");
-		
-		//获取数据对中对应的列名
+		// 获取字段属性名
+		String AttributesNameArray = request.getParameter("AttributesNameArray");
+
+		// 获取数据对中对应的列名
 		String[] field = getArrayValue(request, "field");
 		String[] fieldName = new String[field.length];
-		String selectName="";
+		String selectName = "";
 		for (int i = 0; i < field.length; i++) {
 			String fieldArray[] = field[i].split(";");
-			selectName +="("+fieldArray[0]+")"+",";
+			selectName += "(" + fieldArray[0] + ")" + ",";
 			fieldName[i] = fieldArray[0];
-			}
-		
+		}
+
 		try {
-			AttributesNameArray=URLDecoder.decode(AttributesNameArray,"utf-8");
+			AttributesNameArray = URLDecoder.decode(AttributesNameArray, "utf-8");
 		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		AttributesNameArray=AttributesNameArray.substring(0, AttributesNameArray.length());
-		String[] AttributesNameArrayB=AttributesNameArray.split(";");
+		AttributesNameArray = AttributesNameArray.substring(0, AttributesNameArray.length());
+		String[] AttributesNameArrayB = AttributesNameArray.split(";");
 		for (int i = 0; i < AttributesNameArrayB.length; i++) {
 			titleList.add(AttributesNameArrayB[i]);
 		}
 		KnowledgeSource tjs = knowledgeSourceBiz.findById(sourceId);
-		
-		//获取xml解析对象
-		Dom4jXmlUtil dm=new Dom4jXmlUtil();
-		
-		//获取MD5加密对象
+
+		// 获取xml解析对象
+		Dom4jXmlUtil dm = new Dom4jXmlUtil();
+
+		// 获取MD5加密对象
 		CrawlerMD5Utils md5Utils = new CrawlerMD5Utils();
-		
-		//将数据库中的xml文件转换成map集合
-		Map<String, String> map=dm.generateMap(tjs.getLinkContent());
-		String url=map.get("url");
-		String port=map.get("port");
-		String DBtype=map.get("type");
-		String username=tjs.getUsername();
-		String password=md5Utils.Decryption(tjs.getPassword());
-		String dataname=map.get("name");
-		
-		
-		//获取数据库链接
-		con=new JdbcConnectionUtil().getconnection(DBtype, url, port, dataname, username, password);
-		
-		try {  
-		//String selectName="(username),(password)";
-		selectName = selectName.substring(0,selectName.length()- 1);
-		//判断数据库类型执行不同的查询语句
-		String sql="";
-		if(DBtype.equals("oracle")){
-	        sql = "select "+selectName+" from "+entityname+" where rownum<=5 order by "+pkid;  
-		}else if(DBtype.equals("mysql")){
-	        sql = "select "+selectName+" from "+entityname+" limit 5 "; //order by "+pkid;  
 
-		}else if(DBtype.equals("sqlserver")){
-	        sql = "select top 5"+selectName+" from "+entityname;//+"order by "+pkid;  
+		// 将数据库中的xml文件转换成map集合
+		Map<String, String> map = dm.generateMap(tjs.getLinkContent());
+		String url = map.get("url");
+		String port = map.get("port");
+		String DBtype = map.get("type");
+		String username = tjs.getUsername();
+		String password = md5Utils.Decryption(tjs.getPassword());
+		String dataname = map.get("name");
 
+		// 获取数据库链接
+		con = new JdbcConnectionUtil().getconnection(DBtype, url, port, dataname, username, password);
+
+		try {
+			// String selectName="(username),(password)";
+			selectName = selectName.substring(0, selectName.length() - 1);
+			// 判断数据库类型执行不同的查询语句
+			String sql = "";
+			if (DBtype.equals("oracle")) {
+				sql = "select " + selectName + " from " + entityname + " where rownum<=5 order by " + pkid;
+			} else if (DBtype.equals("mysql")) {
+				sql = "select " + selectName + " from " + entityname + " limit 5 "; // order
+			} else if (DBtype.equals("sqlserver")) {
+				sql = "select top 5" + selectName + " from " + entityname;// +"order
+			}
+
+			// 创建Statement对象
+			stmt = con.prepareStatement(sql);
+			// 执行SQL语句
+			rs = stmt.executeQuery();
+			// 处理查询结果（将查询结果转换成List<Map>格式）
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int num = rsmd.getColumnCount();
+			while (rs.next()) {
+				List<String> list = new ArrayList<String>();
+				Map map2 = new HashMap();
+				for (int i = 0; i < num; i++) {
+					String columnName = rsmd.getColumnName(i + 1);
+					list.add(rs.getString(columnName));
+				}
+				contentList.add(list);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				// 关闭结果集
+				if (rs != null) {
+					rs.close();
+					rs = null;
+				}
+				// 关闭执行
+				if (stmt != null) {
+					stmt.close();
+					stmt = null;
+				}
+				if (con != null) {
+					con.close();
+					con = null;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-       
-        //创建Statement对象
-        stmt = con.prepareStatement(sql);  
-         
-        //执行SQL语句  
-        rs = stmt.executeQuery();  
-          
-        //处理查询结果（将查询结果转换成List<Map>格式）  
-        ResultSetMetaData rsmd = rs.getMetaData();  
-        int num = rsmd.getColumnCount();  
-          
-        while(rs.next()){  
-        	List<String> list = new ArrayList<String>();
-            Map map2 = new HashMap();  
-            for(int i = 0;i < num;i++){  
-                String columnName = rsmd.getColumnName(i+1);  
-                list.add(rs.getString(columnName));
-                //map2.put(AttributesNameArrayB[i],rs.getString(columnName));  
-            } 
-            contentList.add(list);
-           // resultList.add(map2);  
-        	}
-		} catch (Exception e) {  
-	            e.printStackTrace();  
-	            return null;
-	    }finally {  
-	            try {  
-	                   //关闭结果集  
-	                if (rs != null) {  
-	                    rs.close();  
-	                    rs = null;  
-	                }  
-	                   //关闭执行  
-	                if (stmt != null) {  
-	                    stmt.close();  
-	                    stmt = null;  
-	                }  
-	                if (con != null) {  
-	                    con.close();  
-	                    con = null;  
-	                }  
-	            } catch (SQLException e) {  
-	                e.printStackTrace();  
-	            }  
-	        }  
 		Map<String, Object> result = new HashMap<String, Object>();
-		//result.put("list", resultList);
 		result.put("contentList", contentList);
 		result.put("titleList", titleList);
 		return this.putToModelAndViewJson(result);
-		
 	}
 }

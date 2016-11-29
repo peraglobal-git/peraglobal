@@ -288,26 +288,6 @@ public class TaskJobMonitorController extends ExtendedMultiActionController{
     		condition.setValue(jobid);
     		parameters.getConditions().getItems().add(condition);
     		map=  taskJobMonitorBiz.find(parameters.getPagination(), condition);
-    		/*TaskJobMonitor taskJobMonitor=null;
-    		if(map!=null && map.size()>0){
-    			listMap=new ArrayList<TaskJobMonitor>();
-    			for (int i = 0; i < map.size(); i++) {
-    				taskJobMonitor=new TaskJobMonitor();
-    				taskJobMonitor.setId(map.get(i).getId());
-    				taskJobMonitor.setJobId(map.get(i).getJobId());
-    				taskJobMonitor.setJobName(map.get(i).getJobName());
-    				taskJobMonitor.setTriggerNumber(map.get(i).getTriggerNumber());
-    				taskJobMonitor.setFailedNumber(map.get(i).getFailedNumber());
-    				taskJobMonitor.setFullNumber(map.get(i).getFullNumber());
-    				taskJobMonitor.setStartTime(map.get(i).getStartTime());
-    				taskJobMonitor.setPauseTime(map.get(i).getPauseTime());
-    				taskJobMonitor.setStopTime(map.get(i).getStopTime());
-    				taskJobMonitor.setJobState(map.get(i).getJobState());
-    				taskJobMonitor.setDescription(map.get(i).getDescription());
-    				taskJobMonitor.setErrorFlag(map.get(i).getErrorFlag());
-    				listMap.add(taskJobMonitor);
-    			}	
-    		}*/
 		} catch (Exception e) {
 			throw e;
 		}
@@ -336,10 +316,6 @@ public class TaskJobMonitorController extends ExtendedMultiActionController{
     	if("1".equals(fullState)&&"1".equals(incompleteDataState)){
     		criteria.and("isFull").is("-1");
     	}
-    	/*criteria.and("kvs.KNOWLEDGE_NAME:INHERENT").ne("").ne(null);
-    	criteria.and("kvs.KEYWORD:INHERENT").ne("").ne(null);
-    	criteria.and("kvs.SUMMERY:INHERENT").ne("").ne(null);
-    	criteria.and("kvs.KNOWLEDGE_AUTHOR:INHERENT").ne("").ne(null);*/
     	query.addCriteria(criteria);
     	ListPageQuery parameters = new ListPageQuery();
 		new ServletRequestDataBinder(parameters).bind(request);
@@ -348,62 +324,46 @@ public class TaskJobMonitorController extends ExtendedMultiActionController{
 		List<KM_Datum> kn=null;
 		kn=mgDatumBiz.findByTaskIdDatum(query,page.getFirstResult(),page.getPageSize());
 		List<Map<String, String>> list = new ArrayList<Map<String,String>>();
-	//	Map<String, String> datumMap = null;
 		if(kn!=null){
 			for (KM_Datum km_Datum : kn) {
 				Map<String, String> map =km_Datum.getKvs().toMap();
-				//datumMap = new HashMap();
 				if(map.get("KNOWLEDGE_NAME:INHERENT")==null||map.get("KNOWLEDGE_NAME:INHERENT")==""){
 					map.put("KNOWLEDGE_NAMEINHERENT", "无");
-					//datumMap.put("KNOWLEDGE_NAMEINHERENT", "无");
 				}else{
 					map.put("KNOWLEDGE_NAMEINHERENT", Dom4jXmlUtil.getTextFromTHML(map.get("KNOWLEDGE_NAME:INHERENT")));
 					map.remove("KNOWLEDGE_NAME:INHERENT");
-					//datumMap.put("KNOWLEDGE_NAMEINHERENT", Dom4jXmlUtil.getTextFromTHML(map.get("KNOWLEDGE_NAME:INHERENT")));
 				}
 				
 				if(map.get("KEYWORD:INHERENT")==null||map.get("KEYWORD:INHERENT")==""){
 					map.put("KEYWORDINHERENT", "无");
-					//datumMap.put("KEYWORDINHERENT", "无");
 				}else{
 					map.put("KEYWORDINHERENT", Dom4jXmlUtil.getTextFromTHML(map.get("KEYWORD:INHERENT")));
 					map.remove("KEYWORD:INHERENT");
-					//datumMap.put("KEYWORDINHERENT", Dom4jXmlUtil.getTextFromTHML(map.get("KEYWORD:INHERENT")));
 				}
 				
 				if(map.get("SUMMERY:INHERENT")==null||map.get("SUMMERY:INHERENT")==""){
 					map.put("SUMMERYINHERENT", "无");
-					//datumMap.put("SUMMERYINHERENT", "无");
 				}else{
 					map.put("SUMMERYINHERENT", Dom4jXmlUtil.getTextFromTHML(map.get("SUMMERY:INHERENT")));
 					map.remove("SUMMERY:INHERENT");
-					//datumMap.put("SUMMERYINHERENT", Dom4jXmlUtil.getTextFromTHML(map.get("SUMMERY:INHERENT")));
 				}
 				
 				if(map.get("KNOWLEDGE_AUTHOR:INHERENT")==null||map.get("KNOWLEDGE_AUTHOR:INHERENT")==""){
 					map.put("KNOWLEDGE_AUTHORINHERENT", "无");
-					//datumMap.put("KNOWLEDGE_AUTHORINHERENT", "无");
 				}else{
 					map.put("KNOWLEDGE_AUTHORINHERENT", Dom4jXmlUtil.getTextFromTHML(map.get("KNOWLEDGE_AUTHOR:INHERENT")));
 					map.remove("KNOWLEDGE_AUTHOR:INHERENT");
-					//datumMap.put("KNOWLEDGE_AUTHORINHERENT", Dom4jXmlUtil.getTextFromTHML(map.get("KNOWLEDGE_AUTHOR:INHERENT")));
 				}
 				
 				if(km_Datum.getCreateDate()!=null){
-					//String createDate =DateFormat.getDateInstance(DateFormat.MEDIUM).format(km_Datum.getCreateDate());
 					String createDate = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss").format(km_Datum.getCreateDate());
 					map.put("createDate", createDate);
-					//datumMap.put("createDate", createDate);
 					map.put("id", km_Datum.getId());
-					//datumMap.put("id", km_Datum.getId());;
 				}
 				list.add(map);
-				//list.add(datumMap);
 			}
 		}
-		
 		return this.putToModelAndViewJson(list, parameters);
-    	
     }
 	
 	 /**
@@ -425,62 +385,46 @@ public class TaskJobMonitorController extends ExtendedMultiActionController{
 		List<KM_KnowledgeMetadata> kn=null;
 		kn=mgKnowledgeMetadataBiz.findByTaskIdDatum(query,page.getFirstResult(),page.getPageSize());
 		List<Map<String, String>> list = new ArrayList<Map<String,String>>();
-		//	Map<String, String> datumMap = null;
 		if(kn!=null){
 			for (KM_KnowledgeMetadata km_KnowledgeMetadata : kn) {
 				Map<String, String> map =km_KnowledgeMetadata.getKvs().toMap();
-				//datumMap = new HashMap();
 				if(map.get("KNOWLEDGE_NAME:INHERENT")==null||map.get("KNOWLEDGE_NAME:INHERENT")==""){
 					map.put("KNOWLEDGE_NAMEINHERENT", "无");
-					//datumMap.put("KNOWLEDGE_NAMEINHERENT", "无");
 				}else{
 					map.put("KNOWLEDGE_NAMEINHERENT", Dom4jXmlUtil.getTextFromTHML(map.get("KNOWLEDGE_NAME:INHERENT")));
 					map.remove("KNOWLEDGE_NAME:INHERENT");
-					//datumMap.put("KNOWLEDGE_NAMEINHERENT", Dom4jXmlUtil.getTextFromTHML(map.get("KNOWLEDGE_NAME:INHERENT")));
 				}
 				
 				if(map.get("KEYWORD:INHERENT")==null||map.get("KEYWORD:INHERENT")==""){
 					map.put("KEYWORDINHERENT", "无");
-					//datumMap.put("KEYWORDINHERENT", "无");
 				}else{
 					map.put("KEYWORDINHERENT", Dom4jXmlUtil.getTextFromTHML(map.get("KEYWORD:INHERENT")));
 					map.remove("KEYWORD:INHERENT");
-					//datumMap.put("KEYWORDINHERENT", Dom4jXmlUtil.getTextFromTHML(map.get("KEYWORD:INHERENT")));
 				}
 				
 				if(map.get("SUMMERY:INHERENT")==null||map.get("SUMMERY:INHERENT")==""){
 					map.put("SUMMERYINHERENT", "无");
-					//datumMap.put("SUMMERYINHERENT", "无");
 				}else{
 					map.put("SUMMERYINHERENT", Dom4jXmlUtil.getTextFromTHML(map.get("SUMMERY:INHERENT")));
 					map.remove("SUMMERY:INHERENT");
-					//datumMap.put("SUMMERYINHERENT", Dom4jXmlUtil.getTextFromTHML(map.get("SUMMERY:INHERENT")));
 				}
 				
 				if(map.get("KNOWLEDGE_AUTHOR:INHERENT")==null||map.get("KNOWLEDGE_AUTHOR:INHERENT")==""){
 					map.put("KNOWLEDGE_AUTHORINHERENT", "无");
-					//datumMap.put("KNOWLEDGE_AUTHORINHERENT", "无");
 				}else{
 					map.put("KNOWLEDGE_AUTHORINHERENT", Dom4jXmlUtil.getTextFromTHML(map.get("KNOWLEDGE_AUTHOR:INHERENT")));
 					map.remove("KNOWLEDGE_AUTHOR:INHERENT");
-					//datumMap.put("KNOWLEDGE_AUTHORINHERENT", Dom4jXmlUtil.getTextFromTHML(map.get("KNOWLEDGE_AUTHOR:INHERENT")));
 				}
 				
 				if(km_KnowledgeMetadata.getCreateDate()!=null){
-					//String createDate =DateFormat.getDateInstance(DateFormat.MEDIUM).format(km_Datum.getCreateDate());
 					String createDate = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss").format(km_KnowledgeMetadata.getCreateDate());
 					map.put("createDate", createDate);
-					//datumMap.put("createDate", createDate);
 					map.put("id", km_KnowledgeMetadata.getId());
-					//datumMap.put("id", km_Datum.getId());;
 				}
 				list.add(map);
-				//list.add(datumMap);
 			}
 		}
-		
 		return this.putToModelAndViewJson(list, parameters);
-    	
     }
 	
     /**
@@ -512,7 +456,6 @@ public class TaskJobMonitorController extends ExtendedMultiActionController{
 	 * @return
 	 */
 	private String exchangeJsonPros(String properties) {
-		// PROP_ID=13641 PROP_NAME=知识文本 TEPT_ID=1 TEPT_NAME=知识采集模板
 		JSONArray exchangedArray = new JSONArray();
 		JSONObject exchangeObj = null;
 		JSONArray json = JSONArray.fromObject(properties); // 首先把字符串转成 JSONArray  对象
